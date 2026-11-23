@@ -56,6 +56,12 @@
         <p id="pf-estado-ayuda" class="-mt-2 text-sm text-secundario">Un borrador no lo ven los docentes hasta que lo publiques.</p>
 
         <div>
+          <label for="pf-descripcion" class="etiqueta">Descripción corta</label>
+          <input id="pf-descripcion" type="text" formControlName="descripcion" class="campo" maxlength="160" aria-describedby="pf-descripcion-ayuda" placeholder="Ej.: Tiempos, secuencias y patrones programando LED." />
+          <p id="pf-descripcion-ayuda" class="mt-1 text-sm text-secundario">Una frase que se ve en la tarjeta del proyecto (máximo 160 caracteres).</p>
+        </div>
+
+        <div>
           <label for="pf-competencias" class="etiqueta">Competencias</label>
           <textarea id="pf-competencias" formControlName="competencias" rows="2" class="campo" placeholder="Ej.: Pensamiento lógico, creativo y crítico; Resolución de problemas"></textarea>
         </div>

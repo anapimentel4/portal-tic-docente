@@ -169,11 +169,13 @@ portal-tic-docente/
   - Adelantado de la fase 4: el formulario de apoyo de Inicio.
 - [x] Fase 4 — Robótica y Solicitudes
   - Cambio de diseño pedido el 23-nov: las tarjetas tienen colores suaves (paleta en `apps/web/src/app/shared/colores.ts`) en vez de ser solo blancas.
+  - Agregado (aprobado el 23-nov, según el mockup): en Inicio, los proyectos de robótica van en una franja oscura con etiquetas de área y grado y una frase corta (campo `descripcion`, migración 6). Lo demás del mockup (talleres, "Esta semana", buenas prácticas) queda para después de la auditoría.
 - [x] Fase 5 — Panel de la dinamizadora
   - Agregado (aprobado): en Recursos en revisión, las pestañas Publicados/Rechazados y el botón "Volver a revisión".
 - [ ] Revisión final
   - Hecho (23-nov): claves revisadas, pruebas de RLS con los 3 roles (`pnpm test:rls`), páginas públicas sin errores de consola y en celular, ortografía, lista de cambios en `CAMBIOS.md`.
-  - Falta: ejecutar la migración 5 en Supabase, conectar Vercel y hacer el flujo de prueba en la web publicada con una cuenta de cada rol.
+  - Hecho (23-nov): migración 5 ejecutada en Supabase; Vercel conectado y publicado en https://portal-tic-docente-web.vercel.app (se publica solo con cada push a `main`).
+  - Falta: poner esa dirección en Supabase → Authentication → URL Configuration y hacer el flujo de prueba en la web publicada con una cuenta de cada rol.
 
 ## Fase 2 del proyecto (después de la auditoría)
 

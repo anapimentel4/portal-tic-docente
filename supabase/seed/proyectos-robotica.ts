@@ -15,6 +15,7 @@ const SOLO_PRUEBA = process.argv.includes('--prueba');
 const PROYECTOS = [
   {
     titulo: 'Semáforo inteligente',
+    descripcion: 'Tiempos, secuencias y patrones programando LED.',
     area: 'Matemática',
     grado: '1.º Secundaria',
     competencias: 'Pensamiento lógico, creativo y crítico; Resolución de problemas',
@@ -37,6 +38,7 @@ const PROYECTOS = [
   },
   {
     titulo: 'Estación meteorológica',
+    descripcion: 'Sensores de temperatura y humedad con registro de datos.',
     area: 'Ciencias de la Naturaleza',
     grado: '3.º Secundaria',
     competencias: 'Indagación científica; Pensamiento lógico, creativo y crítico; Comunicativa',
@@ -58,6 +60,7 @@ const PROYECTOS = [
   },
   {
     titulo: 'Maqueta de ciudad sostenible',
+    descripcion: 'Alumbrado automático y gestión de recursos en la comunidad.',
     area: 'Ciencias Sociales',
     grado: '2.º Secundaria',
     competencias: 'Ética y ciudadana; Ambiental y de la salud; Resolución de problemas',

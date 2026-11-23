@@ -48,6 +48,8 @@ export interface ProyectoRobotica {
   titulo: string;
   area: Area;
   grado: Grado;
+  /** Frase corta (máx. 160 caracteres) para la tarjeta. */
+  descripcion: string | null;
   competencias: string | null;
   materiales: string | null;
   pasos: string | null;

@@ -9,6 +9,7 @@ Se ejecutan **una vez y en orden** en Supabase → SQL Editor → New query (peg
 3. `20261123000003_storage.sql`: buckets `recursos` y `robotica` y sus reglas.
 4. `20261123000004_publicar_con_chequeos.sql`: un recurso solo se publica con las 4 comprobaciones marcadas.
 5. `20261123000005_ajustes_plan.sql`: la función se llama `is_dinamizadora()` y inventario, incidencias y plan de trabajo quedan solo para la dinamizadora.
+6. `20261123000006_descripcion_robotica.sql`: frase corta para cada proyecto de robótica (y la de los 3 de ejemplo).
 
 Para un cambio futuro, crea un archivo nuevo con fecha más reciente (no edites los ya ejecutados).
 

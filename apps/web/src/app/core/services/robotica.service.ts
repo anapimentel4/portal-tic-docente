@@ -10,7 +10,7 @@ export const FOTO_MAX_MB = 5;
 /** Lo que llena la dinamizadora en el formulario de proyecto. */
 export type DatosProyecto = Pick<
   ProyectoRobotica,
-  'titulo' | 'area' | 'grado' | 'competencias' | 'materiales' | 'pasos' | 'foto_url'
+  'titulo' | 'area' | 'grado' | 'descripcion' | 'competencias' | 'materiales' | 'pasos' | 'foto_url'
 > & { estado: EstadoRecurso };
 
 /**

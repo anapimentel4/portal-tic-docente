@@ -25,6 +25,7 @@ Primera versión para la auditoría del 25 de noviembre de 2026. Plan completo y
 ## Fase 4 — Robótica y Solicitudes
 - Robótica: lista con filtros, detalle con materiales y pasos numerados, y formulario para la dinamizadora con subida de foto.
 - 3 proyectos de ejemplo: Semáforo inteligente, Estación meteorológica y Maqueta de ciudad sostenible (`pnpm seed:robotica`).
+- Inicio: proyectos de robótica en una franja oscura, con área, grado y una frase corta (migración 6).
 - Solicitudes: formulario (acompañamiento, problema técnico y reservas) y "Mis solicitudes" con el estado de cada una.
 
 ## Fase 5 — Panel de la dinamizadora
