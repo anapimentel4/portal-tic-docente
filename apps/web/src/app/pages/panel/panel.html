@@ -3,7 +3,13 @@
   @if (auth.rol(); as rol) {
     <p class="mt-2 text-secundario">Entraste como {{ roles[rol] }}.</p>
   }
-  <div class="tarjeta mt-6">
-    <p class="text-secundario">Aquí irán los indicadores, la revisión de recursos y las solicitudes.</p>
+  <div class="mt-6 grid gap-4 sm:grid-cols-2">
+    <a routerLink="/panel/recursos" class="tarjeta block transition-colors hover:border-primario">
+      <h2 class="text-lg font-bold">Revisar recursos</h2>
+      <p class="mt-1 text-sm text-secundario">Comprueba los recursos en revisión y publícalos para los docentes.</p>
+    </a>
+    <div class="tarjeta">
+      <p class="text-sm text-secundario">Aquí irán los indicadores y las solicitudes.</p>
+    </div>
   </div>
 </section>

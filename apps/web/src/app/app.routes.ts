@@ -19,5 +19,12 @@ export const routes: Routes = [
     canActivate: [rolGuard('dinamizadora', 'gestion')],
     loadComponent: () => import('./pages/panel/panel').then((m) => m.PanelPage),
   },
+  {
+    path: 'panel/recursos',
+    title: 'Revisar recursos · Portal TIC Docente',
+    canActivate: [rolGuard('dinamizadora', 'gestion')],
+    loadComponent: () =>
+      import('./pages/panel/recursos/revision-recursos').then((m) => m.RevisionRecursosPage),
+  },
   { path: '**', redirectTo: '' },
 ];
