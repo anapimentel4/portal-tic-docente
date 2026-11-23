@@ -1,0 +1,9 @@
+<section class="contenedor py-10">
+  <h1 class="text-3xl font-bold">Panel de la dinamizadora</h1>
+  @if (auth.rol(); as rol) {
+    <p class="mt-2 text-secundario">Entraste como {{ roles[rol] }}.</p>
+  }
+  <div class="tarjeta mt-6">
+    <p class="text-secundario">Aquí irán los indicadores, la revisión de recursos y las solicitudes.</p>
+  </div>
+</section>

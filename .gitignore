@@ -1,0 +1,23 @@
+# Dependencias y compilados
+node_modules/
+dist/
+.angular/
+out-tsc/
+
+# Claves: NUNCA subir (la service_role da acceso total a la base de datos)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+service-account*.json
+
+# Supabase CLI y Vercel (archivos locales)
+supabase/.temp/
+supabase/.branches/
+.vercel/
+
+# Sistema y editores
+.DS_Store
+*.log
+.idea/

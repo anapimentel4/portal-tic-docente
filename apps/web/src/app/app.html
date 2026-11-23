@@ -1,0 +1,15 @@
+<a href="#contenido" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2">Saltar al contenido</a>
+
+@if (!configurado) {
+  <p class="bg-amber-100 px-4 py-2 text-center text-sm text-amber-900" role="status">
+    Falta conectar Supabase: pon la URL y la anon key en apps/web/src/environments/environment.ts.
+  </p>
+}
+
+<div class="flex min-h-dvh flex-col">
+  <app-header />
+  <main id="contenido" class="flex-1" tabindex="-1">
+    <router-outlet />
+  </main>
+  <app-footer />
+</div>

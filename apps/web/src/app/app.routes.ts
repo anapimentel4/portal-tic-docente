@@ -1,0 +1,23 @@
+import { Routes } from '@angular/router';
+import { rolGuard } from './core/guards/auth.guard';
+
+// Cada página se carga solo cuando se visita (loadComponent).
+export const routes: Routes = [
+  {
+    path: '',
+    title: 'Portal TIC Docente',
+    loadComponent: () => import('./pages/inicio/inicio').then((m) => m.InicioPage),
+  },
+  {
+    path: 'login',
+    title: 'Entrar · Portal TIC Docente',
+    loadComponent: () => import('./pages/login/login').then((m) => m.LoginPage),
+  },
+  {
+    path: 'panel',
+    title: 'Panel · Portal TIC Docente',
+    canActivate: [rolGuard('dinamizadora', 'gestion')],
+    loadComponent: () => import('./pages/panel/panel').then((m) => m.PanelPage),
+  },
+  { path: '**', redirectTo: '' },
+];

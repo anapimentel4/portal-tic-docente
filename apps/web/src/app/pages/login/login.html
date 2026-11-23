@@ -1,0 +1,100 @@
+<section class="contenedor py-10">
+  <div class="mx-auto max-w-md">
+    <h1 class="text-center text-3xl font-bold">
+      {{ modo() === 'entrar' ? 'Entra al portal' : 'Crea tu cuenta' }}
+    </h1>
+    <p class="mt-2 text-center text-secundario">
+      {{ modo() === 'entrar' ? 'Usa el correo con el que te registraste.' : 'Para docentes del Nivel Secundario.' }}
+    </p>
+
+    <div class="mt-6 grid grid-cols-2 rounded-xl border border-borde bg-white p-1" role="group" aria-label="Elegir formulario">
+      <button
+        type="button"
+        class="btn"
+        [class]="modo() === 'entrar' ? 'bg-primario text-white' : 'text-secundario'"
+        [attr.aria-pressed]="modo() === 'entrar'"
+        (click)="cambiarModo('entrar')"
+      >Entrar</button>
+      <button
+        type="button"
+        class="btn"
+        [class]="modo() === 'registro' ? 'bg-primario text-white' : 'text-secundario'"
+        [attr.aria-pressed]="modo() === 'registro'"
+        (click)="cambiarModo('registro')"
+      >Crear cuenta</button>
+    </div>
+
+    <div class="tarjeta mt-4">
+      @if (!configurado) {
+        <p class="mb-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-900" role="status">
+          Falta conectar Supabase (environment.ts). Entrar y registrarse todavía no funcionan.
+        </p>
+      }
+      @if (aviso()) {
+        <p class="mb-4 rounded-xl bg-blue-50 p-3 text-sm text-blue-900" role="status">{{ aviso() }}</p>
+      }
+      @if (error()) {
+        <p class="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error() }}</p>
+      }
+
+      @if (modo() === 'entrar') {
+        <form [formGroup]="formEntrar" (ngSubmit)="entrar()" novalidate class="space-y-4">
+          <div>
+            <label for="entrar-correo" class="etiqueta">Correo</label>
+            <input id="entrar-correo" type="email" formControlName="correo" class="campo" autocomplete="email" />
+            @if (formEntrar.controls.correo.touched && formEntrar.controls.correo.invalid) {
+              <p class="error-campo">Escribe un correo válido.</p>
+            }
+          </div>
+          <div>
+            <label for="entrar-contrasena" class="etiqueta">Contraseña</label>
+            <input id="entrar-contrasena" type="password" formControlName="contrasena" class="campo" autocomplete="current-password" />
+            @if (formEntrar.controls.contrasena.touched && formEntrar.controls.contrasena.invalid) {
+              <p class="error-campo">Escribe tu contraseña.</p>
+            }
+          </div>
+          <button type="submit" class="btn btn-primario w-full" [disabled]="enviando()">
+            {{ enviando() ? 'Entrando…' : 'Entrar' }}
+          </button>
+        </form>
+      } @else {
+        <form [formGroup]="formRegistro" (ngSubmit)="registrarse()" novalidate class="space-y-4">
+          <div>
+            <label for="reg-nombre" class="etiqueta">Nombre completo</label>
+            <input id="reg-nombre" type="text" formControlName="nombre" class="campo" autocomplete="name" />
+            @if (formRegistro.controls.nombre.touched && formRegistro.controls.nombre.invalid) {
+              <p class="error-campo">Escribe tu nombre.</p>
+            }
+          </div>
+          <div>
+            <label for="reg-area" class="etiqueta">Área que impartes <span class="font-normal text-secundario">(opcional)</span></label>
+            <select id="reg-area" formControlName="area" class="campo">
+              <option value="">Sin área (gestión u otro)</option>
+              @for (area of areas; track area) {
+                <option [value]="area">{{ area }}</option>
+              }
+            </select>
+          </div>
+          <div>
+            <label for="reg-correo" class="etiqueta">Correo</label>
+            <input id="reg-correo" type="email" formControlName="correo" class="campo" autocomplete="email" />
+            @if (formRegistro.controls.correo.touched && formRegistro.controls.correo.invalid) {
+              <p class="error-campo">Escribe un correo válido.</p>
+            }
+          </div>
+          <div>
+            <label for="reg-contrasena" class="etiqueta">Contraseña</label>
+            <input id="reg-contrasena" type="password" formControlName="contrasena" class="campo" autocomplete="new-password" aria-describedby="reg-contrasena-ayuda" />
+            <p id="reg-contrasena-ayuda" class="mt-1 text-sm text-secundario">Mínimo 8 caracteres.</p>
+            @if (formRegistro.controls.contrasena.touched && formRegistro.controls.contrasena.invalid) {
+              <p class="error-campo">La contraseña debe tener al menos 8 caracteres.</p>
+            }
+          </div>
+          <button type="submit" class="btn btn-primario w-full" [disabled]="enviando()">
+            {{ enviando() ? 'Creando cuenta…' : 'Crear cuenta' }}
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,85 @@
+<header class="sticky top-0 z-30 border-b border-borde bg-white/95 backdrop-blur">
+  <div class="contenedor flex h-16 items-center justify-between gap-4">
+    <a routerLink="/" class="flex items-center gap-2" (click)="cerrarMenu()">
+      <img src="favicon.svg" alt="" class="h-9 w-9" width="36" height="36" />
+      <span class="font-titulo text-lg font-bold leading-tight text-oscuro">Portal TIC Docente</span>
+    </a>
+
+    <!-- Menú de computadora -->
+    <nav aria-label="Menú principal" class="hidden items-center gap-1 md:flex">
+      @for (enlace of enlaces; track enlace.ruta) {
+        <a
+          [routerLink]="enlace.ruta"
+          routerLinkActive="bg-fondo text-primario"
+          [routerLinkActiveOptions]="{ exact: enlace.ruta === '/' }"
+          class="rounded-lg px-3 py-2 text-sm font-medium text-secundario hover:text-oscuro"
+          >{{ enlace.texto }}</a
+        >
+      }
+      @if (auth.puedeVerPanel()) {
+        <a
+          routerLink="/panel"
+          routerLinkActive="bg-fondo text-primario"
+          class="rounded-lg px-3 py-2 text-sm font-medium text-secundario hover:text-oscuro"
+          >Panel</a
+        >
+      }
+    </nav>
+
+    <div class="hidden items-center gap-3 md:flex">
+      @if (auth.usuario()) {
+        <span class="max-w-40 truncate text-sm text-secundario">{{ auth.perfil()?.nombre ?? auth.usuario()?.email }}</span>
+        <button type="button" class="btn btn-secundario" (click)="salir()">Salir</button>
+      } @else {
+        <a routerLink="/login" class="btn btn-primario">Entrar</a>
+      }
+    </div>
+
+    <!-- Botón del menú en celular -->
+    <button
+      type="button"
+      class="btn btn-secundario px-3 md:hidden"
+      [attr.aria-label]="menuAbierto() ? 'Cerrar menú' : 'Abrir menú'"
+      [attr.aria-expanded]="menuAbierto()"
+      aria-controls="menu-movil"
+      (click)="alternarMenu()"
+    >
+      <svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
+        @if (menuAbierto()) {
+          <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+        } @else {
+          <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+        }
+      </svg>
+    </button>
+  </div>
+
+  <!-- Menú de celular -->
+  @if (menuAbierto()) {
+    <nav id="menu-movil" aria-label="Menú principal" class="border-t border-borde bg-white md:hidden">
+      <div class="contenedor flex flex-col gap-1 py-3">
+        @for (enlace of enlaces; track enlace.ruta) {
+          <a
+            [routerLink]="enlace.ruta"
+            routerLinkActive="bg-fondo text-primario"
+            [routerLinkActiveOptions]="{ exact: enlace.ruta === '/' }"
+            class="rounded-lg px-3 py-3 font-medium text-oscuro"
+            (click)="cerrarMenu()"
+            >{{ enlace.texto }}</a
+          >
+        }
+        @if (auth.puedeVerPanel()) {
+          <a routerLink="/panel" routerLinkActive="bg-fondo text-primario" class="rounded-lg px-3 py-3 font-medium text-oscuro" (click)="cerrarMenu()">Panel</a>
+        }
+        <div class="mt-2 border-t border-borde pt-3">
+          @if (auth.usuario()) {
+            <p class="mb-2 truncate px-3 text-sm text-secundario">{{ auth.perfil()?.nombre ?? auth.usuario()?.email }}</p>
+            <button type="button" class="btn btn-secundario w-full" (click)="salir()">Salir</button>
+          } @else {
+            <a routerLink="/login" class="btn btn-primario w-full" (click)="cerrarMenu()">Entrar</a>
+          }
+        </div>
+      </div>
+    </nav>
+  }
+</header>

@@ -1,0 +1,22 @@
+<footer class="mt-16 bg-oscuro text-slate-200">
+  <div class="contenedor grid gap-8 py-10 sm:grid-cols-2">
+    <div>
+      <p class="font-titulo text-lg font-bold text-white">Portal TIC Docente</p>
+      <p class="mt-2 text-sm text-slate-300">
+        Tecnología al servicio de tu clase. Nivel Secundario · {{ contacto.centro }}
+      </p>
+    </div>
+    <div>
+      <h2 class="font-titulo text-base font-semibold text-white">Contacto</h2>
+      <ul class="mt-2 space-y-1 text-sm text-slate-300">
+        <li>Dinamizadora TIC: {{ contacto.dinamizadora }}</li>
+        <li>Correo: {{ contacto.correo }}</li>
+        <li>Teléfono: {{ contacto.telefono }}</li>
+        <li>Horario: {{ contacto.horario }}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-slate-700">
+    <p class="contenedor py-4 text-xs text-slate-400">© {{ anio }} {{ contacto.centro }}</p>
+  </div>
+</footer>
