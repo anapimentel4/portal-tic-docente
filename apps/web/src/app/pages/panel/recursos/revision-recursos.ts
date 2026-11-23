@@ -1,5 +1,4 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   CHEQUEOS_RECURSO,
   ESTADOS_RECURSO,
@@ -10,33 +9,37 @@ import {
 } from '@portal/shared';
 import { AuthService } from '../../../core/services/auth.service';
 import { mensajeDeError } from '../../../core/services/errores';
+import { PanelService } from '../../../core/services/panel.service';
 import { RecursosService, type CambiosRevision } from '../../../core/services/recursos.service';
+import { Badge, COLOR_TIPO } from '../../../shared/badge/badge';
+import { esEnlaceWeb, normalizar } from '../../../shared/enlaces';
+import { Icono } from '../../../shared/icono/icono';
 
 const CHEQUEOS = Object.keys(CHEQUEOS_RECURSO) as ChequeoRecurso[];
 const ESTADOS = Object.keys(ESTADOS_RECURSO) as EstadoRecurso[];
 
-/** Quita tildes y mayúsculas para buscar "robotica" y encontrar "Robótica". */
-const normalizar = (texto: string) =>
-  texto.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
-
 /**
- * Panel → Revisar recursos.
- * La dinamizadora marca los 4 chequeos y publica (o rechaza). Gestión solo mira.
+ * Panel → Recursos en revisión.
+ * La dinamizadora marca las 4 comprobaciones y aprueba (una a una o "Aprobar seleccionados") o rechaza.
+ * Gestión lo ve en solo lectura. Después de cada acción se actualizan los indicadores del panel.
  */
 @Component({
   selector: 'app-revision-recursos',
-  imports: [RouterLink],
+  imports: [Badge, Icono],
   templateUrl: './revision-recursos.html',
 })
 export class RevisionRecursosPage implements OnInit {
   private readonly servicio = inject(RecursosService);
   private readonly auth = inject(AuthService);
+  private readonly panel = inject(PanelService);
 
   protected readonly chequeos = CHEQUEOS;
   protected readonly textosChequeo = CHEQUEOS_RECURSO;
   protected readonly estados = ESTADOS;
   protected readonly textosEstado = ESTADOS_RECURSO;
   protected readonly niveles = NIVELES_TIC;
+  protected readonly colorTipo = COLOR_TIPO;
+  protected readonly esEnlaceWeb = esEnlaceWeb;
 
   /** Solo la dinamizadora edita; RLS lo exige igual en la base de datos. */
   protected readonly puedeEditar = computed(() => this.auth.rol() === 'dinamizadora');
@@ -50,8 +53,12 @@ export class RevisionRecursosPage implements OnInit {
   protected readonly guardando = signal<ReadonlySet<string>>(new Set());
   /** Último error de guardado de cada recurso. */
   protected readonly errores = signal<Readonly<Record<string, string>>>({});
-  /** Mensaje tras publicar/rechazar (el recurso sale de la lista y hay que decirlo). */
+  /** Mensaje tras aprobar/rechazar (el recurso sale de la lista y hay que decirlo). */
   protected readonly aviso = signal<string | null>(null);
+  /** Ids marcados para "Aprobar seleccionados". */
+  protected readonly seleccion = signal<ReadonlySet<string>>(new Set());
+  protected readonly aprobandoVarios = signal(false);
+  protected readonly errorLote = signal<string | null>(null);
 
   protected readonly conteo = computed(() => {
     const total: Record<EstadoRecurso, number> = { en_revision: 0, publicado: 0, rechazado: 0 };
@@ -69,6 +76,13 @@ export class RevisionRecursosPage implements OnInit {
           normalizar([r.titulo, r.area, r.grado, r.tipo, r.herramienta ?? '', ...r.etiquetas].join(' ')).includes(texto)),
     );
   });
+
+  /** Recursos en revisión visibles que ya tienen las 4 comprobaciones (los únicos que se pueden aprobar). */
+  protected readonly listosVisibles = computed(() =>
+    this.filtroEstado() === 'en_revision' ? this.visibles().filter((r) => this.listoParaPublicar(r)) : [],
+  );
+  /** Solo cuentan los seleccionados que siguen visibles y listos (si se desmarca un chequeo, sale del lote). */
+  protected readonly seleccionados = computed(() => this.listosVisibles().filter((r) => this.seleccion().has(r.id)));
 
   ngOnInit(): void {
     void this.cargar();
@@ -94,13 +108,49 @@ export class RevisionRecursosPage implements OnInit {
     return CHEQUEOS.every((c) => r[c]);
   }
 
-  /** Solo se enlazan direcciones web; cualquier otra cosa se muestra como texto. */
-  protected esEnlaceWeb(valor: string): boolean {
-    return /^https?:\/\//i.test(valor);
-  }
-
   protected marcarChequeo(r: Recurso, chequeo: ChequeoRecurso, valor: boolean): void {
     void this.guardar(r, { [chequeo]: valor });
+  }
+
+  protected cambiarFiltro(estado: EstadoRecurso): void {
+    this.filtroEstado.set(estado);
+    this.aviso.set(null);
+    this.seleccion.set(new Set());
+  }
+
+  protected alternarSeleccion(id: string, marcado: boolean): void {
+    this.seleccion.update((s) => {
+      const copia = new Set(s);
+      if (marcado) copia.add(id);
+      else copia.delete(id);
+      return copia;
+    });
+  }
+
+  protected seleccionarTodosLosListos(): void {
+    const todos = this.seleccionados().length === this.listosVisibles().length;
+    this.seleccion.set(todos ? new Set() : new Set(this.listosVisibles().map((r) => r.id)));
+  }
+
+  /** "Aprobar seleccionados": publica el lote en una sola operación. */
+  protected async aprobarSeleccionados(): Promise<void> {
+    const lote = this.seleccionados();
+    if (!lote.length) return;
+    this.aprobandoVarios.set(true);
+    this.errorLote.set(null);
+    try {
+      const actualizados = await this.servicio.aprobarVarios(lote.map((r) => r.id));
+      actualizados.forEach((r) => this.reemplazar(r));
+      this.seleccion.set(new Set());
+      this.aviso.set(
+        actualizados.length === 1 ? 'Se aprobó 1 recurso.' : `Se aprobaron ${actualizados.length} recursos.`,
+      );
+      void this.panel.actualizar();
+    } catch (e) {
+      this.errorLote.set(mensajeDeError(e));
+    } finally {
+      this.aprobandoVarios.set(false);
+    }
   }
 
   protected cambiarEstado(r: Recurso, estado: EstadoRecurso): void {
@@ -117,8 +167,10 @@ export class RevisionRecursosPage implements OnInit {
     try {
       this.reemplazar(await this.servicio.actualizarRevision(id, cambios));
       if (cambios.estado) {
-        const destino = { en_revision: 'volvió a revisión', publicado: 'se publicó', rechazado: 'se rechazó' };
+        const destino = { en_revision: 'volvió a revisión', publicado: 'se aprobó', rechazado: 'se rechazó' };
         this.aviso.set(`«${original.titulo}» ${destino[cambios.estado]}.`);
+        this.alternarSeleccion(id, false);
+        void this.panel.actualizar();
       }
     } catch (e) {
       this.reemplazar(original);

@@ -78,6 +78,22 @@ export class RecursosService {
     return data as Recurso[];
   }
 
+  /**
+   * "Aprobar seleccionados": publica varios recursos en una sola operación.
+   * La base de datos rechaza todo el lote si alguno no tiene las 4 comprobaciones (migración 4).
+   */
+  async aprobarVarios(ids: string[]): Promise<Recurso[]> {
+    const { data, error } = await this.supabase
+      .from('recursos')
+      .update({ estado: 'publicado' })
+      .in('id', ids)
+      .select('*');
+    if (error) throw error;
+    // Si RLS bloquea el cambio, no hay error: simplemente no vuelven filas.
+    if (!data?.length) throw { code: '42501' };
+    return data as Recurso[];
+  }
+
   /** Guarda los chequeos y/o el estado. Devuelve la fila tal como quedó en la base de datos. */
   async actualizarRevision(id: string, cambios: CambiosRevision): Promise<Recurso> {
     const { data, error } = await this.supabase

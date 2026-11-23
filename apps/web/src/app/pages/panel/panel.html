@@ -1,15 +1,44 @@
-<section class="contenedor py-10">
-  <h1 class="text-3xl font-bold">Panel de la dinamizadora</h1>
-  @if (auth.rol(); as rol) {
-    <p class="mt-2 text-secundario">Entraste como {{ roles[rol] }}.</p>
-  }
-  <div class="mt-6 grid gap-4 sm:grid-cols-2">
-    <a routerLink="/panel/recursos" class="tarjeta block transition-colors hover:border-primario">
-      <h2 class="text-lg font-bold">Revisar recursos</h2>
-      <p class="mt-1 text-sm text-secundario">Comprueba los recursos en revisión y publícalos para los docentes.</p>
-    </a>
-    <div class="tarjeta">
-      <p class="text-sm text-secundario">Aquí irán los indicadores y las solicitudes.</p>
-    </div>
+<div class="contenedor py-8 lg:grid lg:grid-cols-[15rem_1fr] lg:gap-8 lg:py-10">
+  <!-- Menú lateral (en el celular queda arriba) -->
+  <aside class="mb-6 lg:mb-0">
+    <p class="font-titulo text-lg font-bold">Panel</p>
+    @if (auth.rol(); as rol) {
+      <p class="text-sm text-secundario">{{ roles[rol] }}@if (soloLectura()) { · solo lectura }</p>
+    }
+    <nav aria-label="Menú del panel" class="mt-4">
+      <ul class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1 lg:gap-1">
+        @for (e of enlaces; track e.texto) {
+          <li>
+            @if (e.ruta) {
+              <a
+                [routerLink]="e.ruta"
+                routerLinkActive="!bg-primario !text-white !border-primario"
+                [routerLinkActiveOptions]="{ exact: e.ruta === '/panel' }"
+                ariaCurrentWhenActive="page"
+                class="flex min-h-11 items-center gap-2.5 rounded-xl border border-borde bg-white px-3 py-2 text-sm font-medium text-oscuro transition-colors hover:bg-fondo lg:border-transparent lg:bg-transparent"
+              >
+                <app-icono [nombre]="e.icono" />
+                <span class="flex-1">{{ e.texto }}</span>
+                @if (e.contador?.(); as n) {
+                  <span class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                    {{ n }}<span class="sr-only"> pendientes</span>
+                  </span>
+                }
+              </a>
+            } @else {
+              <span class="flex min-h-11 items-center gap-2.5 rounded-xl border border-dashed border-borde px-3 py-2 text-sm text-secundario lg:border-transparent">
+                <app-icono [nombre]="e.icono" />
+                <span class="flex-1">{{ e.texto }}</span>
+                <span class="rounded-full bg-fondo px-2 py-0.5 text-[0.7rem] font-semibold">Próximamente</span>
+              </span>
+            }
+          </li>
+        }
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="min-w-0">
+    <router-outlet />
   </div>
-</section>
+</div>

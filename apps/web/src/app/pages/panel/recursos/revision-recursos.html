@@ -1,169 +1,212 @@
-<section class="contenedor py-10">
-  <a routerLink="/panel" class="text-sm font-medium text-primario hover:underline">← Volver al panel</a>
-  <h1 class="mt-2 text-3xl font-bold">Revisar recursos</h1>
-  <p class="mt-2 max-w-2xl text-secundario">
-    @if (puedeEditar()) {
-      Abre cada recurso, marca las 4 comprobaciones y publícalo. Solo los publicados los ven los docentes.
-    } @else {
-      Vista de solo lectura: la dinamizadora TIC es quien publica o rechaza.
-    }
-  </p>
+<h1 class="text-3xl font-bold">Recursos en revisión</h1>
+<p class="mt-2 max-w-2xl text-secundario">
+  @if (puedeEditar()) {
+    Abre cada recurso, marca las 4 comprobaciones y apruébalo. Solo los aprobados aparecen en el banco de recursos.
+  } @else {
+    Vista de solo lectura: la dinamizadora TIC es quien aprueba o rechaza.
+  }
+</p>
 
-  <!-- Filtros -->
-  <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por estado">
-      @for (estado of estados; track estado) {
-        <button
-          type="button"
-          class="btn"
-          [class]="filtroEstado() === estado ? 'bg-primario text-white' : 'btn-secundario'"
-          [attr.aria-pressed]="filtroEstado() === estado"
-          (click)="filtroEstado.set(estado); aviso.set(null)"
-        >
-          {{ textosEstado[estado] }}
-          <span
-            class="rounded-full px-2 py-0.5 text-xs"
-            [class]="filtroEstado() === estado ? 'bg-white/20' : 'bg-fondo text-secundario'"
-          >{{ conteo()[estado] }}</span>
-        </button>
-      }
-    </div>
-    <div class="sm:w-72">
-      <label for="buscar-recurso" class="sr-only">Buscar recurso</label>
-      <input
-        id="buscar-recurso"
-        type="search"
-        class="campo"
-        placeholder="Buscar por título, área, etiqueta…"
-        [value]="busqueda()"
-        (input)="busqueda.set($any($event.target).value)"
-      />
-    </div>
-  </div>
-
-  <div aria-live="polite">
-    @if (aviso()) {
-      <p class="mt-4 rounded-xl bg-green-50 p-3 text-sm text-green-900" role="status">{{ aviso() }}</p>
+<!-- Filtros -->
+<div class="mt-6 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+  <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por estado">
+    @for (estado of estados; track estado) {
+      <button
+        type="button"
+        class="btn"
+        [class]="filtroEstado() === estado ? 'bg-primario text-white' : 'btn-secundario'"
+        [attr.aria-pressed]="filtroEstado() === estado"
+        (click)="cambiarFiltro(estado)"
+      >
+        {{ textosEstado[estado] }}
+        <span
+          class="rounded-full px-2 py-0.5 text-xs"
+          [class]="filtroEstado() === estado ? 'bg-white/20' : 'bg-fondo text-secundario'"
+        >{{ conteo()[estado] }}</span>
+      </button>
     }
   </div>
+  <div class="xl:w-72">
+    <label for="buscar-recurso" class="sr-only">Buscar recurso</label>
+    <input
+      id="buscar-recurso"
+      type="search"
+      class="campo"
+      placeholder="Buscar por título, área, etiqueta…"
+      [value]="busqueda()"
+      (input)="busqueda.set($any($event.target).value)"
+    />
+  </div>
+</div>
 
-  <!-- Lista -->
-  @if (cargando()) {
-    <p class="tarjeta mt-6 text-secundario" role="status">Cargando recursos…</p>
-  } @else if (errorCarga()) {
-    <div class="tarjeta mt-6" role="alert">
-      <p class="text-red-800">{{ errorCarga() }}</p>
-      <button type="button" class="btn btn-secundario mt-3" (click)="cargar()">Reintentar</button>
-    </div>
-  } @else if (visibles().length === 0) {
-    <p class="tarjeta mt-6 text-secundario">
-      @if (busqueda()) {
-        Ningún recurso {{ textosEstado[filtroEstado()].toLowerCase() }} coincide con «{{ busqueda() }}».
+<!-- Aprobar seleccionados (solo dinamizadora, en la pestaña En revisión) -->
+@if (puedeEditar() && filtroEstado() === 'en_revision' && !cargando() && visibles().length) {
+  <div class="tarjeta mt-4 flex flex-col gap-3 border-green-100 bg-green-50/70 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm">
+      @if (listosVisibles().length) {
+        <strong>{{ seleccionados().length }}</strong> de {{ listosVisibles().length }} listos para aprobar seleccionados.
       } @else {
-        No hay recursos en «{{ textosEstado[filtroEstado()] }}».
+        Ningún recurso tiene todavía las 4 comprobaciones. Márcalas para poder aprobarlos.
       }
     </p>
-  } @else {
-    <ul class="mt-6 space-y-4">
-      @for (r of visibles(); track r.id) {
-        @let ocupado = guardando().has(r.id);
-        <li class="tarjeta" [attr.aria-busy]="ocupado">
-          <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
-            <!-- Datos del recurso -->
-            <div class="min-w-0 flex-1">
-              <p class="text-xs font-semibold tracking-wide text-acento uppercase">{{ r.tipo }}</p>
-              <h2 class="mt-1 text-xl font-bold">{{ r.titulo }}</h2>
-              <p class="mt-1 text-sm text-secundario">
-                {{ r.area }} · {{ r.grado }}
-                @if (r.nivel_tic) { · Nivel TIC {{ niveles[r.nivel_tic].toLowerCase() }} }
-                @if (r.duracion) { · {{ r.duracion }} }
-              </p>
-              @if (r.descripcion) {
-                <p class="mt-3">{{ r.descripcion }}</p>
-              }
-
-              <dl class="mt-3 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
-                @if (r.tema_unidad) { <div><dt class="inline font-medium">Tema: </dt><dd class="inline text-secundario">{{ r.tema_unidad }}</dd></div> }
-                @if (r.competencias) { <div><dt class="inline font-medium">Competencias: </dt><dd class="inline text-secundario">{{ r.competencias }}</dd></div> }
-                @if (r.herramienta) { <div><dt class="inline font-medium">Herramienta: </dt><dd class="inline text-secundario">{{ r.herramienta }}</dd></div> }
-                @if (r.autor) { <div><dt class="inline font-medium">Autor: </dt><dd class="inline text-secundario">{{ r.autor }}</dd></div> }
-                @if (r.fuente) { <div><dt class="inline font-medium">Fuente: </dt><dd class="inline text-secundario">{{ r.fuente }}</dd></div> }
-                @if (r.licencia) { <div><dt class="inline font-medium">Licencia: </dt><dd class="inline text-secundario">{{ r.licencia }}</dd></div> }
-              </dl>
-
-              @if (r.etiquetas.length) {
-                <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="Etiquetas">
-                  @for (etiqueta of r.etiquetas; track etiqueta) {
-                    <li class="rounded-full bg-fondo px-2.5 py-0.5 text-xs text-secundario">{{ etiqueta }}</li>
-                  }
-                </ul>
-              }
-
-              <p class="mt-4">
-                @if (esEnlaceWeb(r.enlace_o_archivo)) {
-                  <a
-                    [href]="r.enlace_o_archivo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn btn-secundario"
-                  >Abrir el recurso ↗<span class="sr-only"> (se abre en otra pestaña)</span></a>
-                } @else {
-                  <span class="text-sm text-secundario">Enlace: {{ r.enlace_o_archivo }}</span>
-                }
-              </p>
-            </div>
-
-            <!-- Revisión -->
-            <div class="lg:w-80 lg:shrink-0 lg:border-l lg:border-borde lg:pl-8">
-              <!-- Un recurso publicado no se puede quedar con un chequeo sin marcar: primero vuelve a revisión. -->
-              <fieldset [disabled]="!puedeEditar() || ocupado || r.estado === 'publicado'">
-                <legend class="text-sm font-semibold">
-                  Comprobaciones <span class="font-normal text-secundario">({{ chequeosHechos(r) }} de {{ chequeos.length }})</span>
-                </legend>
-                <div class="mt-2 space-y-1">
-                  @for (c of chequeos; track c) {
-                    <label class="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg px-2 hover:bg-fondo">
-                      <input
-                        type="checkbox"
-                        class="size-5 shrink-0 accent-primario"
-                        [checked]="r[c]"
-                        (change)="marcarChequeo(r, c, $any($event.target).checked)"
-                      />
-                      <span class="text-sm">{{ textosChequeo[c] }}</span>
-                    </label>
-                  }
-                </div>
-              </fieldset>
-
-              @if (errores()[r.id]; as error) {
-                <p class="mt-3 rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">No se guardó: {{ error }}</p>
-              }
-
-              @if (puedeEditar()) {
-                <div class="mt-4 flex flex-col gap-2">
-                  @if (r.estado !== 'publicado') {
-                    <button
-                      type="button"
-                      class="btn btn-primario"
-                      [disabled]="ocupado || !listoParaPublicar(r)"
-                      [attr.aria-describedby]="listoParaPublicar(r) ? null : 'falta-' + r.id"
-                      (click)="cambiarEstado(r, 'publicado')"
-                    >Publicar</button>
-                    @if (!listoParaPublicar(r)) {
-                      <p [id]="'falta-' + r.id" class="text-xs text-secundario">Marca las 4 comprobaciones para poder publicar.</p>
-                    }
-                  }
-                  @if (r.estado === 'en_revision') {
-                    <button type="button" class="btn btn-secundario" [disabled]="ocupado" (click)="cambiarEstado(r, 'rechazado')">Rechazar</button>
-                  } @else {
-                    <button type="button" class="btn btn-secundario" [disabled]="ocupado" (click)="cambiarEstado(r, 'en_revision')">Volver a revisión</button>
-                  }
-                </div>
-              }
-            </div>
-          </div>
-        </li>
-      }
-    </ul>
+    @if (listosVisibles().length) {
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="btn btn-secundario" [disabled]="aprobandoVarios()" (click)="seleccionarTodosLosListos()">
+          {{ seleccionados().length === listosVisibles().length ? 'Quitar selección' : 'Seleccionar los listos' }}
+        </button>
+        <button type="button" class="btn btn-primario" [disabled]="!seleccionados().length || aprobandoVarios()" (click)="aprobarSeleccionados()">
+          <app-icono nombre="check" />
+          {{ aprobandoVarios() ? 'Aprobando…' : 'Aprobar seleccionados (' + seleccionados().length + ')' }}
+        </button>
+      </div>
+    }
+  </div>
+  @if (errorLote()) {
+    <p class="mt-3 rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">No se aprobaron: {{ errorLote() }}</p>
   }
-</section>
+}
+
+<div aria-live="polite">
+  @if (aviso()) {
+    <p class="mt-4 rounded-xl bg-green-50 p-3 text-sm text-green-900" role="status">{{ aviso() }}</p>
+  }
+</div>
+
+<!-- Lista -->
+@if (cargando()) {
+  <p class="tarjeta mt-6 text-secundario" role="status">Cargando recursos…</p>
+} @else if (errorCarga()) {
+  <div class="tarjeta mt-6" role="alert">
+    <p class="text-red-800">{{ errorCarga() }}</p>
+    <button type="button" class="btn btn-secundario mt-3" (click)="cargar()">Reintentar</button>
+  </div>
+} @else if (visibles().length === 0) {
+  <p class="tarjeta mt-6 text-secundario">
+    @if (busqueda()) {
+      Ningún recurso {{ textosEstado[filtroEstado()].toLowerCase() }} coincide con «{{ busqueda() }}».
+    } @else if (filtroEstado() === 'en_revision') {
+      No hay recursos esperando revisión. Cuando un docente comparta uno, aparecerá aquí.
+    } @else {
+      No hay recursos en «{{ textosEstado[filtroEstado()] }}».
+    }
+  </p>
+} @else {
+  <ul class="mt-6 space-y-4">
+    @for (r of visibles(); track r.id) {
+      @let ocupado = guardando().has(r.id) || aprobandoVarios();
+      @let listo = listoParaPublicar(r);
+      <li class="tarjeta" [class.ring-2]="seleccion().has(r.id) && listo" [class.ring-green-400]="seleccion().has(r.id) && listo" [attr.aria-busy]="ocupado">
+        <div class="flex flex-col gap-4 lg:flex-row lg:gap-8">
+          <!-- Datos del recurso -->
+          <div class="min-w-0 flex-1">
+            <div class="flex items-start justify-between gap-3">
+              <app-badge [color]="colorTipo[r.tipo] ?? 'gris'">{{ r.tipo }}</app-badge>
+              @if (puedeEditar() && r.estado === 'en_revision') {
+                <label
+                  class="-my-2 flex min-h-11 items-center gap-2 text-sm"
+                  [class]="listo ? 'cursor-pointer font-medium text-oscuro' : 'text-secundario'"
+                  [title]="listo ? '' : 'Marca las 4 comprobaciones para poder seleccionarlo'"
+                >
+                  <input
+                    type="checkbox"
+                    class="size-5 accent-green-700"
+                    [checked]="seleccion().has(r.id) && listo"
+                    [disabled]="!listo || ocupado"
+                    (change)="alternarSeleccion(r.id, $any($event.target).checked)"
+                  />
+                  Seleccionar<span class="sr-only">: {{ r.titulo }}</span>
+                </label>
+              }
+            </div>
+            <h2 class="mt-2 text-xl font-bold">{{ r.titulo }}</h2>
+            <p class="mt-1 text-sm text-secundario">
+              {{ r.area }} · {{ r.grado }}
+              @if (r.nivel_tic) { · Nivel TIC {{ niveles[r.nivel_tic].toLowerCase() }} }
+              @if (r.duracion) { · {{ r.duracion }} }
+            </p>
+            @if (r.descripcion) {
+              <p class="mt-3">{{ r.descripcion }}</p>
+            }
+
+            <dl class="mt-3 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
+              @if (r.tema_unidad) { <div><dt class="inline font-medium">Tema: </dt><dd class="inline text-secundario">{{ r.tema_unidad }}</dd></div> }
+              @if (r.competencias) { <div><dt class="inline font-medium">Competencias: </dt><dd class="inline text-secundario">{{ r.competencias }}</dd></div> }
+              @if (r.herramienta) { <div><dt class="inline font-medium">Herramienta: </dt><dd class="inline text-secundario">{{ r.herramienta }}</dd></div> }
+              @if (r.autor) { <div><dt class="inline font-medium">Autor: </dt><dd class="inline text-secundario">{{ r.autor }}</dd></div> }
+              @if (r.fuente) { <div><dt class="inline font-medium">Fuente: </dt><dd class="inline text-secundario">{{ r.fuente }}</dd></div> }
+              @if (r.licencia) { <div><dt class="inline font-medium">Licencia: </dt><dd class="inline text-secundario">{{ r.licencia }}</dd></div> }
+            </dl>
+
+            @if (r.etiquetas.length) {
+              <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="Etiquetas">
+                @for (etiqueta of r.etiquetas; track etiqueta) {
+                  <li class="rounded-full bg-fondo px-2.5 py-0.5 text-xs text-secundario">{{ etiqueta }}</li>
+                }
+              </ul>
+            }
+
+            <p class="mt-4">
+              @if (esEnlaceWeb(r.enlace_o_archivo)) {
+                <a [href]="r.enlace_o_archivo" target="_blank" rel="noopener noreferrer" class="btn btn-secundario">
+                  Abrir enlace <app-icono nombre="externo" clase="size-4 shrink-0" />
+                  <span class="sr-only">de {{ r.titulo }} (se abre en otra pestaña)</span>
+                </a>
+              } @else {
+                <span class="text-sm text-secundario">Enlace: {{ r.enlace_o_archivo }}</span>
+              }
+            </p>
+          </div>
+
+          <!-- Revisión -->
+          <div class="lg:w-80 lg:shrink-0 lg:border-l lg:border-borde lg:pl-8">
+            <!-- Un recurso publicado no se puede quedar con un chequeo sin marcar: primero vuelve a revisión. -->
+            <fieldset [disabled]="!puedeEditar() || ocupado || r.estado === 'publicado'">
+              <legend class="text-sm font-semibold">
+                Comprobaciones <span class="font-normal text-secundario">({{ chequeosHechos(r) }} de {{ chequeos.length }})</span>
+              </legend>
+              <div class="mt-2 space-y-1">
+                @for (c of chequeos; track c) {
+                  <label class="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg px-2 hover:bg-fondo">
+                    <input
+                      type="checkbox"
+                      class="size-5 shrink-0 accent-primario"
+                      [checked]="r[c]"
+                      (change)="marcarChequeo(r, c, $any($event.target).checked)"
+                    />
+                    <span class="text-sm">{{ textosChequeo[c] }}</span>
+                  </label>
+                }
+              </div>
+            </fieldset>
+
+            @if (errores()[r.id]; as error) {
+              <p class="mt-3 rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">No se guardó: {{ error }}</p>
+            }
+
+            @if (puedeEditar()) {
+              <div class="mt-4 flex flex-col gap-2">
+                @if (r.estado !== 'publicado') {
+                  <button
+                    type="button"
+                    class="btn btn-primario"
+                    [disabled]="ocupado || !listo"
+                    [attr.aria-describedby]="listo ? null : 'falta-' + r.id"
+                    (click)="cambiarEstado(r, 'publicado')"
+                  >Aprobar</button>
+                  @if (!listo) {
+                    <p [id]="'falta-' + r.id" class="text-xs text-secundario">Marca las 4 comprobaciones para poder aprobar.</p>
+                  }
+                }
+                @if (r.estado === 'en_revision') {
+                  <button type="button" class="btn btn-secundario" [disabled]="ocupado" (click)="cambiarEstado(r, 'rechazado')">Rechazar</button>
+                } @else {
+                  <button type="button" class="btn btn-secundario" [disabled]="ocupado" (click)="cambiarEstado(r, 'en_revision')">Volver a revisión</button>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </li>
+    }
+  </ul>
+}

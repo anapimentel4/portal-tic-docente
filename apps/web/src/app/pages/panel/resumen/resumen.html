@@ -1,0 +1,40 @@
+<h1 class="text-3xl font-bold">Hola{{ nombre() ? ', ' + nombre() : '' }}</h1>
+<p class="mt-2 text-secundario">Así va el portal hoy.</p>
+
+@if (panel.error(); as error) {
+  <div class="tarjeta mt-6" role="alert">
+    <p class="text-red-800">{{ error }}</p>
+    <button type="button" class="btn btn-secundario mt-3" (click)="panel.actualizar()">Reintentar</button>
+  </div>
+}
+
+<ul class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-live="polite">
+  @for (t of tarjetas; track t.clave) {
+    @let tono = colores[t.color];
+    @let valor = panel.indicadores()?.[t.clave];
+    <li>
+      @if (t.ruta) {
+        <a [routerLink]="t.ruta" class="tarjeta flex h-full items-center gap-4 transition-colors" [class]="tono.fondo + ' ' + tono.hover">
+          <ng-container *ngTemplateOutlet="contenido" />
+        </a>
+      } @else {
+        <div class="tarjeta flex h-full items-center gap-4" [class]="tono.fondo">
+          <ng-container *ngTemplateOutlet="contenido" />
+        </div>
+      }
+      <ng-template #contenido>
+        <span class="flex size-12 shrink-0 items-center justify-center rounded-xl shadow-sm" [class]="tono.icono">
+          <app-icono [nombre]="t.icono" clase="size-6 shrink-0" />
+        </span>
+        <span class="flex flex-col">
+          <span class="font-titulo text-3xl font-bold text-oscuro">{{ valor ?? '–' }}</span>
+          <span class="text-sm text-secundario">{{ t.texto }}</span>
+        </span>
+        @if (t.ruta) {
+          <app-icono nombre="flecha" clase="ml-auto size-5 shrink-0 text-primario" />
+        }
+      </ng-template>
+    </li>
+  }
+</ul>
+

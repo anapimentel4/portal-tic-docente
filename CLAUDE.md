@@ -169,8 +169,8 @@ portal-tic-docente/
   - Adelantado de la fase 4: el formulario de apoyo de Inicio.
 - [x] Fase 4 — Robótica y Solicitudes
   - Cambio de diseño pedido el 23-nov: las tarjetas tienen colores suaves (paleta en `apps/web/src/app/shared/colores.ts`) en vez de ser solo blancas.
-- [ ] Fase 5 — Panel de la dinamizadora
-  - Adelantado: Recursos en revisión (`/panel/recursos`) con las 4 casillas, Aprobar y Rechazar. Falta "Aprobar seleccionados".
+- [x] Fase 5 — Panel de la dinamizadora
+  - Agregado (aprobado): en Recursos en revisión, las pestañas Publicados/Rechazados y el botón "Volver a revisión".
 - [ ] Revisión final
 
 ## Fase 2 del proyecto (después de la auditoría)

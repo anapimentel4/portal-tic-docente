@@ -34,6 +34,16 @@ const ICONOS = {
   abajo: [{ d: 'M12 5v14M6 13l6 6 6-6' }],
   mas: [{ d: 'M12 5v14M5 12h14' }],
   check: [{ d: 'M5 12l5 5L20 7' }],
+  resumen: [
+    { x: 3, y: 3, w: 7, h: 7, rx: 1.5 },
+    { x: 14, y: 3, w: 7, h: 7, rx: 1.5 },
+    { x: 3, y: 14, w: 7, h: 7, rx: 1.5 },
+    { x: 14, y: 14, w: 7, h: 7, rx: 1.5 },
+  ],
+  bandeja: [{ d: 'M3 13l3-8h12l3 8' }, { d: 'M3 13v6a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-6h-5l-2 3h-4l-2-3z' }],
+  caja: [{ d: 'M3 7l9-4 9 4-9 4z' }, { d: 'M3 7v10l9 4 9-4V7' }, { d: 'M12 11v10' }],
+  personas: [{ cx: 9, cy: 8, r: 3 }, { d: 'M3 20a6 6 0 0 1 12 0' }, { cx: 17, cy: 9, r: 2.5 }, { d: 'M16.5 14.5a5 5 0 0 1 4.5 5' }],
+  revision: [{ x: 5, y: 4, w: 14, h: 17, rx: 2 }, { d: 'M9 4V3h6v1' }, { d: 'M9 10h6M9 14h6M9 18h3' }],
 } satisfies Record<string, Figura[]>;
 
 export type NombreIcono = keyof typeof ICONOS;

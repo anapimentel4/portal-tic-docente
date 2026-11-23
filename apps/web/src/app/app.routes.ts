@@ -63,17 +63,29 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login').then((m) => m.LoginPage),
   },
   {
+    // Panel: menú lateral (PanelPage) con sus páginas dentro. Dinamizadora y gestión (solo lectura).
     path: 'panel',
-    title: 'Panel · Portal TIC Docente',
     canActivate: [rolGuard('dinamizadora', 'gestion')],
     loadComponent: () => import('./pages/panel/panel').then((m) => m.PanelPage),
-  },
-  {
-    path: 'panel/recursos',
-    title: 'Revisar recursos · Portal TIC Docente',
-    canActivate: [rolGuard('dinamizadora', 'gestion')],
-    loadComponent: () =>
-      import('./pages/panel/recursos/revision-recursos').then((m) => m.RevisionRecursosPage),
+    children: [
+      {
+        path: '',
+        title: 'Panel · Portal TIC Docente',
+        loadComponent: () => import('./pages/panel/resumen/resumen').then((m) => m.ResumenPage),
+      },
+      {
+        path: 'recursos',
+        title: 'Recursos en revisión · Portal TIC Docente',
+        loadComponent: () =>
+          import('./pages/panel/recursos/revision-recursos').then((m) => m.RevisionRecursosPage),
+      },
+      {
+        path: 'solicitudes',
+        title: 'Solicitudes · Panel · Portal TIC Docente',
+        loadComponent: () =>
+          import('./pages/panel/solicitudes/solicitudes-panel').then((m) => m.SolicitudesPanelPage),
+      },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];

@@ -1,0 +1,125 @@
+<h1 class="text-3xl font-bold">Solicitudes</h1>
+<p class="mt-2 max-w-2xl text-secundario">
+  @if (puedeEditar()) {
+    Pedidos de acompañamiento, problemas técnicos y reservas de los docentes. Cambia el estado a medida que los atiendes.
+  } @else {
+    Vista de solo lectura: la dinamizadora TIC es quien cambia el estado.
+  }
+</p>
+
+<div class="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filtrar por estado">
+  @for (f of filtros; track f) {
+    <button
+      type="button"
+      class="btn"
+      [class]="filtro() === f ? 'bg-primario text-white' : 'btn-secundario'"
+      [attr.aria-pressed]="filtro() === f"
+      (click)="filtro.set(f)"
+    >
+      {{ f === 'todas' ? 'Todas' : textosEstado[f] }}
+      <span class="rounded-full px-2 py-0.5 text-xs" [class]="filtro() === f ? 'bg-white/20' : 'bg-fondo text-secundario'">{{ conteo()[f] }}</span>
+    </button>
+  }
+</div>
+
+<ng-template #estado let-s>
+  @if (puedeEditar()) {
+    <label [for]="'estado-' + s.id" class="sr-only">Estado de la solicitud de {{ s.docente?.nombre ?? 'docente' }}</label>
+    <select
+      [id]="'estado-' + s.id"
+      class="campo min-w-36 py-1.5 text-sm"
+      [disabled]="guardando().has(s.id)"
+      (change)="cambiarEstado(s, $any($event.target).value)"
+    >
+      @for (e of estados; track e) {
+        <option [value]="e" [selected]="s.estado === e">{{ textosEstado[e] }}</option>
+      }
+    </select>
+  } @else {
+    <app-badge [color]="colorDe(s.estado)">{{ textoEstado(s.estado) }}</app-badge>
+  }
+  @if (errores()[s.id]; as error) {
+    <p class="mt-1 text-xs text-red-800" role="alert">No se guardó: {{ error }}</p>
+  }
+</ng-template>
+
+@if (cargando()) {
+  <p class="tarjeta mt-6 text-secundario" role="status">Cargando solicitudes…</p>
+} @else if (errorCarga()) {
+  <div class="tarjeta mt-6" role="alert">
+    <p class="text-red-800">{{ errorCarga() }}</p>
+    <button type="button" class="btn btn-secundario mt-3" (click)="cargar()">Reintentar</button>
+  </div>
+} @else if (visibles().length === 0) {
+  <p class="tarjeta mt-6 text-secundario">
+    @if (solicitudes().length === 0) {
+      Todavía no hay solicitudes. Cuando un docente pida apoyo, aparecerá aquí.
+    } @else {
+      No hay solicitudes «{{ textoEstado($any(filtro())) }}».
+    }
+  </p>
+} @else {
+  <!-- Computadora: tabla -->
+  <div class="tarjeta mt-6 hidden overflow-x-auto p-0 md:block">
+    <table class="w-full text-left text-sm">
+      <caption class="sr-only">Solicitudes de los docentes</caption>
+      <thead class="border-b border-borde bg-fondo/60 text-secundario">
+        <tr>
+          <th scope="col" class="px-4 py-3 font-semibold">Docente</th>
+          <th scope="col" class="px-4 py-3 font-semibold">Tipo</th>
+          <th scope="col" class="px-4 py-3 font-semibold">Fecha</th>
+          <th scope="col" class="px-4 py-3 font-semibold">Detalle</th>
+          <th scope="col" class="px-4 py-3 font-semibold">Estado</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-borde">
+        @for (s of visibles(); track s.id) {
+          <tr class="align-top">
+            <td class="px-4 py-3">
+              <p class="font-medium">{{ s.docente?.nombre ?? 'Sin nombre' }}</p>
+              @if (s.docente?.correo; as correo) {
+                <a [href]="'mailto:' + correo" class="text-xs break-all text-primario hover:underline">{{ correo }}</a>
+              }
+            </td>
+            <td class="px-4 py-3">{{ tipos[s.tipo] }}</td>
+            <td class="px-4 py-3 whitespace-nowrap">
+              @if (s.fecha_deseada) {
+                <p>{{ fecha(s.fecha_deseada) }}</p>
+              } @else {
+                <p class="text-secundario">Sin fecha</p>
+              }
+              <p class="text-xs text-secundario">Enviada {{ fecha(s.created_at) }}</p>
+            </td>
+            <td class="max-w-sm px-4 py-3 whitespace-pre-line">{{ s.detalle }}</td>
+            <td class="px-4 py-3">
+              <ng-container *ngTemplateOutlet="estado; context: { $implicit: s }" />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Celular: una tarjeta por solicitud -->
+  <ul class="mt-6 space-y-3 md:hidden">
+    @for (s of visibles(); track s.id) {
+      <li class="tarjeta">
+        <p class="font-titulo font-bold">{{ tipos[s.tipo] }}</p>
+        <p class="text-sm">
+          {{ s.docente?.nombre ?? 'Sin nombre' }}
+          @if (s.docente?.correo; as correo) {
+            · <a [href]="'mailto:' + correo" class="break-all text-primario hover:underline">{{ correo }}</a>
+          }
+        </p>
+        <p class="mt-2 whitespace-pre-line">{{ s.detalle }}</p>
+        <p class="mt-2 text-xs text-secundario">
+          Enviada {{ fecha(s.created_at) }}
+          @if (s.fecha_deseada) { · Para el {{ fecha(s.fecha_deseada) }} }
+        </p>
+        <div class="mt-3">
+          <ng-container *ngTemplateOutlet="estado; context: { $implicit: s }" />
+        </div>
+      </li>
+    }
+  </ul>
+}
