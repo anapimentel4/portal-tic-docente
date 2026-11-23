@@ -46,10 +46,10 @@ export class FormularioApoyo {
     detalle: ['', [Validators.required, Validators.pattern(/\S/), Validators.maxLength(MAX_DETALLE)]],
   });
 
-  /** Lo usan los módulos de inicio: elige el tipo y lleva al usuario hasta el formulario. */
-  elegirTipo(tipo: TipoSolicitud): void {
+  /** Lo usa el módulo "Soporte y acompañamiento": lleva al formulario (y elige el tipo si se indica). */
+  abrir(tipo?: TipoSolicitud): void {
     this.enviada.set(false);
-    this.form.controls.tipo.setValue(tipo);
+    if (tipo) this.form.controls.tipo.setValue(tipo);
     this.seccion().nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     // El foco va al formulario (si hay sesión) para que el teclado y el lector de pantalla lo sigan.
     setTimeout(() => this.campoTipo()?.nativeElement.focus({ preventScroll: true }));

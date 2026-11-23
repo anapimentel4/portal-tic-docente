@@ -1,0 +1,61 @@
+<form class="tarjeta space-y-4" role="search" (submit)="$event.preventDefault()">
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr]">
+    <div class="sm:col-span-2 lg:col-span-1">
+      <label for="filtro-q" class="etiqueta">Buscar</label>
+      <input
+        id="filtro-q"
+        type="search"
+        class="campo"
+        placeholder="Título, descripción o etiqueta…"
+        [value]="textoBusqueda()"
+        (input)="cambiar.emit({ filtro: 'q', valor: $any($event.target).value })"
+      />
+    </div>
+    <div>
+      <label for="filtro-area" class="etiqueta">Área</label>
+      <select id="filtro-area" class="campo" (change)="cambiar.emit({ filtro: 'area', valor: $any($event.target).value })">
+        <option value="" [selected]="!valores().area">Todas las áreas</option>
+        @for (a of areas; track a) {
+          <option [value]="a" [selected]="valores().area === a">{{ a }}</option>
+        }
+      </select>
+    </div>
+    <div>
+      <label for="filtro-grado" class="etiqueta">Grado</label>
+      <select id="filtro-grado" class="campo" (change)="cambiar.emit({ filtro: 'grado', valor: $any($event.target).value })">
+        <option value="" [selected]="!valores().grado">Todos los grados</option>
+        @for (g of grados; track g) {
+          <option [value]="g" [selected]="valores().grado === g">{{ g }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend class="etiqueta">Tipo</legend>
+    <div class="flex flex-wrap gap-2">
+      <button
+        type="button"
+        class="min-h-10 rounded-full border px-3.5 text-sm font-medium transition-colors"
+        [class]="!valores().tipo ? 'border-primario bg-primario text-white' : 'border-borde bg-white text-oscuro hover:bg-fondo'"
+        [attr.aria-pressed]="!valores().tipo"
+        (click)="cambiar.emit({ filtro: 'tipo', valor: '' })"
+      >Todos</button>
+      @for (t of tipos; track t) {
+        <button
+          type="button"
+          class="min-h-10 rounded-full border px-3.5 text-sm font-medium transition-colors"
+          [class]="valores().tipo === t ? 'border-primario bg-primario text-white' : 'border-borde bg-white text-oscuro hover:bg-fondo'"
+          [attr.aria-pressed]="valores().tipo === t"
+          (click)="elegirTipo(t)"
+        >{{ t }}</button>
+      }
+    </div>
+  </fieldset>
+
+  @if (hayFiltros()) {
+    <button type="button" class="text-sm font-medium text-primario hover:underline" (click)="limpiar.emit()">
+      Quitar todos los filtros
+    </button>
+  }
+</form>

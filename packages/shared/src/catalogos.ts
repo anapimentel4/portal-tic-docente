@@ -62,11 +62,11 @@ export const ROLES = {
 export type Rol = keyof typeof ROLES;
 
 export const TIPOS_SOLICITUD = {
-  acompanamiento: 'Acompañamiento',
+  acompanamiento: 'Acompañamiento en el aula',
   problema_tecnico: 'Problema técnico',
-  reserva_laboratorio: 'Reserva de laboratorio',
-  reserva_kits: 'Reserva de kits',
-  reserva_laptops: 'Reserva de laptops',
+  reserva_laboratorio: 'Reserva del laboratorio',
+  reserva_kits: 'Reserva de kits de robótica',
+  reserva_laptops: 'Reserva del carrito de laptops',
 } as const;
 export type TipoSolicitud = keyof typeof TIPOS_SOLICITUD;
 

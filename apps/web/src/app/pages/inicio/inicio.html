@@ -1,25 +1,43 @@
-<!-- Encabezado con buscador -->
+<!-- Hero: buscador y selector de área que llevan al banco con los filtros aplicados -->
 <section class="bg-white">
   <div class="contenedor py-14 sm:py-20">
     <p class="text-sm font-semibold uppercase tracking-wide text-acento">Nivel Secundario</p>
     <h1 class="mt-2 max-w-2xl text-4xl font-bold leading-tight sm:text-5xl">Tecnología al servicio de tu clase</h1>
     <p class="mt-4 max-w-xl text-lg text-secundario">
-      Recursos, robótica educativa y acompañamiento TIC para los docentes del centro.
+      Recursos revisados, robótica educativa y acompañamiento TIC para los docentes del centro.
     </p>
     @if (auth.usuario()) {
       <p class="mt-4 text-secundario">Hola, {{ auth.perfil()?.nombre ?? auth.usuario()?.email }}.</p>
     }
 
-    <form role="search" class="mt-8 flex max-w-xl flex-col gap-2 sm:flex-row" (submit)="$event.preventDefault(); buscar(busqueda.value)">
-      <label for="buscar-inicio" class="sr-only">Buscar recursos</label>
-      <input #busqueda id="buscar-inicio" type="search" class="campo flex-1" placeholder="Busca un recurso: fracciones, Scratch, Canva…" />
-      <button type="submit" class="btn btn-primario">Buscar</button>
+    <form
+      role="search"
+      aria-label="Buscar en el banco de recursos"
+      class="mt-8 grid max-w-3xl gap-2 sm:grid-cols-[1fr_14rem_auto]"
+      (submit)="$event.preventDefault(); buscar(busqueda.value, area.value)"
+    >
+      <div>
+        <label for="buscar-inicio" class="sr-only">¿Qué tema buscas?</label>
+        <input #busqueda id="buscar-inicio" type="search" class="campo" placeholder="¿Qué tema buscas? Ej.: fracciones, Scratch…" />
+      </div>
+      <div>
+        <label for="area-inicio" class="sr-only">Área</label>
+        <select #area id="area-inicio" class="campo">
+          <option value="">Todas las áreas</option>
+          @for (a of areas; track a) {
+            <option [value]="a">{{ a }}</option>
+          }
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primario">
+        <app-icono nombre="buscar" /> Buscar
+      </button>
     </form>
 
     @if (!auth.usuario()) {
       <p class="mt-4 text-sm text-secundario">
         ¿Eres docente del centro? <a routerLink="/login" class="font-medium text-primario hover:underline">Entra o crea tu cuenta</a>
-        para pedir apoyo y reservas.
+        para compartir recursos y pedir apoyo.
       </p>
     }
   </div>
@@ -35,27 +53,31 @@
           @case ('catalogo') {
             <a
               routerLink="/recursos"
-              [queryParams]="m.destino.tipoRecurso ? { tipo: m.destino.tipoRecurso } : {}"
+              [queryParams]="$any(m.destino).tipoRecurso ? { tipo: $any(m.destino).tipoRecurso } : {}"
               class="tarjeta flex h-full flex-col transition-colors hover:border-primario"
             >
               <ng-container *ngTemplateOutlet="contenido; context: { $implicit: m }" />
-              <span class="mt-auto pt-3 text-sm font-semibold text-primario">Ver recursos →</span>
+              <span class="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-primario">
+                Ver recursos <app-icono nombre="flecha" clase="size-4 shrink-0" />
+              </span>
             </a>
           }
           @case ('apoyo') {
             <button
               type="button"
               class="tarjeta flex h-full w-full flex-col text-left transition-colors hover:border-primario"
-              (click)="formulario().elegirTipo($any(m.destino).tipoSolicitud)"
+              (click)="formulario().abrir()"
             >
               <ng-container *ngTemplateOutlet="contenido; context: { $implicit: m }" />
-              <span class="mt-auto pt-3 text-sm font-semibold text-primario">Hacer una solicitud ↓</span>
+              <span class="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-primario">
+                Pedir apoyo <app-icono nombre="abajo" clase="size-4 shrink-0" />
+              </span>
             </button>
           }
           @default {
-            <div class="tarjeta flex h-full flex-col opacity-80">
-              <ng-container *ngTemplateOutlet="contenido; context: { $implicit: m }" />
-              <span class="mt-auto pt-3">
+            <div class="tarjeta flex h-full flex-col">
+              <ng-container *ngTemplateOutlet="contenido; context: { $implicit: m, apagado: true }" />
+              <span class="mt-auto pt-4">
                 <span class="rounded-full bg-fondo px-2.5 py-1 text-xs font-semibold text-secundario">Próximamente</span>
               </span>
             </div>
@@ -66,13 +88,18 @@
   </ul>
 </section>
 
-<ng-template #contenido let-m>
-  <span aria-hidden="true" class="text-3xl">{{ m.icono }}</span>
-  <span class="mt-3 block font-titulo text-lg font-bold text-oscuro">{{ m.titulo }}</span>
+<ng-template #contenido let-m let-apagado="apagado">
+  <span
+    class="flex size-12 items-center justify-center rounded-xl"
+    [class]="apagado ? 'bg-fondo text-secundario' : 'bg-blue-50 text-primario'"
+  >
+    <app-icono [nombre]="m.icono" clase="size-6 shrink-0" />
+  </span>
+  <span class="mt-4 block font-titulo text-lg font-bold text-oscuro">{{ m.titulo }}</span>
   <span class="mt-1 block text-sm text-secundario">{{ m.descripcion }}</span>
 </ng-template>
 
-<!-- Proyectos de robótica destacados (solo si hay publicados) -->
+<!-- Proyectos de robótica destacados (aparece cuando hay publicados; los datos llegan en la fase 4) -->
 @if (proyectos().length) {
   <section class="bg-white py-12" aria-labelledby="proyectos-titulo">
     <div class="contenedor">
@@ -89,19 +116,6 @@
               @if (p.competencias) {
                 <p class="mt-3 text-sm">{{ p.competencias }}</p>
               }
-              @if (p.materiales || p.pasos) {
-                <details class="mt-auto pt-3 text-sm">
-                  <summary class="cursor-pointer font-semibold text-primario">Materiales y pasos</summary>
-                  @if (p.materiales) {
-                    <p class="mt-2 font-medium">Materiales</p>
-                    <p class="whitespace-pre-line text-secundario">{{ p.materiales }}</p>
-                  }
-                  @if (p.pasos) {
-                    <p class="mt-2 font-medium">Pasos</p>
-                    <p class="whitespace-pre-line text-secundario">{{ p.pasos }}</p>
-                  }
-                </details>
-              }
             </div>
           </li>
         }
@@ -110,7 +124,7 @@
   </section>
 }
 
-<!-- Formulario de apoyo -->
+<!-- Formulario de apoyo (usa SolicitudesService; en la fase 4 también lo usa "Mis solicitudes") -->
 <div class="contenedor py-12">
   <app-formulario-apoyo />
 </div>

@@ -1,60 +1,61 @@
-import type { TipoRecurso, TipoSolicitud } from '@portal/shared';
+import type { TipoRecurso } from '@portal/shared';
+import type { NombreIcono } from '../../shared/icono/icono';
 
 /**
- * Los 6 módulos de la página de inicio. Cambia aquí el texto o el orden.
+ * Los 6 módulos de la página de inicio (según CLAUDE.md, fase 3). Cambia aquí el texto o el orden.
  * Cada módulo lleva a:
- *  - catalogo:     el catálogo de recursos, opcionalmente filtrado por tipo
- *  - apoyo:        el formulario de apoyo de la página de inicio, con el tipo ya elegido
- *  - proximamente: todavía no tiene página
+ *  - catalogo:     el banco de recursos, opcionalmente filtrado por tipo
+ *  - apoyo:        el formulario de apoyo de la página de inicio
+ *  - proximamente: todavía no existe (muestra la etiqueta "Próximamente")
  */
 export type DestinoModulo =
   | { tipo: 'catalogo'; tipoRecurso?: TipoRecurso }
-  | { tipo: 'apoyo'; tipoSolicitud: TipoSolicitud }
+  | { tipo: 'apoyo' }
   | { tipo: 'proximamente' };
 
 export interface Modulo {
   titulo: string;
   descripcion: string;
-  /** Emoji decorativo (los lectores de pantalla lo ignoran). */
-  icono: string;
+  icono: NombreIcono;
   destino: DestinoModulo;
 }
 
 export const MODULOS: Modulo[] = [
   {
-    titulo: 'Recursos',
+    titulo: 'Banco de recursos',
     descripcion: 'Guías, videos, plantillas y herramientas web revisadas, por área y grado.',
-    icono: '📚',
+    icono: 'libro',
     destino: { tipo: 'catalogo' },
   },
   {
     titulo: 'Robótica educativa',
-    descripcion: 'Proyectos con materiales, pasos y competencias para llevar al aula.',
-    icono: '🤖',
-    destino: { tipo: 'catalogo', tipoRecurso: 'Proyecto de robótica' },
+    descripcion: 'Proyectos con materiales del kit, pasos y competencias para llevar al aula.',
+    icono: 'robot',
+    // Fase 4: cambiar a la página /robotica cuando exista.
+    destino: { tipo: 'proximamente' },
+  },
+  {
+    titulo: 'Formación docente',
+    descripcion: 'Talleres prácticos para fortalecer tus competencias digitales.',
+    icono: 'birrete',
+    destino: { tipo: 'proximamente' },
+  },
+  {
+    titulo: 'Planificación y evaluación',
+    descripcion: 'Ideas y herramientas para integrar la tecnología en tus planificaciones.',
+    icono: 'planificacion',
+    destino: { tipo: 'proximamente' },
+  },
+  {
+    titulo: 'Soporte y acompañamiento',
+    descripcion: 'Pide acompañamiento en el aula, reporta un problema técnico o haz una reserva.',
+    icono: 'soporte',
+    destino: { tipo: 'apoyo' },
   },
   {
     titulo: 'Ciudadanía digital',
     descripcion: 'Uso seguro, ético y responsable de la tecnología con tus estudiantes.',
-    icono: '🛡️',
+    icono: 'escudo',
     destino: { tipo: 'catalogo', tipoRecurso: 'Ciudadanía digital' },
-  },
-  {
-    titulo: 'Talleres y formación',
-    descripcion: 'Talleres prácticos para docentes, con inscripción en línea.',
-    icono: '🎓',
-    destino: { tipo: 'proximamente' },
-  },
-  {
-    titulo: 'Acompañamiento TIC',
-    descripcion: 'Pide apoyo para planificar o dar una clase con tecnología.',
-    icono: '🤝',
-    destino: { tipo: 'apoyo', tipoSolicitud: 'acompanamiento' },
-  },
-  {
-    titulo: 'Reservas',
-    descripcion: 'Reserva el laboratorio, los kits de robótica o las laptops.',
-    icono: '📅',
-    destino: { tipo: 'apoyo', tipoSolicitud: 'reserva_laboratorio' },
   },
 ];

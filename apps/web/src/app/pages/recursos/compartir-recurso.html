@@ -1,0 +1,134 @@
+<section class="contenedor py-10">
+  <div class="mx-auto max-w-3xl">
+    <a routerLink="/recursos" class="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-primario hover:underline">
+      <app-icono nombre="volver" clase="size-4 shrink-0" /> Volver al banco de recursos
+    </a>
+    <h1 class="mt-2 text-3xl font-bold">Compartir un recurso</h1>
+    <p class="mt-2 text-secundario">
+      Comparte un material que te funcione en clase. La dinamizadora TIC lo revisa antes de publicarlo en el banco.
+    </p>
+
+    @if (enviado(); as titulo) {
+      <div class="tarjeta mt-6 border-green-200 bg-green-50" role="status">
+        <p class="flex items-center gap-2 text-lg font-bold text-green-900">
+          <app-icono nombre="check" clase="size-6 shrink-0" /> ¡Gracias! Recibimos tu recurso.
+        </p>
+        <p class="mt-2 text-green-900">
+          «{{ titulo }}» quedó <strong>en revisión</strong>. Cuando la dinamizadora lo apruebe, aparecerá en el banco de recursos.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button type="button" class="btn btn-primario" (click)="otro()">Compartir otro</button>
+          <a routerLink="/recursos" class="btn btn-secundario">Volver al banco</a>
+        </div>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="enviar()" novalidate class="tarjeta mt-6 space-y-6">
+        @if (error()) {
+          <p class="rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error() }}</p>
+        }
+
+        <fieldset class="space-y-4">
+          <legend class="font-titulo text-lg font-bold">Lo esencial</legend>
+          <p class="text-sm text-secundario">Los campos marcados con * son obligatorios.</p>
+
+          <div>
+            <label for="cr-titulo" class="etiqueta">Título *</label>
+            <input id="cr-titulo" type="text" formControlName="titulo" class="campo" maxlength="150" />
+            @if (invalido('titulo')) { <p class="error-campo">Escribe el título del recurso.</p> }
+          </div>
+
+          <div>
+            <label for="cr-enlace" class="etiqueta">Enlace *</label>
+            <input id="cr-enlace" type="url" formControlName="enlace" class="campo" placeholder="https://…" inputmode="url" aria-describedby="cr-enlace-ayuda" />
+            <p id="cr-enlace-ayuda" class="mt-1 text-sm text-secundario">
+              La dirección del video, la herramienta o el documento (Drive, YouTube, Canva…).
+            </p>
+            @if (invalido('enlace')) { <p class="error-campo">Escribe un enlace completo, que empiece por https://</p> }
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label for="cr-area" class="etiqueta">Área *</label>
+              <select id="cr-area" formControlName="area" class="campo">
+                <option value="" disabled>Elige</option>
+                @for (a of areas; track a) { <option [value]="a">{{ a }}</option> }
+              </select>
+              @if (invalido('area')) { <p class="error-campo">Elige el área.</p> }
+            </div>
+            <div>
+              <label for="cr-grado" class="etiqueta">Grado *</label>
+              <select id="cr-grado" formControlName="grado" class="campo">
+                <option value="" disabled>Elige</option>
+                @for (g of grados; track g) { <option [value]="g">{{ g }}</option> }
+              </select>
+              @if (invalido('grado')) { <p class="error-campo">Elige el grado.</p> }
+            </div>
+            <div>
+              <label for="cr-tipo" class="etiqueta">Tipo *</label>
+              <select id="cr-tipo" formControlName="tipo" class="campo">
+                <option value="" disabled>Elige</option>
+                @for (t of tipos; track t) { <option [value]="t">{{ t }}</option> }
+              </select>
+              @if (invalido('tipo')) { <p class="error-campo">Elige el tipo.</p> }
+            </div>
+          </div>
+
+          <div>
+            <label for="cr-descripcion" class="etiqueta">Descripción corta</label>
+            <textarea id="cr-descripcion" formControlName="descripcion" rows="3" class="campo" maxlength="500" placeholder="¿Qué es y cómo lo usas en clase?"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="space-y-4 border-t border-borde pt-6">
+          <legend class="font-titulo text-lg font-bold">Más detalles <span class="text-sm font-normal text-secundario">(opcional)</span></legend>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="cr-tema" class="etiqueta">Tema / unidad</label>
+              <input id="cr-tema" type="text" formControlName="tema_unidad" class="campo" />
+            </div>
+            <div>
+              <label for="cr-competencias" class="etiqueta">Competencias</label>
+              <input id="cr-competencias" type="text" formControlName="competencias" class="campo" />
+            </div>
+            <div>
+              <label for="cr-herramienta" class="etiqueta">Herramienta usada</label>
+              <input id="cr-herramienta" type="text" formControlName="herramienta" class="campo" placeholder="Ej.: Canva, GeoGebra" />
+            </div>
+            <div>
+              <label for="cr-duracion" class="etiqueta">Duración sugerida</label>
+              <input id="cr-duracion" type="text" formControlName="duracion" class="campo" placeholder="Ej.: 1 sesión" />
+            </div>
+            <div>
+              <label for="cr-nivel" class="etiqueta">Nivel TIC del docente</label>
+              <select id="cr-nivel" formControlName="nivel_tic" class="campo">
+                <option value="">Sin indicar</option>
+                @for (n of niveles; track n[0]) { <option [value]="n[0]">{{ n[1] }}</option> }
+              </select>
+            </div>
+            <div>
+              <label for="cr-autor" class="etiqueta">Autor</label>
+              <input id="cr-autor" type="text" formControlName="autor" class="campo" />
+            </div>
+            <div>
+              <label for="cr-fuente" class="etiqueta">Fuente</label>
+              <input id="cr-fuente" type="text" formControlName="fuente" class="campo" placeholder="Ej.: phet.colorado.edu" />
+            </div>
+            <div>
+              <label for="cr-licencia" class="etiqueta">Licencia</label>
+              <input id="cr-licencia" type="text" formControlName="licencia" class="campo" placeholder="Ej.: Creative Commons" />
+            </div>
+          </div>
+          <div>
+            <label for="cr-etiquetas" class="etiqueta">Etiquetas</label>
+            <input id="cr-etiquetas" type="text" formControlName="etiquetas" class="campo" placeholder="Ej.: fracciones, juego, interactivo" aria-describedby="cr-etiquetas-ayuda" />
+            <p id="cr-etiquetas-ayuda" class="mt-1 text-sm text-secundario">Sepáralas con comas. Ayudan a encontrar el recurso.</p>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primario w-full sm:w-auto" [disabled]="enviando()">
+          {{ enviando() ? 'Enviando…' : 'Enviar a revisión' }}
+        </button>
+      </form>
+    }
+  </div>
+</section>

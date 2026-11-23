@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { rolGuard } from './core/guards/auth.guard';
+import { authGuard, rolGuard } from './core/guards/auth.guard';
 
 // Cada página se carga solo cuando se visita (loadComponent).
 export const routes: Routes = [
@@ -12,6 +12,20 @@ export const routes: Routes = [
     path: 'recursos',
     title: 'Recursos · Portal TIC Docente',
     loadComponent: () => import('./pages/recursos/recursos').then((m) => m.RecursosPage),
+  },
+  {
+    // Va antes de recursos/:id para que "compartir" no se tome como un id.
+    path: 'recursos/compartir',
+    title: 'Compartir un recurso · Portal TIC Docente',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/recursos/compartir-recurso').then((m) => m.CompartirRecursoPage),
+  },
+  {
+    path: 'recursos/:id',
+    title: 'Recurso · Portal TIC Docente',
+    loadComponent: () =>
+      import('./pages/recurso-detalle/recurso-detalle').then((m) => m.RecursoDetallePage),
   },
   {
     path: 'login',

@@ -1,29 +1,28 @@
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { AREAS, GRADOS, NIVELES_TIC, TIPOS_RECURSO, type Recurso } from '@portal/shared';
+import { Router, RouterLink } from '@angular/router';
+import { AREAS, GRADOS, TIPOS_RECURSO, type Recurso } from '@portal/shared';
 import { mensajeDeError } from '../../core/services/errores';
 import { RecursosService } from '../../core/services/recursos.service';
 import { SupabaseService } from '../../core/services/supabase.service';
+import { normalizar } from '../../shared/enlaces';
+import { Filtros, type Filtro, type ValoresFiltro } from '../../shared/filtros/filtros';
+import { Icono } from '../../shared/icono/icono';
+import { TarjetaRecurso } from '../../shared/tarjeta-recurso/tarjeta-recurso';
 
 const TODAS_AREAS = 'Todas las áreas';
 const TODOS_GRADOS = 'Todos los grados';
 
-/** Quita tildes y mayúsculas para que "robotica" encuentre "Robótica". */
-const normalizar = (texto: string) =>
-  texto.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
-
 /** Solo acepta valores del catálogo; cualquier otro valor de la URL se ignora. */
-const delCatalogo = <T extends string>(lista: readonly T[], valor: string | undefined): T | '' =>
-  valor && (lista as readonly string[]).includes(valor) ? (valor as T) : '';
-
-type Filtro = 'q' | 'area' | 'grado' | 'tipo';
+const delCatalogo = (lista: readonly string[], valor: string | undefined): string =>
+  valor && lista.includes(valor) ? valor : '';
 
 /**
- * Catálogo de recursos publicados. Lo ve cualquiera, con o sin sesión.
+ * Banco de recursos: los publicados, para cualquiera (con o sin sesión).
  * Los filtros viven en la URL (?q=&area=&grado=&tipo=) para poder compartir una búsqueda.
  */
 @Component({
   selector: 'app-recursos',
+  imports: [RouterLink, Filtros, TarjetaRecurso, Icono],
   templateUrl: './recursos.html',
 })
 export class RecursosPage implements OnInit {
@@ -37,17 +36,11 @@ export class RecursosPage implements OnInit {
   readonly grado = input<string>();
   readonly tipo = input<string>();
 
-  /** En los filtros no tiene sentido elegir "Todas…": eso es no filtrar. */
-  protected readonly areas = AREAS.filter((a) => a !== TODAS_AREAS);
-  protected readonly grados = GRADOS.filter((g) => g !== TODOS_GRADOS);
-  protected readonly tipos = TIPOS_RECURSO;
-  protected readonly niveles = NIVELES_TIC;
-
   protected readonly recursos = signal<Recurso[]>([]);
   protected readonly cargando = signal(true);
   protected readonly error = signal<string | null>(null);
 
-  protected readonly filtros = computed(() => ({
+  protected readonly filtros = computed<ValoresFiltro>(() => ({
     q: (this.q() ?? '').trim(),
     area: delCatalogo(AREAS, this.area()),
     grado: delCatalogo(GRADOS, this.grado()),
@@ -65,11 +58,7 @@ export class RecursosPage implements OnInit {
       if (grado && r.grado !== grado && r.grado !== TODOS_GRADOS) return false;
       if (tipo && r.tipo !== tipo) return false;
       if (!palabras.length) return true;
-      const texto = normalizar(
-        [r.titulo, r.descripcion, r.tema_unidad, r.competencias, r.herramienta, r.area, r.tipo, ...r.etiquetas]
-          .filter(Boolean)
-          .join(' '),
-      );
+      const texto = normalizar([r.titulo, r.descripcion ?? '', ...r.etiquetas].join(' '));
       return palabras.every((p) => texto.includes(p));
     });
   });
@@ -90,7 +79,7 @@ export class RecursosPage implements OnInit {
     }
   }
 
-  protected filtrar(filtro: Filtro, valor: string): void {
+  protected filtrar({ filtro, valor }: { filtro: Filtro; valor: string }): void {
     void this.router.navigate([], {
       // Sin trim: si no, al escribir "dos palabras" se borraría el espacio. Se recorta al filtrar.
       queryParams: { [filtro]: valor || null },
@@ -101,9 +90,5 @@ export class RecursosPage implements OnInit {
 
   protected limpiar(): void {
     void this.router.navigate([], { queryParams: {}, replaceUrl: true });
-  }
-
-  protected esEnlaceWeb(valor: string): boolean {
-    return /^https?:\/\//i.test(valor);
   }
 }
