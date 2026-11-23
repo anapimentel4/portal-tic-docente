@@ -2,6 +2,6 @@
 // La anon key puede ir aquí porque la protección real está en las reglas RLS de Postgres.
 // NUNCA pongas aquí la service_role key.
 export const environment = {
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+  supabaseUrl: 'https://lafgfcogebfkpwxkedrf.supabase.co',
+  supabaseAnonKey: 'sb_publishable_Vi0fDMPFim570ITcxfzCww_xRC8pWf2',
 };
