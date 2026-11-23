@@ -13,7 +13,21 @@ export type CambiosRevision = Partial<Record<ChequeoRecurso, boolean>> & { estad
 export class RecursosService {
   private readonly supabase = inject(SupabaseService).client;
 
-  /** Todos los recursos que el usuario puede ver, los más recientes primero. */
+  /**
+   * Solo los publicados, por título (catálogo para docentes).
+   * El filtro por estado es explícito: a la dinamizadora RLS le deja ver todos.
+   */
+  async listarPublicados(): Promise<Recurso[]> {
+    const { data, error } = await this.supabase
+      .from('recursos')
+      .select('*')
+      .eq('estado', 'publicado')
+      .order('titulo');
+    if (error) throw error;
+    return data as Recurso[];
+  }
+
+  /** Todos los recursos que el usuario puede ver, los más recientes primero (panel). */
   async listarTodos(): Promise<Recurso[]> {
     const { data, error } = await this.supabase
       .from('recursos')

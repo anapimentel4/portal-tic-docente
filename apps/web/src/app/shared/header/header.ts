@@ -19,7 +19,10 @@ export class Header {
   protected readonly menuAbierto = signal(false);
 
   /** Enlaces del menú. Cada fase agrega los suyos. */
-  protected readonly enlaces: EnlaceMenu[] = [{ texto: 'Inicio', ruta: '/' }];
+  protected readonly enlaces: EnlaceMenu[] = [
+    { texto: 'Inicio', ruta: '/' },
+    { texto: 'Recursos', ruta: '/recursos' },
+  ];
 
   protected alternarMenu(): void {
     this.menuAbierto.update((abierto) => !abierto);

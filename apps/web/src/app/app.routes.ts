@@ -9,6 +9,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/inicio/inicio').then((m) => m.InicioPage),
   },
   {
+    path: 'recursos',
+    title: 'Recursos · Portal TIC Docente',
+    loadComponent: () => import('./pages/recursos/recursos').then((m) => m.RecursosPage),
+  },
+  {
     path: 'login',
     title: 'Entrar · Portal TIC Docente',
     loadComponent: () => import('./pages/login/login').then((m) => m.LoginPage),

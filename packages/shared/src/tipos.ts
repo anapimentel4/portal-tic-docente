@@ -1,4 +1,4 @@
-import type { Area, EstadoRecurso, Grado, NivelTic, Rol, TipoRecurso } from './catalogos';
+import type { Area, EstadoRecurso, EstadoSolicitud, Grado, NivelTic, Rol, TipoRecurso, TipoSolicitud } from './catalogos';
 
 /** Fila de la tabla profiles (una por usuario de Supabase Auth). */
 export interface Perfil {
@@ -39,5 +39,30 @@ export interface Recurso extends Record<ChequeoRecurso, boolean> {
   etiquetas: string[];
   fecha_registro: string;
   creado_por: string | null;
+  created_at: string;
+}
+
+/** Fila de la tabla proyectos_robotica. */
+export interface ProyectoRobotica {
+  id: string;
+  titulo: string;
+  area: Area;
+  grado: Grado;
+  competencias: string | null;
+  materiales: string | null;
+  pasos: string | null;
+  foto_url: string | null;
+  estado: EstadoRecurso;
+  created_at: string;
+}
+
+/** Fila de la tabla solicitudes. */
+export interface Solicitud {
+  id: string;
+  docente_id: string;
+  tipo: TipoSolicitud;
+  fecha_deseada: string | null;
+  detalle: string;
+  estado: EstadoSolicitud;
   created_at: string;
 }
