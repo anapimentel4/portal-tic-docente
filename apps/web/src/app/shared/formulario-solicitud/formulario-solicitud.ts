@@ -1,10 +1,11 @@
-import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, output, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TIPOS_SOLICITUD, type TipoSolicitud } from '@portal/shared';
 import { AuthService } from '../../core/services/auth.service';
 import { mensajeDeError } from '../../core/services/errores';
 import { SolicitudesService } from '../../core/services/solicitudes.service';
+import { Icono } from '../icono/icono';
 
 const MAX_DETALLE = 1000;
 
@@ -15,18 +16,27 @@ function hoy(): string {
 }
 
 /**
- * Formulario de apoyo (página de inicio): acompañamiento, problema técnico o reservas.
- * Crea una fila en solicitudes; la dinamizadora la ve en el panel.
+ * Formulario de solicitud: tipo, fecha deseada y detalle. Lo usan Inicio y "Mis solicitudes".
+ * Crea una fila en solicitudes (pendiente); la dinamizadora la ve en el panel.
  */
 @Component({
-  selector: 'app-formulario-apoyo',
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './formulario-apoyo.html',
+  selector: 'app-formulario-solicitud',
+  imports: [ReactiveFormsModule, RouterLink, Icono],
+  templateUrl: './formulario-solicitud.html',
+  host: { class: 'block scroll-mt-20' },
 })
-export class FormularioApoyo {
+export class FormularioSolicitud {
   protected readonly auth = inject(AuthService);
   private readonly servicio = inject(SolicitudesService);
   private readonly fb = inject(FormBuilder).nonNullable;
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  readonly titulo = input('¿Necesitas apoyo?');
+  readonly descripcion = input(
+    'Pide acompañamiento en el aula, reporta un problema técnico o reserva el laboratorio, los kits o las laptops.',
+  );
+  /** Avisa cuando se guardó una solicitud (Mis solicitudes recarga su lista). */
+  readonly enviada = output<void>();
 
   protected readonly tipos = Object.entries(TIPOS_SOLICITUD) as [TipoSolicitud, string][];
   protected readonly maxDetalle = MAX_DETALLE;
@@ -34,10 +44,9 @@ export class FormularioApoyo {
 
   protected readonly enviando = signal(false);
   protected readonly error = signal<string | null>(null);
-  protected readonly enviada = signal(false);
+  protected readonly confirmacion = signal(false);
 
   private readonly campoTipo = viewChild<ElementRef<HTMLSelectElement>>('campoTipo');
-  private readonly seccion = viewChild.required<ElementRef<HTMLElement>>('seccion');
 
   protected readonly form = this.fb.group({
     tipo: ['' as TipoSolicitud | '', Validators.required],
@@ -46,11 +55,11 @@ export class FormularioApoyo {
     detalle: ['', [Validators.required, Validators.pattern(/\S/), Validators.maxLength(MAX_DETALLE)]],
   });
 
-  /** Lo usa el módulo "Soporte y acompañamiento": lleva al formulario (y elige el tipo si se indica). */
+  /** Lleva al usuario hasta el formulario (y elige el tipo si se indica). */
   abrir(tipo?: TipoSolicitud): void {
-    this.enviada.set(false);
+    this.confirmacion.set(false);
     if (tipo) this.form.controls.tipo.setValue(tipo);
-    this.seccion().nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    this.host.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     // El foco va al formulario (si hay sesión) para que el teclado y el lector de pantalla lo sigan.
     setTimeout(() => this.campoTipo()?.nativeElement.focus({ preventScroll: true }));
   }
@@ -71,7 +80,8 @@ export class FormularioApoyo {
     try {
       await this.servicio.crear({ tipo, fecha_deseada: fecha_deseada || null, detalle: detalle.trim() });
       this.form.reset();
-      this.enviada.set(true);
+      this.confirmacion.set(true);
+      this.enviada.emit();
     } catch (e) {
       this.error.set(mensajeDeError(e));
     } finally {

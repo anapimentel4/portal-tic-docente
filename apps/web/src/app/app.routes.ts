@@ -28,6 +28,36 @@ export const routes: Routes = [
       import('./pages/recurso-detalle/recurso-detalle').then((m) => m.RecursoDetallePage),
   },
   {
+    path: 'robotica',
+    title: 'Robótica educativa · Portal TIC Docente',
+    loadComponent: () => import('./pages/robotica/robotica').then((m) => m.RoboticaPage),
+  },
+  {
+    // Va antes de robotica/:id para que "nuevo" no se tome como un id.
+    path: 'robotica/nuevo',
+    title: 'Nuevo proyecto · Portal TIC Docente',
+    canActivate: [rolGuard('dinamizadora')],
+    loadComponent: () => import('./pages/robotica/proyecto-form').then((m) => m.ProyectoFormPage),
+  },
+  {
+    path: 'robotica/:id',
+    title: 'Proyecto de robótica · Portal TIC Docente',
+    loadComponent: () =>
+      import('./pages/robotica/proyecto-detalle').then((m) => m.ProyectoDetallePage),
+  },
+  {
+    path: 'robotica/:id/editar',
+    title: 'Editar proyecto · Portal TIC Docente',
+    canActivate: [rolGuard('dinamizadora')],
+    loadComponent: () => import('./pages/robotica/proyecto-form').then((m) => m.ProyectoFormPage),
+  },
+  {
+    path: 'solicitudes',
+    title: 'Mis solicitudes · Portal TIC Docente',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/solicitudes/solicitudes').then((m) => m.SolicitudesPage),
+  },
+  {
     path: 'login',
     title: 'Entrar · Portal TIC Docente',
     loadComponent: () => import('./pages/login/login').then((m) => m.LoginPage),

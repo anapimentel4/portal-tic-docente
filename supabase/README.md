@@ -21,6 +21,17 @@ Para un cambio futuro, crea un archivo nuevo con fecha más reciente (no edites 
 
 Se puede volver a ejecutar: no duplica los recursos cuyo enlace ya existe.
 
+## Proyectos de robótica de ejemplo (`seed/proyectos-robotica.ts`)
+
+Crea los 3 proyectos del plan (Semáforo inteligente, Estación meteorológica y Maqueta de ciudad sostenible), publicados y sin foto:
+
+```bash
+pnpm seed:robotica:prueba   # muestra qué se crearía
+pnpm seed:robotica          # los crea (usa el mismo .env)
+```
+
+No duplica: salta los títulos que ya existen. Las fotos se agregan desde el portal (Robótica → proyecto → Editar proyecto).
+
 ## Hacerte dinamizadora
 
 Todo usuario nuevo es `docente`. Después de crear tu cuenta en el portal, ejecuta en el SQL Editor:

@@ -5,14 +5,15 @@ import { AREAS, type ProyectoRobotica } from '@portal/shared';
 import { MODULOS } from '../../core/config/modulos';
 import { AuthService } from '../../core/services/auth.service';
 import { RoboticaService } from '../../core/services/robotica.service';
-import { esEnlaceWeb } from '../../shared/enlaces';
+import { COLORES } from '../../shared/colores';
+import { FormularioSolicitud } from '../../shared/formulario-solicitud/formulario-solicitud';
 import { Icono } from '../../shared/icono/icono';
-import { FormularioApoyo } from './formulario-apoyo';
+import { TarjetaProyecto } from '../../shared/tarjeta-proyecto/tarjeta-proyecto';
 
-/** Fase 3: hero con buscador y área, los 6 módulos, proyectos de robótica destacados y formulario de apoyo. */
+/** Inicio: hero con buscador y área, los 6 módulos, proyectos de robótica destacados y formulario de apoyo. */
 @Component({
   selector: 'app-inicio',
-  imports: [RouterLink, NgTemplateOutlet, Icono, FormularioApoyo],
+  imports: [RouterLink, NgTemplateOutlet, Icono, FormularioSolicitud, TarjetaProyecto],
   templateUrl: './inicio.html',
 })
 export class InicioPage implements OnInit {
@@ -21,10 +22,10 @@ export class InicioPage implements OnInit {
   private readonly robotica = inject(RoboticaService);
 
   protected readonly modulos = MODULOS;
+  protected readonly colores = COLORES;
   protected readonly areas = AREAS.filter((a) => a !== 'Todas las áreas');
   protected readonly proyectos = signal<ProyectoRobotica[]>([]);
-  protected readonly formulario = viewChild.required(FormularioApoyo);
-  protected readonly esEnlaceWeb = esEnlaceWeb;
+  protected readonly formulario = viewChild.required(FormularioSolicitud);
 
   ngOnInit(): void {
     // Los destacados son un extra: si fallan, la sección simplemente no aparece.

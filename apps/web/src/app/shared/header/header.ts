@@ -22,6 +22,8 @@ export class Header {
   protected readonly enlaces: EnlaceMenu[] = [
     { texto: 'Inicio', ruta: '/' },
     { texto: 'Recursos', ruta: '/recursos' },
+    { texto: 'Robótica', ruta: '/robotica' },
+    { texto: 'Solicitudes', ruta: '/solicitudes' },
   ];
 
   protected alternarMenu(): void {

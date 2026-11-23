@@ -162,13 +162,13 @@ portal-tic-docente/
 ## Estado
 
 - [x] Fase 1 — Base del proyecto y primera publicación
-  - Pendiente: los enlaces Robótica y Solicitudes del menú se agregan en la fase 4, junto con sus páginas.
 - [x] Fase 2 — Base de datos, permisos y recursos reales
   - Diferencias con el plan, a decidir en la revisión final: la función se llama `es_dinamizadora()`; los visitantes sin sesión ven los recursos y proyectos publicados; los borradores de robótica solo los ve el panel; talleres, inscripciones y acompañamientos los ven los docentes; gestión lee inventario, incidencias y plan_trabajo.
   - Agregado (aprobado): la base de datos exige las 4 casillas para publicar un recurso (migración 4).
 - [x] Fase 3 — Inicio y Banco de recursos
   - Adelantado de la fase 4: el formulario de apoyo de Inicio.
-- [ ] Fase 4 — Robótica y Solicitudes
+- [x] Fase 4 — Robótica y Solicitudes
+  - Cambio de diseño pedido el 23-nov: las tarjetas tienen colores suaves (paleta en `apps/web/src/app/shared/colores.ts`) en vez de ser solo blancas.
 - [ ] Fase 5 — Panel de la dinamizadora
   - Adelantado: Recursos en revisión (`/panel/recursos`) con las 4 casillas, Aprobar y Rechazar. Falta "Aprobar seleccionados".
 - [ ] Revisión final

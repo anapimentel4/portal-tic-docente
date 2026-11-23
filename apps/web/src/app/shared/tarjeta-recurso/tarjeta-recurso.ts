@@ -1,15 +1,16 @@
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { Recurso } from '@portal/shared';
-import { Badge, COLOR_TIPO } from '../badge/badge';
-import { Icono } from '../icono/icono';
+import { Badge } from '../badge/badge';
+import { COLOR_TIPO, COLORES } from '../colores';
 import { esEnlaceWeb } from '../enlaces';
+import { Icono } from '../icono/icono';
 
-/** Tarjeta del banco de recursos: badge del tipo, título, descripción, área y grado, Ver y Abrir enlace. */
+/** Tarjeta del banco de recursos: tono suave y badge del tipo, título, descripción, área y grado, Ver y Abrir enlace. */
 @Component({
   selector: 'app-tarjeta-recurso',
   imports: [RouterLink, Badge, Icono],
-  host: { class: 'tarjeta flex flex-col' },
+  host: { class: 'tarjeta flex flex-col', '[class]': 'fondo()' },
   template: `
     <div><app-badge [color]="color()">{{ recurso().tipo }}</app-badge></div>
     <h2 class="mt-3 text-lg font-bold leading-snug">{{ recurso().titulo }}</h2>
@@ -34,6 +35,7 @@ import { esEnlaceWeb } from '../enlaces';
 export class TarjetaRecurso {
   readonly recurso = input.required<Recurso>();
   protected readonly color = computed(() => COLOR_TIPO[this.recurso().tipo] ?? 'gris');
+  protected readonly fondo = computed(() => COLORES[this.color()].fondo);
   protected readonly enlace = computed(() =>
     esEnlaceWeb(this.recurso().enlace_o_archivo) ? this.recurso().enlace_o_archivo : null,
   );

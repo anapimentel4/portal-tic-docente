@@ -11,7 +11,9 @@
     "build": "pnpm --filter web build",
     "test:rls": "node supabase/pruebas/rls.test.mjs",
     "seed:recursos": "node --env-file=.env supabase/seed/importar-recursos.ts",
-    "seed:recursos:prueba": "node supabase/seed/importar-recursos.ts --prueba"
+    "seed:recursos:prueba": "node supabase/seed/importar-recursos.ts --prueba",
+    "seed:robotica": "node --env-file=.env supabase/seed/proyectos-robotica.ts",
+    "seed:robotica:prueba": "node supabase/seed/proyectos-robotica.ts --prueba"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.17"

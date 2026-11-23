@@ -1,0 +1,107 @@
+<section class="contenedor py-10">
+  <div class="mx-auto max-w-3xl">
+    <a
+      [routerLink]="editando() ? ['/robotica', id()] : ['/robotica']"
+      class="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-primario hover:underline"
+    >
+      <app-icono nombre="volver" clase="size-4 shrink-0" /> {{ editando() ? 'Volver al proyecto' : 'Volver a robótica educativa' }}
+    </a>
+    <h1 class="mt-2 text-3xl font-bold">{{ editando() ? 'Editar proyecto' : 'Nuevo proyecto de robótica' }}</h1>
+
+    @if (cargando()) {
+      <p class="mt-6 text-secundario" role="status">Cargando proyecto…</p>
+    } @else if (noEncontrado()) {
+      <div class="tarjeta mt-6">
+        <p class="font-semibold">No encontramos este proyecto.</p>
+        <a routerLink="/robotica" class="btn btn-primario mt-4">Ver los proyectos</a>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate class="tarjeta mt-6 space-y-5">
+        @if (error()) {
+          <p class="rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">No se guardó: {{ error() }}</p>
+        }
+        <p class="text-sm text-secundario">Los campos marcados con * son obligatorios.</p>
+
+        <div>
+          <label for="pf-titulo" class="etiqueta">Título *</label>
+          <input id="pf-titulo" type="text" formControlName="titulo" class="campo" maxlength="150" />
+          @if (invalido('titulo')) { <p class="error-campo">Escribe el título del proyecto.</p> }
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <label for="pf-area" class="etiqueta">Área *</label>
+            <select id="pf-area" formControlName="area" class="campo">
+              <option value="" disabled>Elige</option>
+              @for (a of areas; track a) { <option [value]="a">{{ a }}</option> }
+            </select>
+            @if (invalido('area')) { <p class="error-campo">Elige el área.</p> }
+          </div>
+          <div>
+            <label for="pf-grado" class="etiqueta">Grado *</label>
+            <select id="pf-grado" formControlName="grado" class="campo">
+              <option value="" disabled>Elige</option>
+              @for (g of grados; track g) { <option [value]="g">{{ g }}</option> }
+            </select>
+            @if (invalido('grado')) { <p class="error-campo">Elige el grado.</p> }
+          </div>
+          <div>
+            <label for="pf-estado" class="etiqueta">Visible para</label>
+            <select id="pf-estado" formControlName="estado" class="campo" aria-describedby="pf-estado-ayuda">
+              <option value="publicado">Todos (publicado)</option>
+              <option value="en_revision">Solo el panel (borrador)</option>
+            </select>
+          </div>
+        </div>
+        <p id="pf-estado-ayuda" class="-mt-2 text-sm text-secundario">Un borrador no lo ven los docentes hasta que lo publiques.</p>
+
+        <div>
+          <label for="pf-competencias" class="etiqueta">Competencias</label>
+          <textarea id="pf-competencias" formControlName="competencias" rows="2" class="campo" placeholder="Ej.: Pensamiento lógico, creativo y crítico; Resolución de problemas"></textarea>
+        </div>
+
+        <div>
+          <label for="pf-materiales" class="etiqueta">Materiales del kit</label>
+          <textarea id="pf-materiales" formControlName="materiales" rows="5" class="campo" aria-describedby="pf-materiales-ayuda" placeholder="Placa Arduino Uno&#10;Protoboard&#10;3 LED"></textarea>
+          <p id="pf-materiales-ayuda" class="mt-1 text-sm text-secundario">Un material por línea.</p>
+        </div>
+
+        <div>
+          <label for="pf-pasos" class="etiqueta">Pasos</label>
+          <textarea id="pf-pasos" formControlName="pasos" rows="7" class="campo" aria-describedby="pf-pasos-ayuda" placeholder="Conecta los LED a la protoboard&#10;Programa la secuencia&#10;Prueba y ajusta los tiempos"></textarea>
+          <p id="pf-pasos-ayuda" class="mt-1 text-sm text-secundario">Un paso por línea. Se numeran solos.</p>
+        </div>
+
+        <div>
+          <label for="pf-foto" class="etiqueta">Foto</label>
+          @if (vistaPrevia(); as url) {
+            <img [src]="url" alt="Vista previa de la foto" class="mb-3 aspect-video w-full max-w-sm rounded-xl border border-borde object-cover" />
+          }
+          <div class="flex flex-wrap items-center gap-2">
+            <input
+              #campoFoto
+              id="pf-foto"
+              type="file"
+              [accept]="fotoTipos"
+              class="block w-full text-sm file:mr-3 file:min-h-11 file:cursor-pointer file:rounded-xl file:border file:border-borde file:bg-white file:px-4 file:font-semibold file:text-oscuro hover:file:bg-fondo sm:w-auto"
+              aria-describedby="pf-foto-ayuda"
+              (change)="elegirFoto($event)"
+            />
+            @if (vistaPrevia()) {
+              <button type="button" class="btn btn-secundario" (click)="quitarFoto(campoFoto)">Quitar foto</button>
+            }
+          </div>
+          <p id="pf-foto-ayuda" class="mt-1 text-sm text-secundario">JPG, PNG o WebP, de hasta {{ fotoMaxMb }} MB.</p>
+          @if (errorFoto()) { <p class="error-campo" role="alert">{{ errorFoto() }}</p> }
+        </div>
+
+        <div class="flex flex-wrap gap-2 border-t border-borde pt-5">
+          <button type="submit" class="btn btn-primario" [disabled]="guardando()">
+            {{ guardando() ? 'Guardando…' : editando() ? 'Guardar cambios' : 'Crear proyecto' }}
+          </button>
+          <a [routerLink]="editando() ? ['/robotica', id()] : ['/robotica']" class="btn btn-secundario">Cancelar</a>
+        </div>
+      </form>
+    }
+  </div>
+</section>
