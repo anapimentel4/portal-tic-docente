@@ -10,7 +10,7 @@ import { Icono } from '../icono/icono';
 @Component({
   selector: 'app-tarjeta-recurso',
   imports: [RouterLink, Badge, Icono],
-  host: { class: 'tarjeta flex flex-col', '[class]': 'fondo()' },
+  host: { class: 'tarjeta tarjeta-interactiva flex flex-col', '[class]': 'fondo()' },
   template: `
     <div><app-badge [color]="color()">{{ recurso().tipo }}</app-badge></div>
     <h2 class="mt-3 text-lg font-bold leading-snug">{{ recurso().titulo }}</h2>

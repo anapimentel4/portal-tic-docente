@@ -170,6 +170,7 @@ portal-tic-docente/
 - [x] Fase 4 — Robótica y Solicitudes
   - Cambio de diseño pedido el 23-nov: las tarjetas tienen colores suaves (paleta en `apps/web/src/app/shared/colores.ts`) en vez de ser solo blancas.
   - Agregado (aprobado el 23-nov, según el mockup): en Inicio, los proyectos de robótica van en una franja oscura con etiquetas de área y grado y una frase corta (campo `descripcion`, migración 6). Lo demás del mockup (talleres, "Esta semana", buenas prácticas) queda para después de la auditoría.
+  - Cambio de diseño pedido el 23-nov ("más profesional y tecnológico"): hero oscuro con cuadrícula tipo circuito, cifras reales y "Lo más nuevo en el banco"; encabezados oscuros en Recursos, Robótica y Mis solicitudes; tarjetas que se elevan al pasar el ratón; nombre del centro en el encabezado. Mismos colores y fuentes del plan (estilos en `apps/web/src/styles.css`).
 - [x] Fase 5 — Panel de la dinamizadora
   - Agregado (aprobado): en Recursos en revisión, las pestañas Publicados/Rechazados y el botón "Volver a revisión".
 - [ ] Revisión final

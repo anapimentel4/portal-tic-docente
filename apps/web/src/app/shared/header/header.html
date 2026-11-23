@@ -2,7 +2,10 @@
   <div class="contenedor flex h-16 items-center justify-between gap-4">
     <a routerLink="/" class="flex items-center gap-2" (click)="cerrarMenu()">
       <img src="favicon.svg" alt="" class="h-9 w-9" width="36" height="36" />
-      <span class="font-titulo text-lg font-bold leading-tight text-oscuro">Portal TIC Docente</span>
+      <span class="leading-tight">
+        <span class="block font-titulo text-lg font-bold text-oscuro">Portal TIC Docente</span>
+        <span class="block text-xs text-secundario">{{ centro }}</span>
+      </span>
     </a>
 
     <!-- Menú de computadora -->
@@ -10,7 +13,7 @@
       @for (enlace of enlaces; track enlace.ruta) {
         <a
           [routerLink]="enlace.ruta"
-          routerLinkActive="bg-fondo text-primario"
+          routerLinkActive="bg-primario/10 text-primario!"
           [routerLinkActiveOptions]="{ exact: enlace.ruta === '/' }"
           class="rounded-lg px-3 py-2 text-sm font-medium text-secundario hover:text-oscuro"
           >{{ enlace.texto }}</a
@@ -19,7 +22,7 @@
       @if (auth.puedeVerPanel()) {
         <a
           routerLink="/panel"
-          routerLinkActive="bg-fondo text-primario"
+          routerLinkActive="bg-primario/10 text-primario!"
           class="rounded-lg px-3 py-2 text-sm font-medium text-secundario hover:text-oscuro"
           >Panel</a
         >
@@ -61,7 +64,7 @@
         @for (enlace of enlaces; track enlace.ruta) {
           <a
             [routerLink]="enlace.ruta"
-            routerLinkActive="bg-fondo text-primario"
+            routerLinkActive="bg-primario/10 text-primario!"
             [routerLinkActiveOptions]="{ exact: enlace.ruta === '/' }"
             class="rounded-lg px-3 py-3 font-medium text-oscuro"
             (click)="cerrarMenu()"
@@ -69,7 +72,7 @@
           >
         }
         @if (auth.puedeVerPanel()) {
-          <a routerLink="/panel" routerLinkActive="bg-fondo text-primario" class="rounded-lg px-3 py-3 font-medium text-oscuro" (click)="cerrarMenu()">Panel</a>
+          <a routerLink="/panel" routerLinkActive="bg-primario/10 text-primario!" class="rounded-lg px-3 py-3 font-medium text-oscuro" (click)="cerrarMenu()">Panel</a>
         }
         <div class="mt-2 border-t border-borde pt-3">
           @if (auth.usuario()) {

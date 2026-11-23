@@ -1,19 +1,21 @@
-<section class="contenedor py-10">
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+<header class="fondo-tecnologico encabezado-pagina">
+  <span class="brillo -top-24 -right-24 size-80 bg-acento/30" aria-hidden="true"></span>
+  <div class="contenedor flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
     <div>
-      <h1 class="text-3xl font-bold">Robótica educativa</h1>
-      <p class="mt-2 max-w-2xl text-secundario">
-        Proyectos con el kit de robótica del centro: competencias, materiales y pasos para llevarlos al aula.
-      </p>
+      <p class="antetitulo text-amber-300">Aprender haciendo</p>
+      <h1 class="mt-2 text-3xl font-bold sm:text-4xl">Robótica educativa</h1>
+      <p class="mt-2 max-w-2xl">Proyectos con el kit de robótica del centro: competencias, materiales y pasos para llevarlos al aula.</p>
     </div>
     @if (auth.rol() === 'dinamizadora') {
-      <a routerLink="/robotica/nuevo" class="btn btn-primario shrink-0">
+      <a routerLink="/robotica/nuevo" class="btn shrink-0 bg-white text-oscuro hover:bg-slate-100">
         <app-icono nombre="mas" /> Nuevo proyecto
       </a>
     }
   </div>
+</header>
 
-  <form class="tarjeta mt-6 grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end" role="search" aria-label="Filtrar proyectos" (submit)="$event.preventDefault()">
+<section class="contenedor py-8">
+  <form class="tarjeta grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end" role="search" aria-label="Filtrar proyectos" (submit)="$event.preventDefault()">
     <div>
       <label for="rob-area" class="etiqueta">Área</label>
       <select id="rob-area" class="campo" (change)="filtrar('area', $any($event.target).value)">
@@ -60,7 +62,7 @@
     } @else {
       <ul class="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         @for (p of visibles(); track p.id) {
-          <li><app-tarjeta-proyecto class="h-full" [proyecto]="p" /></li>
+          <li><app-tarjeta-proyecto class="tarjeta-interactiva h-full rounded-2xl" [proyecto]="p" /></li>
         }
       </ul>
     }

@@ -1,17 +1,19 @@
-<section class="contenedor py-10">
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+<header class="fondo-tecnologico encabezado-pagina">
+  <span class="brillo -top-24 -right-24 size-80 bg-primario/50" aria-hidden="true"></span>
+  <div class="contenedor flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
     <div>
-      <h1 class="text-3xl font-bold">Banco de recursos</h1>
-      <p class="mt-2 max-w-2xl text-secundario">
-        Materiales revisados por la dinamizadora TIC, listos para usar en tu clase.
-      </p>
+      <p class="antetitulo text-amber-300">Revisados por la dinamizadora TIC</p>
+      <h1 class="mt-2 text-3xl font-bold sm:text-4xl">Banco de recursos</h1>
+      <p class="mt-2 max-w-2xl">Guías, videos, plantillas y herramientas web listas para usar en tu clase.</p>
     </div>
-    <a routerLink="/recursos/compartir" class="btn btn-secundario shrink-0">
+    <a routerLink="/recursos/compartir" class="btn shrink-0 bg-white text-oscuro hover:bg-slate-100">
       <app-icono nombre="mas" /> Compartir un recurso
     </a>
   </div>
+</header>
 
-  <div class="mt-6">
+<section class="contenedor py-8">
+  <div>
     <app-filtros
       [valores]="filtros()"
       [textoBusqueda]="q() ?? ''"

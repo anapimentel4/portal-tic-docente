@@ -28,6 +28,11 @@ Primera versión para la auditoría del 25 de noviembre de 2026. Plan completo y
 - Inicio: proyectos de robótica en una franja oscura, con área, grado y una frase corta (migración 6).
 - Solicitudes: formulario (acompañamiento, problema técnico y reservas) y "Mis solicitudes" con el estado de cada una.
 
+## Diseño (23 de noviembre)
+- Inicio más tecnológico: hero oscuro con cuadrícula tipo circuito, cifras reales del portal (recursos, proyectos y áreas) y "Lo más nuevo en el banco".
+- Secciones con antetítulo, tarjetas que se elevan al pasar el ratón y sección de apoyo en dos columnas.
+- Encabezados oscuros en Recursos, Robótica y Mis solicitudes, y el nombre del centro bajo el logo.
+
 ## Fase 5 — Panel de la dinamizadora
 - Menú lateral: Resumen, Recursos en revisión y Solicitudes; Talleres, Inventario y Acompañamientos como "Próximamente".
 - Resumen con indicadores reales que se actualizan después de cada acción.

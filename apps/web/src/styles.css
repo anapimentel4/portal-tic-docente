@@ -66,4 +66,54 @@
   .error-campo {
     @apply mt-1 text-sm text-red-700;
   }
+
+  /* ---------- Estilo tecnológico (secciones oscuras) ---------- */
+
+  /* Fondo oscuro con cuadrícula tipo circuito que se desvanece hacia los bordes. */
+  .fondo-tecnologico {
+    @apply relative isolate overflow-hidden bg-oscuro text-white;
+  }
+  .fondo-tecnologico::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 100%);
+  }
+  .fondo-tecnologico :is(h1, h2, h3) {
+    @apply text-white;
+  }
+
+  /* Brillos de color detrás del contenido (decorativos). */
+  .brillo {
+    @apply pointer-events-none absolute -z-10 rounded-full blur-3xl;
+  }
+
+  /* Texto con degradado azul → ámbar. */
+  .texto-degradado {
+    @apply bg-gradient-to-r from-sky-300 via-blue-300 to-amber-200 bg-clip-text text-transparent;
+  }
+
+  /* Etiqueta pequeña sobre los títulos de sección. */
+  .antetitulo {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-acento uppercase;
+  }
+
+  /* Tarjetas que se elevan al pasar el ratón (con respeto a "reducir movimiento"). */
+  .tarjeta-interactiva {
+    @apply transition duration-200 hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0;
+  }
+
+  /* Encabezado de las páginas internas (Recursos, Robótica, Solicitudes).
+     Se usa junto con fondo-tecnologico: class="fondo-tecnologico encabezado-pagina". */
+  .encabezado-pagina > .contenedor {
+    @apply py-10 sm:py-12;
+  }
+  .encabezado-pagina p {
+    @apply text-slate-300;
+  }
 }

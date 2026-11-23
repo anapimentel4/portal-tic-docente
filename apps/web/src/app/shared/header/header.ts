@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CONTACTO } from '../../core/config/contacto';
 import { AuthService } from '../../core/services/auth.service';
 
 interface EnlaceMenu {
@@ -16,6 +17,7 @@ export class Header {
   protected readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
+  protected readonly centro = CONTACTO.centro;
   protected readonly menuAbierto = signal(false);
 
   /** Enlaces del menú. Cada fase agrega los suyos. */

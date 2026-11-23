@@ -1,10 +1,16 @@
-<section class="contenedor py-10">
-  <h1 class="text-3xl font-bold">Mis solicitudes</h1>
-  <p class="mt-2 max-w-2xl text-secundario">
-    Pide acompañamiento, reporta un problema técnico o reserva el laboratorio, los kits o las laptops, y sigue aquí cómo va cada pedido.
-  </p>
+<header class="fondo-tecnologico encabezado-pagina">
+  <span class="brillo -top-24 -right-24 size-80 bg-primario/50" aria-hidden="true"></span>
+  <div class="contenedor">
+    <p class="antetitulo text-amber-300">Soporte y acompañamiento</p>
+    <h1 class="mt-2 text-3xl font-bold sm:text-4xl">Mis solicitudes</h1>
+    <p class="mt-2 max-w-2xl">
+      Pide acompañamiento, reporta un problema técnico o reserva el laboratorio, los kits o las laptops, y sigue aquí cómo va cada pedido.
+    </p>
+  </div>
+</header>
 
-  <div class="mt-6 grid gap-6 lg:grid-cols-[3fr_2fr] lg:items-start">
+<section class="contenedor py-8">
+  <div class="grid gap-6 lg:grid-cols-[3fr_2fr] lg:items-start">
     <section aria-labelledby="lista-titulo">
       <h2 id="lista-titulo" class="sr-only">Solicitudes enviadas</h2>
       @if (cargando()) {
