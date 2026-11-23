@@ -10,6 +10,16 @@ Se ejecutan **una vez y en orden** en Supabase → SQL Editor → New query (peg
 
 Para un cambio futuro, crea un archivo nuevo con fecha más reciente (no edites los ya ejecutados).
 
+## Importar recursos.csv (`seed/`)
+
+1. Exporta la hoja de catalogación como CSV y guárdala como `recursos.csv` en la raíz del repo.
+2. Revisa sin guardar nada: `pnpm seed:recursos:prueba` (dice qué filas tienen errores y por qué).
+3. En `.env` (copia de `.env.example`) pon `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY`
+   (Supabase → Project Settings → API Keys → secret / service_role).
+4. Importa: `pnpm seed:recursos`.
+
+Se puede volver a ejecutar: no duplica los recursos cuyo enlace ya existe.
+
 ## Hacerte dinamizadora
 
 Todo usuario nuevo es `docente`. Después de crear tu cuenta en el portal, ejecuta en el SQL Editor:

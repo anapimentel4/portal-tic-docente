@@ -1,6 +1,7 @@
 {
   "name": "portal-tic-docente",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@12.21.0",
   "engines": {
     "node": "24.x"
@@ -8,7 +9,9 @@
   "scripts": {
     "dev": "pnpm --filter web start",
     "build": "pnpm --filter web build",
-    "test:rls": "node supabase/pruebas/rls.test.mjs"
+    "test:rls": "node supabase/pruebas/rls.test.mjs",
+    "seed:recursos": "node --env-file=.env supabase/seed/importar-recursos.ts",
+    "seed:recursos:prueba": "node supabase/seed/importar-recursos.ts --prueba"
   },
   "devDependencies": {
     "@electric-sql/pglite": "0.5.17"
