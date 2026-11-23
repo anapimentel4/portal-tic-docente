@@ -77,9 +77,10 @@ ok((await como(ana, `update public.profiles set rol = 'gestion' where id = $1`, 
 ok((await como(geo, `select * from public.profiles`)).rows.length === 3, 'gestión ve todos los perfiles');
 
 console.log('\nRecursos');
-await db.query(`insert into public.recursos (titulo, area, grado, tipo, estado, enlace_o_archivo) values
-  ('Publicado', 'Matemática', '1.º Secundaria', 'Guía', 'publicado', 'https://a'),
-  ('Rechazado', 'Matemática', '1.º Secundaria', 'Guía', 'rechazado', 'https://b')`);
+const CHEQUEOS = 'bien_clasificado = true, enlace_funciona = true, derechos_uso = true, util_aula = true';
+await db.query(`insert into public.recursos (titulo, area, grado, tipo, estado, enlace_o_archivo, bien_clasificado, enlace_funciona, derechos_uso, util_aula) values
+  ('Publicado', 'Matemática', '1.º Secundaria', 'Guía', 'publicado', 'https://a', true, true, true, true),
+  ('Rechazado', 'Matemática', '1.º Secundaria', 'Guía', 'rechazado', 'https://b', false, false, false, false)`);
 ok((await como(null, `select titulo from public.recursos`)).rows.length === 1, 'sin sesión solo se ven los publicados');
 ok(await falla(null, `insert into public.recursos (titulo, area, grado, tipo, enlace_o_archivo) values ('x','Matemática','1.º Secundaria','Guía','https://x')`), 'sin sesión NO se proponen recursos');
 const insertar = (estado, check = false) =>
@@ -94,7 +95,9 @@ ok((await como(luis, `select titulo from public.recursos`)).rows.length === 2, '
 ok((await como(luis, `update public.recursos set estado = 'publicado' where id = $1`, [propuesto.id])).affectedRows === 0, 'un docente NO aprueba');
 ok((await como(geo, `select * from public.recursos`)).rows.length === 3, 'gestión ve todos los recursos');
 ok((await como(geo, `update public.recursos set estado = 'publicado' where id = $1`, [propuesto.id])).affectedRows === 0, 'gestión NO edita (solo lectura)');
-ok((await como(ana, `update public.recursos set estado = 'publicado', util_aula = true where id = $1`, [propuesto.id])).affectedRows === 1, 'la dinamizadora aprueba con el checklist');
+ok(await falla(ana, `update public.recursos set estado = 'publicado' where id = $1`, [propuesto.id]), 'NI la dinamizadora publica sin las 4 comprobaciones');
+ok(await falla(ana, `update public.recursos set estado = 'publicado', bien_clasificado = true, enlace_funciona = true, derechos_uso = true where id = $1`, [propuesto.id]), 'con 3 de 4 comprobaciones tampoco se publica');
+ok((await como(ana, `update public.recursos set estado = 'publicado', ${CHEQUEOS} where id = $1`, [propuesto.id])).affectedRows === 1, 'la dinamizadora aprueba con el checklist completo');
 
 console.log('\nSolicitudes');
 const sol = (await como(luis, `insert into public.solicitudes (tipo, detalle) values ('problema_tecnico', 'No enciende el proyector') returning id, docente_id, estado`)).rows[0];

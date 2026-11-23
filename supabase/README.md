@@ -7,6 +7,7 @@ Se ejecutan **una vez y en orden** en Supabase → SQL Editor → New query (peg
 1. `20261123000001_tablas.sql`: tipos, tablas y el trigger que crea el perfil al registrarse.
 2. `20261123000002_seguridad_rls.sql`: funciones de rol, reglas RLS e indicadores del panel.
 3. `20261123000003_storage.sql`: buckets `recursos` y `robotica` y sus reglas.
+4. `20261123000004_publicar_con_chequeos.sql`: un recurso solo se publica con las 4 comprobaciones marcadas.
 
 Para un cambio futuro, crea un archivo nuevo con fecha más reciente (no edites los ya ejecutados).
 
