@@ -163,7 +163,7 @@ portal-tic-docente/
 
 - [x] Fase 1 — Base del proyecto y primera publicación
 - [x] Fase 2 — Base de datos, permisos y recursos reales
-  - Diferencias con el plan, a decidir en la revisión final: la función se llama `es_dinamizadora()`; los visitantes sin sesión ven los recursos y proyectos publicados; los borradores de robótica solo los ve el panel; talleres, inscripciones y acompañamientos los ven los docentes; gestión lee inventario, incidencias y plan_trabajo.
+  - Ajustado en la revisión final (migración 5): la función se llama `is_dinamizadora()`; inventario, incidencias y plan_trabajo son solo de la dinamizadora. Se mantiene (decidido): los visitantes sin sesión ven los recursos y proyectos publicados, los borradores de robótica solo los ve el panel, y los docentes ven los talleres y sus propias inscripciones y acompañamientos (tabla Roles).
   - Agregado (aprobado): la base de datos exige las 4 casillas para publicar un recurso (migración 4).
 - [x] Fase 3 — Inicio y Banco de recursos
   - Adelantado de la fase 4: el formulario de apoyo de Inicio.
@@ -172,6 +172,8 @@ portal-tic-docente/
 - [x] Fase 5 — Panel de la dinamizadora
   - Agregado (aprobado): en Recursos en revisión, las pestañas Publicados/Rechazados y el botón "Volver a revisión".
 - [ ] Revisión final
+  - Hecho (23-nov): claves revisadas, pruebas de RLS con los 3 roles (`pnpm test:rls`), páginas públicas sin errores de consola y en celular, ortografía, lista de cambios en `CAMBIOS.md`.
+  - Falta: ejecutar la migración 5 en Supabase, conectar Vercel y hacer el flujo de prueba en la web publicada con una cuenta de cada rol.
 
 ## Fase 2 del proyecto (después de la auditoría)
 

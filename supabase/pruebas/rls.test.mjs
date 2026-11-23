@@ -99,6 +99,16 @@ ok(await falla(ana, `update public.recursos set estado = 'publicado' where id = 
 ok(await falla(ana, `update public.recursos set estado = 'publicado', bien_clasificado = true, enlace_funciona = true, derechos_uso = true where id = $1`, [propuesto.id]), 'con 3 de 4 comprobaciones tampoco se publica');
 ok((await como(ana, `update public.recursos set estado = 'publicado', ${CHEQUEOS} where id = $1`, [propuesto.id])).affectedRows === 1, 'la dinamizadora aprueba con el checklist completo');
 
+// "Aprobar seleccionados" (panel): un solo update para varios. Se borran al final para no cambiar los conteos de abajo.
+const [completo, incompleto] = (await db.query(`insert into public.recursos (titulo, area, grado, tipo, enlace_o_archivo, bien_clasificado, enlace_funciona, derechos_uso, util_aula) values
+  ('Lote completo', 'Matemática', '1.º Secundaria', 'Guía', 'https://lote1', true, true, true, true),
+  ('Lote incompleto', 'Matemática', '1.º Secundaria', 'Guía', 'https://lote2', true, true, true, false) returning id`)).rows.map((r) => r.id);
+ok(await falla(ana, `update public.recursos set estado = 'publicado' where id = any($1)`, [[completo, incompleto]]), 'aprobar seleccionados falla entero si uno no tiene las 4 comprobaciones');
+ok((await db.query(`select count(*)::int as n from public.recursos where id = any($1) and estado = 'publicado'`, [[completo, incompleto]])).rows[0].n === 0, '…y no deja ninguno publicado a medias');
+ok((await como(ana, `update public.recursos set estado = 'publicado' where id = any($1)`, [[completo]])).affectedRows === 1, 'aprobar seleccionados funciona con los completos');
+ok((await como(geo, `update public.recursos set estado = 'en_revision' where id = any($1)`, [[completo]])).affectedRows === 0, 'gestión NO aprueba ni devuelve en lote');
+await db.query(`delete from public.recursos where id = any($1)`, [[completo, incompleto]]);
+
 console.log('\nSolicitudes');
 const sol = (await como(luis, `insert into public.solicitudes (tipo, detalle) values ('problema_tecnico', 'No enciende el proyector') returning id, docente_id, estado`)).rows[0];
 ok(sol.docente_id === luis && sol.estado === 'pendiente', 'un docente crea su solicitud (pendiente)');
@@ -110,6 +120,8 @@ ok((await como(geo, `select * from public.solicitudes`)).rows.length === 0, 'otr
 await db.query(`update public.profiles set rol = 'gestion' where id = $1`, [geo]);
 ok((await como(luis, `update public.solicitudes set estado = 'resuelta' where id = $1`, [sol.id])).affectedRows === 0, 'un docente NO cambia el estado');
 ok((await como(geo, `update public.solicitudes set estado = 'resuelta' where id = $1`, [sol.id])).affectedRows === 0, 'gestión NO cambia el estado');
+ok((await como(geo, `select s.id, p.nombre from public.solicitudes s join public.profiles p on p.id = s.docente_id`)).rows[0]?.nombre === 'Luis', 'gestión ve las solicitudes con el nombre del docente (tabla del panel)');
+ok((await como(luis, `select * from public.solicitudes where docente_id = $1`, [luis])).rows.length === 1, 'el docente ve las suyas en «Mis solicitudes»');
 ok((await como(ana, `update public.solicitudes set estado = 'en_proceso' where id = $1`, [sol.id])).affectedRows === 1, 'la dinamizadora cambia el estado');
 
 console.log('\nRobótica');
@@ -126,8 +138,19 @@ ok(await falla(null, `select public.indicadores_panel()`), 'sin sesión NO se le
 
 console.log('\nPróximamente');
 ok(await falla(luis, `insert into public.inventario (nombre) values ('Laptop')`), 'un docente NO toca el inventario');
+ok((await como(ana, `insert into public.inventario (nombre) values ('Laptop') returning id`)).rows.length === 1, 'la dinamizadora gestiona el inventario');
+for (const tabla of ['inventario', 'incidencias', 'plan_trabajo']) {
+  ok((await como(geo, `select * from public.${tabla}`)).rows.length === 0, `gestión NO lee ${tabla} (solo la dinamizadora)`);
+  ok((await como(luis, `select * from public.${tabla}`)).rows.length === 0, `un docente NO lee ${tabla}`);
+}
+ok((await como(ana, `select * from public.inventario`)).rows.length === 1, 'la dinamizadora lee el inventario');
 ok((await como(ana, `insert into public.talleres (titulo) values ('Canva') returning id`)).rows.length === 1, 'la dinamizadora crea talleres');
 ok((await como(luis, `select * from public.talleres`)).rows.length === 1, 'el docente ve los talleres');
+
+console.log('\nFunciones');
+ok((await db.query(`select count(*)::int as n from pg_proc where proname = 'is_dinamizadora'`)).rows[0].n === 1, 'existe is_dinamizadora() (nombre del plan)');
+ok((await db.query(`select count(*)::int as n from pg_proc where proname = 'es_dinamizadora'`)).rows[0].n === 0, 'ya no existe es_dinamizadora()');
+ok((await como(ana, `select public.is_dinamizadora() as d`)).rows[0].d === true && (await como(geo, `select public.is_dinamizadora() as d`)).rows[0].d === false, 'is_dinamizadora() distingue los roles');
 
 console.log('\nStorage');
 const subir = (uid, bucket, nombre) => como(uid, `insert into storage.objects (bucket_id, name) values ($1, $2)`, [bucket, nombre]);
