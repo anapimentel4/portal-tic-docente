@@ -7,6 +7,10 @@
   },
   "scripts": {
     "dev": "pnpm --filter web start",
-    "build": "pnpm --filter web build"
+    "build": "pnpm --filter web build",
+    "test:rls": "node supabase/pruebas/rls.test.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.17"
   }
 }

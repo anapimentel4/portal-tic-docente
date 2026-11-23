@@ -173,7 +173,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      '@electric-sql/pglite':
+        specifier: 0.5.17
+        version: 0.5.17
 
   apps/web:
     dependencies:
@@ -443,6 +447,9 @@ packages:
 
   '@bufbuild/protobuf@2.17.0':
     resolution: {integrity: sha512-hcPkSz6D7MiTU/5VBBhK+kxaYDoOdQ6yJRFJ3kS8Nydp+VZXfg1vrpABKPNod8bXMufsVCmiUJVIKFzCzta4uw==}
+
+  '@electric-sql/pglite@0.5.17':
+    resolution: {integrity: sha512-8SvKjiUjaU+0O0dbxjOfN+jXz14TEqDWbwDkYOW1aQ11y/ph2JvFVI27ABBo5nfw+ZfSqy4hKCNlbnbB1TDE+g==}
 
   '@emnapi/core@2.0.0-alpha.6':
     resolution: {integrity: sha512-MNVvMV7WtEJMgqaWJMvCyupK7Oi8sZctUIgPRZTsiS3cVvefk8DXPflOU3MSBddtj/rrYHygpYgpHDgwXnI3+w==}
@@ -2729,6 +2736,8 @@ snapshots:
       '@babel/helper-validator-identifier': 8.0.6
 
   '@bufbuild/protobuf@2.17.0': {}
+
+  '@electric-sql/pglite@0.5.17': {}
 
   '@emnapi/core@2.0.0-alpha.6':
     dependencies:
