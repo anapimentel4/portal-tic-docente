@@ -31,6 +31,27 @@
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-primario;
   }
+
+  ::selection {
+    @apply bg-amber-200 text-oscuro;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* Movimiento suave de los adornos del hero (se apaga con "reducir movimiento"). */
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
 }
 
 /* Piezas reutilizables. Úsalas en las plantillas como clases normales. */
@@ -106,6 +127,26 @@
   /* Tarjetas que se elevan al pasar el ratón (con respeto a "reducir movimiento"). */
   .tarjeta-interactiva {
     @apply transition duration-200 hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none motion-reduce:hover:translate-y-0;
+  }
+
+  /* Burbuja decorativa con un icono que flota (solo adorno: aria-hidden). */
+  .burbuja {
+    @apply pointer-events-none absolute flex size-14 items-center justify-center rounded-2xl shadow-xl ring-1 ring-white/20;
+    animation: flotar 6s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .burbuja {
+      animation: none;
+    }
+  }
+
+  /* Línea de color en el borde superior de una tarjeta. */
+  .tarjeta-acento {
+    @apply relative overflow-hidden;
+  }
+  .tarjeta-acento::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primario via-sky-400 to-amber-300;
   }
 
   /* Encabezado de las páginas internas (Recursos, Robótica, Solicitudes).

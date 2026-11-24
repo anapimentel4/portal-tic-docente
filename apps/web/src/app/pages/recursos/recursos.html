@@ -56,7 +56,7 @@
         }
       </div>
     } @else {
-      <ul class="mt-3 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <ul class="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @for (r of visibles(); track r.id) {
           <li class="flex"><app-tarjeta-recurso class="w-full" [recurso]="r" /></li>
         }

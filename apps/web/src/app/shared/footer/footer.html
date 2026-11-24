@@ -1,22 +1,47 @@
 <footer class="mt-16 bg-oscuro text-slate-200">
-  <div class="contenedor grid gap-8 py-10 sm:grid-cols-2">
+  <!-- Línea de color -->
+  <div class="h-1.5 bg-gradient-to-r from-primario via-sky-400 to-amber-300" aria-hidden="true"></div>
+
+  <div class="contenedor grid gap-10 py-12 sm:grid-cols-2">
     <div>
-      <p class="font-titulo text-lg font-bold text-white">Portal TIC Docente</p>
-      <p class="mt-2 text-sm text-slate-300">
+      <p class="flex items-center gap-3">
+        <img src="favicon.svg" alt="" class="size-10" width="40" height="40" />
+        <span class="font-titulo text-lg font-bold text-white">Portal TIC Docente</span>
+      </p>
+      <p class="mt-3 max-w-sm text-sm text-slate-300">
         Tecnología al servicio de tu clase. Nivel Secundario · {{ contacto.centro }}
       </p>
     </div>
     <div>
       <h2 class="font-titulo text-base font-semibold text-white">Contacto</h2>
-      <ul class="mt-2 space-y-1 text-sm text-slate-300">
-        <li>Dinamizadora TIC: {{ contacto.dinamizadora }}</li>
-        <li>Correo: {{ contacto.correo }}</li>
-        <li>Teléfono: {{ contacto.telefono }}</li>
-        <li>Horario: {{ contacto.horario }}</li>
+      <p class="mt-3 text-sm text-slate-300">Dinamizadora TIC: <span class="font-semibold text-white">{{ contacto.dinamizadora }}</span></p>
+      <ul class="mt-3 space-y-2 text-sm text-slate-300">
+        <li>
+          <a [href]="'mailto:' + contacto.correo" class="inline-flex min-h-8 items-center gap-2.5 hover:text-amber-300">
+            <app-icono nombre="correo" clase="size-4 shrink-0 text-amber-300" />
+            <span><span class="sr-only">Correo: </span>{{ contacto.correo }}</span>
+          </a>
+        </li>
+        <li>
+          <a [href]="'tel:' + telefonoMarcable" class="inline-flex min-h-8 items-center gap-2.5 hover:text-amber-300">
+            <app-icono nombre="telefono" clase="size-4 shrink-0 text-amber-300" />
+            <span><span class="sr-only">Teléfono: </span>{{ contacto.telefono }}</span>
+          </a>
+        </li>
+        <li class="flex min-h-8 items-center gap-2.5">
+          <app-icono nombre="reloj" clase="size-4 shrink-0 text-amber-300" />
+          <span><span class="sr-only">Horario: </span>{{ contacto.horario }}</span>
+        </li>
       </ul>
     </div>
   </div>
-  <div class="border-t border-slate-700">
-    <p class="contenedor py-4 text-xs text-slate-400">© {{ anio }} {{ contacto.centro }}</p>
+
+  <div class="border-t border-slate-800">
+    <div class="contenedor flex flex-col gap-2 py-4 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {{ anio }} {{ contacto.centro }}</p>
+      <p class="inline-flex items-center gap-1.5">
+        Hecho con <app-icono nombre="corazon" clase="size-3.5 shrink-0 text-rose-400" /><span class="sr-only">cariño</span> para los docentes del centro
+      </p>
+    </div>
   </div>
 </footer>

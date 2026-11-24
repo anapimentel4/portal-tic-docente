@@ -32,6 +32,9 @@ Primera versión para la auditoría del 25 de noviembre de 2026. Plan completo y
 - Inicio más tecnológico: hero oscuro con cuadrícula tipo circuito, cifras reales del portal (recursos, proyectos y áreas) y "Lo más nuevo en el banco".
 - Secciones con antetítulo, tarjetas que se elevan al pasar el ratón y sección de apoyo en dos columnas.
 - Encabezados oscuros en Recursos, Robótica y Mis solicitudes, y el nombre del centro bajo el logo.
+- Botón "Compartir por WhatsApp" en cada recurso y proyecto de robótica.
+- Banco de recursos con tarjetas más pequeñas (4 por fila) y una portada de color por asignatura, con icono y el nombre del sitio.
+- Toques decorativos: burbujas flotantes y ola en Inicio, detalles con tarjetas oscuras, entrada con panel de bienvenida y pie de página con iconos y enlaces para escribir o llamar.
 
 ## Fase 5 — Panel de la dinamizadora
 - Menú lateral: Resumen, Recursos en revisión y Solicitudes; Talleres, Inventario y Acompañamientos como "Próximamente".

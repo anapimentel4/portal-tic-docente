@@ -5,12 +5,13 @@ import { mensajeDeError } from '../../core/services/errores';
 import { RecursosService } from '../../core/services/recursos.service';
 import { Badge, COLOR_ESTADO_RECURSO, COLOR_TIPO } from '../../shared/badge/badge';
 import { esEnlaceWeb } from '../../shared/enlaces';
+import { CompartirWhatsapp } from '../../shared/compartir-whatsapp/compartir-whatsapp';
 import { Icono } from '../../shared/icono/icono';
 
 /** Detalle de un recurso: todos sus campos, con el enlace destacado. Ruta: /recursos/:id */
 @Component({
   selector: 'app-recurso-detalle',
-  imports: [RouterLink, Badge, Icono],
+  imports: [RouterLink, Badge, Icono, CompartirWhatsapp],
   templateUrl: './recurso-detalle.html',
 })
 export class RecursoDetallePage {

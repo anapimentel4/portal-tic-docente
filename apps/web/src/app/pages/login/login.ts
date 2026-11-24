@@ -2,15 +2,17 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AREAS, type Area } from '@portal/shared';
+import { CONTACTO } from '../../core/config/contacto';
 import { AuthService } from '../../core/services/auth.service';
 import { mensajeDeError } from '../../core/services/errores';
 import { SupabaseService } from '../../core/services/supabase.service';
+import { Icono, type NombreIcono } from '../../shared/icono/icono';
 
 type Modo = 'entrar' | 'registro';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Icono],
   templateUrl: './login.html',
 })
 export class LoginPage {
@@ -19,6 +21,13 @@ export class LoginPage {
   private readonly ruta = inject(ActivatedRoute);
   private readonly fb = inject(FormBuilder).nonNullable;
   protected readonly configurado = inject(SupabaseService).configurado;
+  protected readonly centro = CONTACTO.centro;
+  /** Lo que se puede hacer con una cuenta (panel de bienvenida). */
+  protected readonly beneficios: { icono: NombreIcono; texto: string }[] = [
+    { icono: 'libro', texto: 'Compartir recursos con tus colegas' },
+    { icono: 'soporte', texto: 'Pedir acompañamiento y soporte' },
+    { icono: 'caja', texto: 'Reservar el laboratorio, los kits o las laptops' },
+  ];
 
   protected readonly modo = signal<Modo>('entrar');
   protected readonly enviando = signal(false);

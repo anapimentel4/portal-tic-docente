@@ -7,6 +7,7 @@ import { RoboticaService } from '../../core/services/robotica.service';
 import { Badge } from '../../shared/badge/badge';
 import { COLOR_ESTADO_RECURSO } from '../../shared/colores';
 import { esEnlaceWeb } from '../../shared/enlaces';
+import { CompartirWhatsapp } from '../../shared/compartir-whatsapp/compartir-whatsapp';
 import { Icono } from '../../shared/icono/icono';
 
 /** Un texto con una cosa por línea → lista. Quita numeración o viñetas escritas a mano ("1.", "-", "•"). */
@@ -20,7 +21,7 @@ export function enLista(texto: string | null): string[] {
 /** Detalle de un proyecto: foto, competencias, materiales del kit y pasos numerados. Ruta: /robotica/:id */
 @Component({
   selector: 'app-proyecto-detalle',
-  imports: [RouterLink, Badge, Icono],
+  imports: [RouterLink, Badge, Icono, CompartirWhatsapp],
   templateUrl: './proyecto-detalle.html',
 })
 export class ProyectoDetallePage {

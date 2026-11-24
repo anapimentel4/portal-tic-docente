@@ -171,6 +171,9 @@ portal-tic-docente/
   - Cambio de diseño pedido el 23-nov: las tarjetas tienen colores suaves (paleta en `apps/web/src/app/shared/colores.ts`) en vez de ser solo blancas.
   - Agregado (aprobado el 23-nov, según el mockup): en Inicio, los proyectos de robótica van en una franja oscura con etiquetas de área y grado y una frase corta (campo `descripcion`, migración 6). Lo demás del mockup (talleres, "Esta semana", buenas prácticas) queda para después de la auditoría.
   - Cambio de diseño pedido el 23-nov ("más profesional y tecnológico"): hero oscuro con cuadrícula tipo circuito, cifras reales y "Lo más nuevo en el banco"; encabezados oscuros en Recursos, Robótica y Mis solicitudes; tarjetas que se elevan al pasar el ratón; nombre del centro en el encabezado. Mismos colores y fuentes del plan (estilos en `apps/web/src/styles.css`).
+  - Agregado (aprobado el 23-nov): botón "Compartir por WhatsApp" en el detalle de recursos y de proyectos (`shared/compartir-whatsapp`).
+  - Cambio de diseño pedido el 23-nov ("bonito y coqueto"): burbujas flotantes y ola en el hero; detalle de recurso y de proyecto con tarjetas oscuras; entrada en dos columnas con bienvenida; pie con iconos, enlaces de correo y teléfono, y línea de color.
+  - Cambio de diseño pedido el 23-nov: tarjetas del banco más pequeñas (4 por fila) con una portada de color según el área (o el tipo, si es para todas las áreas), con icono y el sitio web (`PORTADA_AREA` y `PORTADA_TIPO` en `shared/colores.ts`).
 - [x] Fase 5 — Panel de la dinamizadora
   - Agregado (aprobado): en Recursos en revisión, las pestañas Publicados/Rechazados y el botón "Volver a revisión".
 - [ ] Revisión final
@@ -181,3 +184,14 @@ portal-tic-docente/
 ## Fase 2 del proyecto (después de la auditoría)
 
 Talleres con inscripción, inventario e incidencias, registro de acompañamientos, plan de trabajo TIC, informe PDF para el distrito y conexión con la app de planificación Fortech-IA.
+
+Ideas anotadas el 23-nov al revisar otros portales (FórmateRD Easy-plug, Escuela TIC Conectada, INTEF, Educ.ar, MINERD). Ninguna está aprobada todavía:
+
+- **Robótica tipo lección**: objetivo, duración, "Qué necesitas", paso a paso, programa (ArduinoBlocks/código), "Cómo funciona", reto extra, "Piensa y conecta" y un botón "¡Lo logré!".
+- **Catálogo del kit del centro**: una tarjeta con foto propia por módulo (sensores, actuadores, pantallas, comunicación) enlazada desde los materiales de cada proyecto.
+- **Colecciones o rutas en el banco** ("Empieza con robótica", "IA en el aula"…) y marcar como "Archivo" los recursos desactualizados.
+- **Inventario compatible con el del distrito** (Escuela TIC Conectada: total, funcionan, no funcionan, ubicación, observación) para no registrar dos veces; evidencias de dinamización y avisos de plazos.
+- **Buscador global** en el encabezado (atajo Ctrl K).
+- **Imagen propia por recurso** (campo `imagen_url` y subida a Storage); si no tiene, se sigue usando la portada de color.
+- **Talleres, "Esta semana" y Buenas prácticas del centro** del mockup de Inicio, cuando haya fechas y fotos reales.
+- Recursos sugeridos para el banco (los sube la dinamizadora como "Herramienta web" o "Tutorial", solo como enlace): lecciones de FórmateRD, Educando/Libro Abierto del MINERD, EducaSID, Procomún (INTEF) y colecciones de Educ.ar.
