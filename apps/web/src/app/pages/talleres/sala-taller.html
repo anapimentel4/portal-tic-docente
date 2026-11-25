@@ -6,10 +6,29 @@
   <div class="contenedor flex flex-col gap-6 py-8 sm:py-10">
     <!-- Encabezado: tema y QR -->
     <header class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-      <div>
-        <p class="antetitulo text-amber-300">Sala de taller · {{ config().dirigido }}</p>
-        <h1 class="mt-2 text-3xl font-bold sm:text-4xl">{{ config().tema || 'Escribe el tema del taller' }}</h1>
-        <p class="mt-2 text-sm text-slate-300">English Hub · herramientas para proyectar durante el taller</p>
+      <div class="min-w-0 flex-1">
+        @if (editandoTema()) {
+          <form class="flex max-w-2xl flex-col gap-3 rounded-2xl bg-white p-4 text-oscuro" (submit)="$event.preventDefault(); editandoTema.set(false)">
+            <div>
+              <label for="tema-rapido" class="etiqueta">Tema del taller</label>
+              <input id="tema-rapido" class="campo text-lg" [value]="config().tema" (input)="cambiar('tema', $event)" />
+            </div>
+            <div>
+              <label for="dirigido-rapido" class="etiqueta">Dirigido a</label>
+              <input id="dirigido-rapido" class="campo" [value]="config().dirigido" placeholder="Por ejemplo: Docentes de Inglés de 2.º ciclo" (input)="cambiar('dirigido', $event)" />
+            </div>
+            <button type="submit" class="btn btn-primario self-start"><app-icono nombre="check" /> Listo</button>
+          </form>
+        } @else {
+          <p class="antetitulo text-amber-300">Sala de taller · {{ config().dirigido }}</p>
+          <div class="mt-2 flex flex-wrap items-start gap-3">
+            <h1 class="text-3xl font-bold sm:text-4xl">{{ config().tema || 'Escribe el tema del taller' }}</h1>
+            <button type="button" class="btn shrink-0 border border-white/30 text-white hover:bg-white/10" (click)="editarTema()">
+              <app-icono nombre="lapiz" /> Editar tema
+            </button>
+          </div>
+          <p class="mt-2 text-sm text-slate-300">English Hub · herramientas para proyectar durante el taller de Inglés</p>
+        }
       </div>
 
       <div class="flex flex-wrap items-center gap-3">

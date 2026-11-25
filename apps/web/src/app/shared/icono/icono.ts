@@ -76,6 +76,7 @@ const ICONOS = {
     { d: 'M14 14h3v3M21 14v.01M14 21h3M21 18v3h-3' },
   ],
   cerrar: [{ d: 'M6 6l12 12M18 6L6 18' }],
+  lapiz: [{ d: 'M4 20h4L19 9l-4-4L4 16z' }, { d: 'M13.5 6.5l4 4' }],
 } satisfies Record<string, Figura[]>;
 
 export type NombreIcono = keyof typeof ICONOS;

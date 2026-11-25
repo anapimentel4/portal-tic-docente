@@ -40,6 +40,7 @@ export class SalaTallerPage implements OnDestroy {
   private readonly reloj = setInterval(() => this.minutoActual.set(minutosDeHoy()), 30_000);
 
   protected readonly pantallaCompleta = signal(false);
+  protected readonly editandoTema = signal(false);
   private readonly alCambiarPantalla = () => this.pantallaCompleta.set(!!document.fullscreenElement);
 
   protected readonly agenda = computed(() =>
@@ -108,6 +109,12 @@ export class SalaTallerPage implements OnDestroy {
     } catch {
       // Algunos navegadores (por ejemplo, Safari en iPhone) no la permiten.
     }
+  }
+
+  protected editarTema(): void {
+    this.editandoTema.set(true);
+    // Pone el cursor en el campo del tema cuando aparece.
+    setTimeout(() => document.getElementById('tema-rapido')?.focus());
   }
 
   protected abrirQr(): void {
