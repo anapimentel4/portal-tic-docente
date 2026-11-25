@@ -181,7 +181,7 @@ portal-tic-docente/
   - No usa la base de datos: lo configurado se guarda en el navegador. Código en `apps/web/src/app/pages/talleres/`. Especificación y mockups de English Hub en `docs/english-hub/`.
   - Lo demás de English Hub (registro con QR, recursos por grado, fotos, encuesta y certificado, panel de la técnica) queda para después de la auditoría, con su propio plan.
   - En Inicio, la tarjeta "Formación docente" lleva a Talleres (pedido el 24-nov).
-  - Muro colaborativo tipo Padlet (pedido el 24-nov, migración 7): la dinamizadora crea muros con una pregunta en `/talleres/muro`; el muro se proyecta en `/muro/:codigo` (se actualiza cada 5 s, filtro por categoría, "me gusta"); los docentes publican desde el celular en `/muro/:codigo/publicar` con su nombre, sin cuenta. Ella oculta publicaciones y abre o cierra el muro. Código en `pages/talleres/muro/` y `core/services/muro.service.ts`.
+  - Muro colaborativo tipo Padlet (pedido el 24-nov, migración 7, ya ejecutada en Supabase y probado en la web publicada): la dinamizadora crea muros con una pregunta en `/talleres/muro`; el muro se proyecta en `/muro/:codigo` (se actualiza cada 5 s, filtro por categoría, "me gusta"); los docentes publican desde el celular en `/muro/:codigo/publicar` con su nombre, sin cuenta. Ella oculta publicaciones y abre o cierra el muro. Código en `pages/talleres/muro/` y `core/services/muro.service.ts`.
   - Libro Abierto del MINERD agregado al Banco de recursos como "Herramienta web", publicado (fila nueva en `recursos.csv`, importada con `pnpm seed:recursos`).
 - [ ] Revisión final
   - Hecho (23-nov): claves revisadas, pruebas de RLS con los 3 roles (`pnpm test:rls`), páginas públicas sin errores de consola y en celular, ortografía, lista de cambios en `CAMBIOS.md`.
