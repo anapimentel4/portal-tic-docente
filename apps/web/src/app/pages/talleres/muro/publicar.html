@@ -1,0 +1,95 @@
+<section class="contenedor max-w-xl py-8">
+  @if (cargando()) {
+    <p class="text-secundario">Cargando…</p>
+  } @else if (noExiste()) {
+    <div class="tarjeta">
+      <h1 class="text-2xl font-bold">No encontramos ese muro</h1>
+      <p class="mt-1 text-secundario">Revisa el código o vuelve a escanear el QR.</p>
+    </div>
+  } @else if (muro(); as m) {
+    <p class="antetitulo">Muro colaborativo</p>
+    <h1 class="mt-2 text-2xl font-bold break-words sm:text-3xl">{{ m.pregunta }}</h1>
+
+    @if (!m.abierto) {
+      <div class="tarjeta mt-6">
+        <p class="font-semibold">Este muro está cerrado.</p>
+        <p class="mt-1 text-secundario">Ya no recibe publicaciones, pero puedes ver las ideas de todos.</p>
+        <a [routerLink]="['/muro', m.codigo]" class="btn btn-primario mt-4">Ver el muro</a>
+      </div>
+    } @else if (enviado()) {
+      <div class="tarjeta mt-6 text-center" role="status">
+        <span class="mx-auto flex size-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-700"><app-icono nombre="check" clase="size-7" /></span>
+        <p class="mt-3 text-xl font-bold">¡Publicado!</p>
+        <p class="mt-1 text-secundario">Tu idea ya aparece en el muro.</p>
+        <div class="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
+          <button type="button" class="btn btn-primario" (click)="otra()"><app-icono nombre="mas" /> Publicar otra idea</button>
+          <a [routerLink]="['/muro', m.codigo]" class="btn btn-secundario">Ver el muro</a>
+        </div>
+      </div>
+    } @else {
+      <form class="tarjeta mt-6 flex flex-col gap-5" novalidate (submit)="publicar($event)">
+        <div>
+          <label for="muro-nombre" class="etiqueta">Tu nombre</label>
+          <input
+            id="muro-nombre"
+            class="campo"
+            autocomplete="name"
+            maxlength="60"
+            [value]="nombre()"
+            (input)="nombre.set($any($event.target).value)"
+            [attr.aria-invalid]="intentado() && !!errorNombre()"
+            aria-describedby="muro-nombre-error"
+          />
+          @if (intentado() && errorNombre()) {
+            <p id="muro-nombre-error" class="error-campo">{{ errorNombre() }}</p>
+          }
+        </div>
+
+        <fieldset>
+          <legend class="etiqueta">Categoría</legend>
+          <div class="flex flex-wrap gap-2">
+            @for (c of categorias; track c) {
+              <label class="cursor-pointer">
+                <input type="radio" name="categoria" class="peer sr-only" [value]="c" [checked]="categoria() === c" (change)="categoria.set(c)" />
+                <span class="inline-flex min-h-11 items-center rounded-full border border-borde bg-white px-4 text-sm font-semibold peer-checked:border-oscuro peer-checked:bg-oscuro peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primario">
+                  {{ c }}
+                </span>
+              </label>
+            }
+          </div>
+          @if (intentado() && errorCategoria()) {
+            <p class="error-campo">{{ errorCategoria() }}</p>
+          }
+        </fieldset>
+
+        <div>
+          <label for="muro-texto" class="etiqueta">Tu idea</label>
+          <textarea
+            id="muro-texto"
+            rows="5"
+            class="campo"
+            [attr.maxlength]="max"
+            placeholder="Cuéntala en pocas palabras…"
+            [value]="texto()"
+            (input)="texto.set($any($event.target).value)"
+            [attr.aria-invalid]="intentado() && !!errorTexto()"
+            aria-describedby="muro-texto-ayuda"
+          ></textarea>
+          <p id="muro-texto-ayuda" class="mt-1 flex justify-between text-sm">
+            <span class="text-red-700">{{ intentado() ? errorTexto() : '' }}</span>
+            <span class="text-secundario">{{ texto().length }}/{{ max }}</span>
+          </p>
+        </div>
+
+        @if (error()) {
+          <p class="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error() }}</p>
+        }
+
+        <button type="submit" class="btn btn-primario w-full" [disabled]="enviando()">{{ enviando() ? 'Publicando…' : 'Publicar en el muro' }}</button>
+        <p class="text-center text-xs text-secundario">Tu nombre y tu idea se verán en el muro del taller.</p>
+      </form>
+    }
+  } @else if (error()) {
+    <p class="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error() }}</p>
+  }
+</section>

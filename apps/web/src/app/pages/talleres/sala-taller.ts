@@ -1,5 +1,6 @@
 import { Component, computed, effect, ElementRef, inject, OnDestroy, signal, viewChild } from '@angular/core';
-import QRCode from 'qrcode';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 import { Icono } from '../../shared/icono/icono';
 import { type ActividadAgenda } from './datos';
 import { BancoDinamicas } from './herramientas/banco-dinamicas';
@@ -7,12 +8,13 @@ import { Grupos } from './herramientas/grupos';
 import { Marcador } from './herramientas/marcador';
 import { Ruleta } from './herramientas/ruleta';
 import { Temporizador } from './herramientas/temporizador';
+import { crearQr } from './qr';
 import { SalaTallerEstado } from './sala-taller.estado';
 
 type EstadoActividad = 'hecho' | 'ahora' | 'pendiente';
 
 /** Pantallas de English Hub que todavía no existen (se muestran como "Próximamente"). */
-const PROXIMAMENTE = ['Juegos proyectables', 'Muro colaborativo', 'Asistencia y evaluación', 'Subir evidencias'];
+const PROXIMAMENTE = ['Juegos proyectables', 'Asistencia y evaluación', 'Subir evidencias'];
 
 /**
  * Sala de taller (English Hub): pantalla para proyectar durante un taller con docentes.
@@ -21,11 +23,12 @@ const PROXIMAMENTE = ['Juegos proyectables', 'Muro colaborativo', 'Asistencia y 
  */
 @Component({
   selector: 'app-sala-taller',
-  imports: [Icono, Ruleta, Temporizador, Grupos, Marcador, BancoDinamicas],
+  imports: [RouterLink, Icono, Ruleta, Temporizador, Grupos, Marcador, BancoDinamicas],
   templateUrl: './sala-taller.html',
 })
 export class SalaTallerPage implements OnDestroy {
   protected readonly estado = inject(SalaTallerEstado);
+  protected readonly auth = inject(AuthService);
   protected readonly config = this.estado.config;
   protected readonly proximamente = PROXIMAMENTE;
 
@@ -63,7 +66,7 @@ export class SalaTallerPage implements OnDestroy {
         this.qr.set('');
         return;
       }
-      QRCode.toDataURL(enlace, { margin: 1, width: 640, color: { dark: '#0f172a', light: '#ffffff' } })
+      crearQr(enlace)
         .then((imagen) => this.qr.set(imagen))
         .catch(() => this.qr.set(''));
     });

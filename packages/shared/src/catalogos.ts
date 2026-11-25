@@ -76,3 +76,7 @@ export const ESTADOS_SOLICITUD = {
   resuelta: 'Resuelta',
 } as const;
 export type EstadoSolicitud = keyof typeof ESTADOS_SOLICITUD;
+
+/** Categorías de las publicaciones del muro colaborativo (Talleres). Igual que el check de la migración 7. */
+export const CATEGORIAS_MURO = ['Juegos', 'Canciones', 'Speaking', 'Vocabulario', 'Otra idea'] as const;
+export type CategoriaMuro = (typeof CATEGORIAS_MURO)[number];

@@ -1,3 +1,5 @@
+import type { CategoriaMuro } from '@portal/shared';
+
 /**
  * Datos de ejemplo de la Sala de taller (English Hub).
  * Todo se puede cambiar desde "Configurar el taller" en la misma página;
@@ -89,3 +91,12 @@ export const DINAMICAS: Dinamica[] = [
   { categoria: 'Cierre', nombre: '3-2-1', descripcion: '3 cosas aprendidas, 2 que aplicarán y 1 pregunta pendiente.', duracion: '5 min', habilidad: 'Reflexión' },
   { categoria: 'Cierre', nombre: 'Pelota de reflexión', descripcion: 'Quien recibe la pelota completa: “Tomorrow in my class I will…”.', duracion: '10 min', habilidad: 'Speaking' },
 ];
+
+/** Colores de las publicaciones del muro colaborativo, por categoría. */
+export const COLORES_MURO: Record<CategoriaMuro, { tarjeta: string; etiqueta: string }> = {
+  Juegos: { tarjeta: 'bg-blue-50', etiqueta: 'bg-blue-100 text-blue-800' },
+  Canciones: { tarjeta: 'bg-amber-50', etiqueta: 'bg-amber-100 text-amber-800' },
+  Speaking: { tarjeta: 'bg-orange-50', etiqueta: 'bg-orange-100 text-orange-800' },
+  Vocabulario: { tarjeta: 'bg-emerald-50', etiqueta: 'bg-emerald-100 text-emerald-800' },
+  'Otra idea': { tarjeta: 'bg-violet-50', etiqueta: 'bg-violet-100 text-violet-800' },
+};

@@ -58,6 +58,25 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/talleres/sala-taller').then((m) => m.SalaTallerPage),
   },
   {
+    // Muro colaborativo (tipo Padlet): la dinamizadora crea y gestiona los muros.
+    path: 'talleres/muro',
+    title: 'Muros colaborativos · Portal TIC Docente',
+    canActivate: [rolGuard('dinamizadora')],
+    loadComponent: () => import('./pages/talleres/muro/muros').then((m) => m.MurosPage),
+  },
+  {
+    // El muro para proyectar. Lo ve cualquiera con el código.
+    path: 'muro/:codigo',
+    title: 'Muro colaborativo · Portal TIC Docente',
+    loadComponent: () => import('./pages/talleres/muro/muro').then((m) => m.MuroPage),
+  },
+  {
+    // Publicar desde el celular (se abre con el QR). No pide cuenta.
+    path: 'muro/:codigo/publicar',
+    title: 'Publicar en el muro · Portal TIC Docente',
+    loadComponent: () => import('./pages/talleres/muro/publicar').then((m) => m.PublicarMuroPage),
+  },
+  {
     path: 'solicitudes',
     title: 'Mis solicitudes · Portal TIC Docente',
     canActivate: [authGuard],

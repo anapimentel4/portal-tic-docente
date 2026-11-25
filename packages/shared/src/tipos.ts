@@ -1,4 +1,4 @@
-import type { Area, EstadoRecurso, EstadoSolicitud, Grado, NivelTic, Rol, TipoRecurso, TipoSolicitud } from './catalogos';
+import type { Area, CategoriaMuro, EstadoRecurso, EstadoSolicitud, Grado, NivelTic, Rol, TipoRecurso, TipoSolicitud } from './catalogos';
 
 /** Fila de la tabla profiles (una por usuario de Supabase Auth). */
 export interface Perfil {
@@ -66,5 +66,30 @@ export interface Solicitud {
   fecha_deseada: string | null;
   detalle: string;
   estado: EstadoSolicitud;
+  created_at: string;
+}
+
+/** Fila de la tabla muros: un muro colaborativo de un taller. */
+export interface Muro {
+  id: string;
+  /** Código corto que va en el enlace y en el QR (ej. K7P2QX). */
+  codigo: string;
+  pregunta: string;
+  /** Si recibe publicaciones nuevas. */
+  abierto: boolean;
+  creado_por: string | null;
+  created_at: string;
+}
+
+/** Fila de la tabla muro_publicaciones. */
+export interface PublicacionMuro {
+  id: string;
+  muro_id: string;
+  nombre: string;
+  categoria: CategoriaMuro;
+  texto: string;
+  likes: number;
+  /** false = la dinamizadora la ocultó. */
+  visible: boolean;
   created_at: string;
 }

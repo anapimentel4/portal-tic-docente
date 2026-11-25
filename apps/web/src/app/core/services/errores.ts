@@ -16,6 +16,8 @@ export function mensajeDeError(error: unknown): string {
     email_address_invalid: 'Ese correo no es válido.',
   };
   if (porCodigo[codigo]) return porCodigo[codigo];
+  // Mensajes escritos en español por la base de datos (raise exception en los triggers).
+  if (codigo === 'P0001' && e?.message) return e.message;
 
   if (mensaje.includes('failed to fetch') || mensaje.includes('network')) {
     return 'No hay conexión con el servidor. Revisa tu internet e inténtalo de nuevo.';

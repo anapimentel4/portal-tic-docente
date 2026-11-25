@@ -1,0 +1,139 @@
+<!-- Todo lo de dentro de #sala es lo que se ve en "Pantalla completa" (para el proyector). -->
+<div #sala class="fondo-tecnologico min-h-[70dvh] overflow-y-auto">
+  <span class="brillo -top-24 -right-24 size-80 bg-acento/30" aria-hidden="true"></span>
+  <span class="brillo top-96 -left-32 size-96 bg-primario/30" aria-hidden="true"></span>
+
+  <div class="contenedor flex flex-col gap-6 py-8 sm:py-10">
+    @if (cargando() && !muro()) {
+      <p class="text-slate-300">Cargando el muro…</p>
+    } @else if (noExiste()) {
+      <div class="rounded-2xl bg-white p-6 text-oscuro">
+        <h1 class="text-2xl font-bold text-oscuro!">No encontramos ese muro</h1>
+        <p class="mt-1 text-secundario">Revisa el código. Puede que la dinamizadora lo haya borrado.</p>
+        <a routerLink="/talleres" class="btn btn-primario mt-4">Ir a Talleres</a>
+      </div>
+    } @else if (muro(); as m) {
+      <!-- Encabezado: pregunta y QR -->
+      <header class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+        <div class="min-w-0">
+          @if (esDinamizadora()) {
+            <a routerLink="/talleres/muro" class="flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white">
+              <app-icono nombre="volver" /> Mis muros
+            </a>
+          }
+          <p class="antetitulo text-amber-300">Muro colaborativo · {{ totalVisibles() }} {{ totalVisibles() === 1 ? 'idea' : 'ideas' }}</p>
+          <h1 class="mt-2 text-3xl font-bold break-words sm:text-4xl">{{ m.pregunta }}</h1>
+          @if (!m.abierto) {
+            <p class="mt-3 inline-flex rounded-full bg-white/10 px-3 py-1 text-sm font-semibold text-amber-200">Muro cerrado: ya no recibe publicaciones</p>
+          }
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          @if (m.abierto) {
+            <button type="button" class="flex items-center gap-3 rounded-xl bg-white/10 p-2 pr-4 text-left ring-1 ring-white/15 hover:bg-white/15" [disabled]="!qr()" (click)="abrirQr()">
+              @if (qr()) {
+                <img [src]="qr()" alt="" class="size-20 rounded-md bg-white" width="80" height="80" />
+              }
+              <span class="text-sm">
+                <span class="block font-semibold">Escanea y publica desde tu celular</span>
+                <span class="block text-slate-300">Código: <b class="tracking-widest text-white">{{ m.codigo }}</b></span>
+                <span class="mt-0.5 block text-xs text-amber-300">Toca para ampliar el QR</span>
+              </span>
+            </button>
+          }
+          <div class="flex flex-wrap gap-2">
+            <a [routerLink]="['/muro', m.codigo, 'publicar']" class="btn bg-acento text-white hover:bg-orange-800 lg:hidden"><app-icono nombre="mas" /> Publicar una idea</a>
+            <button type="button" class="btn bg-white text-oscuro hover:bg-slate-100" (click)="alternarPantallaCompleta()">
+              <app-icono nombre="expandir" /> {{ pantallaCompleta() ? 'Salir de pantalla completa' : 'Pantalla completa' }}
+            </button>
+            @if (esDinamizadora()) {
+              <button type="button" class="btn border border-white/30 text-white hover:bg-white/10" (click)="alternarAbierto()">
+                {{ m.abierto ? 'Cerrar muro' : 'Abrir muro' }}
+              </button>
+            }
+          </div>
+        </div>
+      </header>
+
+      <!-- Filtro por categoría -->
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por categoría">
+        <button type="button" class="min-h-10 rounded-full px-4 text-sm font-semibold" [class]="filtro() === 'Todas' ? 'bg-white text-oscuro' : 'bg-white/10 text-white ring-1 ring-white/15'" [attr.aria-pressed]="filtro() === 'Todas'" (click)="filtro.set('Todas')">
+          Todas
+        </button>
+        @for (c of categorias; track c) {
+          <button type="button" class="min-h-10 rounded-full px-4 text-sm font-semibold" [class]="filtro() === c ? 'bg-white text-oscuro' : 'bg-white/10 text-white ring-1 ring-white/15'" [attr.aria-pressed]="filtro() === c" (click)="filtro.set(c)">
+            {{ c }} <span class="opacity-70">{{ cuenta()[c] ?? 0 }}</span>
+          </button>
+        }
+      </div>
+
+      @if (error()) {
+        <p class="rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error() }}</p>
+      }
+
+      <!-- Publicaciones (columnas tipo Padlet) -->
+      @if (visibles().length === 0) {
+        <div class="rounded-2xl bg-white/10 p-8 text-center ring-1 ring-white/15">
+          <p class="text-lg font-semibold">{{ publicaciones().length ? 'No hay ideas en esta categoría.' : 'Todavía no hay ideas.' }}</p>
+          @if (m.abierto && !publicaciones().length) {
+            <p class="mt-1 text-slate-300">Escanea el QR y sé la primera persona en publicar.</p>
+          }
+        </div>
+      } @else {
+        <ul class="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4" aria-live="polite" aria-relevant="additions">
+          @for (p of visibles(); track p.id) {
+            <li class="mb-4 break-inside-avoid">
+              <article class="flex flex-col gap-3 rounded-2xl p-4 text-oscuro shadow-lg" [class]="colores[p.categoria].tarjeta" [class.opacity-50]="!p.visible">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="rounded-full px-2.5 py-1 text-xs font-bold" [class]="colores[p.categoria].etiqueta">{{ p.categoria }}</span>
+                  @if (!p.visible) {
+                    <span class="rounded-full bg-slate-200 px-2.5 py-1 text-xs font-bold text-slate-700">Oculta</span>
+                  }
+                </div>
+                <p class="text-lg leading-snug break-words whitespace-pre-line">{{ p.texto }}</p>
+                <footer class="flex items-center justify-between gap-2 text-sm">
+                  <span class="min-w-0 text-secundario">
+                    <b class="font-semibold text-oscuro">{{ p.nombre }}</b> · {{ hace(p.created_at) }}
+                  </span>
+                  <span class="flex shrink-0 items-center gap-1">
+                    @if (esDinamizadora()) {
+                      <button type="button" class="min-h-9 rounded-lg px-2 text-xs font-semibold text-secundario hover:bg-white" (click)="alternarVisible(p)">
+                        {{ p.visible ? 'Ocultar' : 'Mostrar' }}
+                      </button>
+                    }
+                    <button
+                      type="button"
+                      class="flex min-h-9 items-center gap-1 rounded-full bg-white px-3 font-semibold shadow-sm disabled:opacity-50"
+                      [class.text-red-700]="meGusta().has(p.id)"
+                      [attr.aria-pressed]="meGusta().has(p.id)"
+                      [attr.aria-label]="'Me gusta. ' + p.likes + (p.likes === 1 ? ' persona' : ' personas')"
+                      [disabled]="!p.visible"
+                      (click)="darMeGusta(p)"
+                    >
+                      <svg viewBox="0 0 24 24" class="size-4" [attr.fill]="meGusta().has(p.id) ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linejoin="round" d="M12 20s-7-4.4-9-8.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 9 5.5C19 15.6 12 20 12 20z" />
+                      </svg>
+                      {{ p.likes }}
+                    </button>
+                  </span>
+                </footer>
+              </article>
+            </li>
+          }
+        </ul>
+      }
+    } @else if (error()) {
+      <p class="rounded-xl bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error() }}</p>
+    }
+  </div>
+</div>
+
+<!-- QR grande para que lo escaneen desde lejos -->
+<dialog #dialogoQr class="m-auto w-[min(92vw,36rem)] rounded-2xl bg-white p-6 text-center text-oscuro backdrop:bg-oscuro/80" aria-labelledby="titulo-qr-muro" (click)="$event.target === $event.currentTarget && cerrarQr()">
+  <h2 id="titulo-qr-muro" class="text-2xl font-bold">Escanea y publica tu idea</h2>
+  <p class="mt-1 text-secundario">{{ enlaceCorto() }}</p>
+  @if (qr()) {
+    <img [src]="qr()" [alt]="'Código QR que abre ' + enlaceCorto()" class="mx-auto mt-4 aspect-square w-full max-w-[min(70vh,28rem)]" />
+  }
+  <button type="button" class="btn btn-primario mt-4" (click)="cerrarQr()">Cerrar</button>
+</dialog>

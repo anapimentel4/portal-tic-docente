@@ -58,4 +58,5 @@ Talleres con inscripción, inventario e incidencias, registro de acompañamiento
 - Tema y QR ampliable con un enlace (por defecto, el Banco de recursos), agenda del día con la actividad de "ahora", ruleta de nombres o preguntas, temporizador con sonido, grupos al azar, marcador por equipos y banco de 12 dinámicas.
 - Botón "Pantalla completa" para el proyector y "Configurar el taller" (se guarda en el navegador, sin base de datos).
 - Inicio: la tarjeta "Formación docente" ya no dice "Próximamente"; lleva a Talleres.
+- Muro colaborativo (tipo Padlet, migración 7): la dinamizadora crea un muro con una pregunta y lo proyecta; los docentes escanean el QR y publican su idea con su nombre, sin cuenta; el muro se actualiza solo, tiene filtro por categoría y "me gusta", y ella puede ocultar publicaciones y cerrar el muro. 28 pruebas nuevas de permisos.
 - Banco de recursos: Libro Abierto del MINERD, publicado para todas las áreas y grados.

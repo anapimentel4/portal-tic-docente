@@ -160,6 +160,40 @@ ok(await falla(luis, `insert into storage.objects (bucket_id, name) values ('rob
 ok((await subir(ana, 'robotica', 'brazo.jpg')).affectedRows === 1, 'la dinamizadora sube fotos de robótica');
 ok((await db.query(`select count(*)::int as n from storage.buckets`)).rows[0].n === 2, 'se crearon los buckets recursos y robotica');
 
+console.log('\nMuro colaborativo');
+ok(await falla(luis, `insert into public.muros (pregunta) values ('¿Qué te funciona?')`), 'un docente NO crea muros');
+ok(await falla(geo, `insert into public.muros (pregunta) values ('¿Qué te funciona?')`), 'gestión NO crea muros');
+ok(await falla(null, `insert into public.muros (pregunta) values ('¿Qué te funciona?')`), 'sin sesión NO se crean muros');
+const muro = (await como(ana, `insert into public.muros (pregunta) values ('¿Qué actividad te funciona mejor?') returning id, codigo`)).rows[0];
+ok(/^[A-Z2-9]{6}$/.test(muro.codigo), 'la dinamizadora crea un muro y recibe un código de 6 caracteres');
+ok((await como(null, `select codigo from public.muros`)).rows.length === 1, 'sin sesión se ve el muro (para el QR)');
+const publicar = (uid, extra = '', valores = '') =>
+  como(uid, `insert into public.muro_publicaciones (muro_id, nombre, categoria, texto${extra}) values ($1, '  Rosa  ', 'Juegos', 'Hot seat con el vocabulario'${valores})`, [muro.id]);
+ok((await publicar(null)).affectedRows === 1, 'sin sesión se publica en un muro abierto');
+ok((await publicar(luis)).affectedRows === 1, 'un docente con sesión también publica');
+ok(await falla(null, `insert into public.muro_publicaciones (muro_id, nombre, categoria, texto, likes) values ($1, 'Rosa', 'Juegos', 'Hola a todos', 99)`, [muro.id]), 'sin sesión NO se ponen "me gusta" al publicar');
+ok(await falla(null, `insert into public.muro_publicaciones (muro_id, nombre, categoria, texto, visible) values ($1, 'Rosa', 'Juegos', 'Hola a todos', false)`, [muro.id]), 'sin sesión NO se elige si es visible');
+ok(await falla(null, `insert into public.muro_publicaciones (muro_id, nombre, categoria, texto) values ($1, 'Rosa', 'Deportes', 'Hola a todos')`, [muro.id]), 'una categoría inventada NO se acepta');
+ok(await falla(null, `insert into public.muro_publicaciones (muro_id, nombre, categoria, texto) values ($1, 'R', 'Juegos', 'Hola a todos')`, [muro.id]), 'un nombre de 1 letra NO se acepta');
+const pub = (await db.query(`select id, nombre from public.muro_publicaciones order by created_at limit 1`)).rows[0];
+ok(pub.nombre === 'Rosa', 'el nombre se guarda sin espacios sobrantes');
+ok(await falla(null, `update public.muro_publicaciones set texto = 'cambiado'`), 'sin sesión NO se edita el texto de una publicación');
+ok(await falla(null, `update public.muro_publicaciones set visible = false`), 'sin sesión NO se oculta una publicación');
+ok((await como(luis, `update public.muro_publicaciones set visible = false`)).affectedRows === 0, 'un docente NO oculta publicaciones');
+ok((await como(luis, `delete from public.muro_publicaciones`)).affectedRows === 0, 'un docente NO borra publicaciones');
+ok((await como(null, `select public.me_gusta($1) as n`, [pub.id])).rows[0].n === 1, 'sin sesión se da "me gusta" (suma 1)');
+ok((await como(null, `select public.me_gusta($1, false) as n`, [pub.id])).rows[0].n === 0 && (await como(null, `select public.me_gusta($1, false) as n`, [pub.id])).rows[0].n === 0, 'quitar "me gusta" resta 1 y nunca baja de 0');
+ok(await falla(null, `update public.muro_publicaciones set likes = 50`), 'sin sesión NO se cambian los "me gusta" directamente');
+ok((await como(ana, `update public.muro_publicaciones set visible = false where id = $1`, [pub.id])).affectedRows === 1, 'la dinamizadora oculta una publicación');
+ok((await como(null, `select id from public.muro_publicaciones`)).rows.length === 1, 'sin sesión NO se ven las ocultas');
+ok((await como(ana, `select id from public.muro_publicaciones`)).rows.length === 2, 'la dinamizadora ve también las ocultas');
+ok((await como(null, `select public.me_gusta($1) as n`, [pub.id])).rows[0].n === null, 'una publicación oculta NO recibe "me gusta"');
+ok((await como(luis, `update public.muros set abierto = false`)).affectedRows === 0, 'un docente NO cierra el muro');
+ok((await como(ana, `update public.muros set abierto = false where id = $1`, [muro.id])).affectedRows === 1, 'la dinamizadora cierra el muro');
+ok(await falla(null, `insert into public.muro_publicaciones (muro_id, nombre, categoria, texto) values ($1, 'Rosa', 'Juegos', 'Llego tarde')`, [muro.id]), 'en un muro cerrado NO se publica');
+ok((await como(luis, `delete from public.muros`)).affectedRows === 0, 'un docente NO borra muros');
+ok((await como(ana, `delete from public.muros where id = $1`, [muro.id])).affectedRows === 1 && (await db.query(`select count(*)::int as n from public.muro_publicaciones`)).rows[0].n === 0, 'al borrar el muro se borran sus publicaciones');
+
 console.log('\nCatálogos (SQL = packages/shared)');
 const cat = await import('../../packages/shared/src/catalogos.ts');
 const valida = async (fn, valores) =>
@@ -178,6 +212,8 @@ for (const [tipo, objeto] of [
 ]) {
   ok((await enumValores(tipo)) === Object.keys(objeto).join(','), `los valores de ${tipo} coinciden`);
 }
+const checkMuro = (await db.query(`select pg_get_constraintdef(oid) as d from pg_constraint where conrelid = 'public.muro_publicaciones'::regclass and conname like '%categoria%'`)).rows[0].d;
+ok(cat.CATEGORIAS_MURO.every((c) => checkMuro.includes(`'${c}'`)) && (checkMuro.match(/'[^']+'/g) ?? []).length === cat.CATEGORIAS_MURO.length, 'las categorías del muro coinciden');
 
 console.log(fallos ? `\n${fallos} prueba(s) fallaron` : '\nTodas las pruebas pasan');
 process.exit(fallos ? 1 : 0);

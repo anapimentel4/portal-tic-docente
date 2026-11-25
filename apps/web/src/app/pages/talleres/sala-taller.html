@@ -38,6 +38,13 @@
 
     <!-- Otras pantallas de English Hub (todavía no existen) -->
     <ul class="flex flex-wrap gap-2" aria-label="Otras pantallas del taller">
+      @if (auth.rol() === 'dinamizadora') {
+        <li>
+          <a routerLink="/talleres/muro" class="flex min-h-11 items-center gap-2 rounded-xl bg-acento px-4 text-sm font-semibold text-white hover:bg-orange-800">
+            <app-icono nombre="mensaje" /> Muro colaborativo
+          </a>
+        </li>
+      }
       @for (p of proximamente; track p) {
         <li class="flex min-h-11 items-center gap-2 rounded-xl bg-white/5 px-4 text-sm text-slate-300 ring-1 ring-white/10">
           {{ p }} <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-amber-200">Próximamente</span>

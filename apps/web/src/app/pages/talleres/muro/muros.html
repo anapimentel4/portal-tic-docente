@@ -1,0 +1,70 @@
+<header class="fondo-tecnologico encabezado-pagina">
+  <span class="brillo -top-24 -right-24 size-80 bg-acento/30" aria-hidden="true"></span>
+  <div class="contenedor">
+    <a routerLink="/talleres" class="flex min-h-11 w-fit items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white">
+      <app-icono nombre="volver" /> Sala de taller
+    </a>
+    <p class="antetitulo mt-2 text-amber-300">Talleres</p>
+    <h1 class="mt-2 text-3xl font-bold sm:text-4xl">Muros colaborativos</h1>
+    <p class="mt-2 max-w-2xl">Crea un muro con una pregunta y proyéctalo. Los docentes escanean el QR y publican sus ideas desde el celular, con su nombre y sin crear una cuenta.</p>
+  </div>
+</header>
+
+<section class="contenedor flex flex-col gap-6 py-8">
+  <form class="tarjeta flex flex-col gap-3 sm:flex-row sm:items-end" (submit)="crear($event)">
+    <div class="flex-1">
+      <label for="muro-pregunta" class="etiqueta">Pregunta del muro nuevo</label>
+      <input
+        id="muro-pregunta"
+        class="campo"
+        maxlength="200"
+        placeholder="¿Qué actividad te funciona mejor en clase?"
+        [value]="pregunta()"
+        (input)="pregunta.set($any($event.target).value)"
+      />
+    </div>
+    <button type="submit" class="btn btn-primario" [disabled]="creando()">
+      <app-icono nombre="mas" /> {{ creando() ? 'Creando…' : 'Crear muro' }}
+    </button>
+  </form>
+
+  <div aria-live="polite">
+    @if (error()) {
+      <p class="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">{{ error() }}</p>
+    } @else if (aviso()) {
+      <p class="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">{{ aviso() }}</p>
+    }
+  </div>
+
+  @if (cargando()) {
+    <p class="text-secundario">Cargando muros…</p>
+  } @else if (muros().length === 0) {
+    <div class="tarjeta text-center">
+      <p class="font-semibold">Todavía no hay muros.</p>
+      <p class="mt-1 text-secundario">Escribe una pregunta arriba y pulsa “Crear muro”.</p>
+    </div>
+  } @else {
+    <ul class="grid gap-4 md:grid-cols-2">
+      @for (m of muros(); track m.id) {
+        <li class="tarjeta flex flex-col gap-3">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-semibold">
+            <span class="rounded-full px-2.5 py-1" [class]="m.abierto ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'">
+              {{ m.abierto ? 'Abierto' : 'Cerrado' }}
+            </span>
+            <span class="rounded-full bg-fondo px-2.5 py-1 text-secundario">Código {{ m.codigo }}</span>
+            <span class="text-secundario">{{ m.total }} {{ m.total === 1 ? 'publicación' : 'publicaciones' }}</span>
+          </div>
+          <h2 class="text-lg font-bold">{{ m.pregunta }}</h2>
+          <div class="mt-auto flex flex-wrap gap-2">
+            <a [routerLink]="['/muro', m.codigo]" class="btn btn-primario"><app-icono nombre="presentacion" /> Proyectar</a>
+            <button type="button" class="btn btn-secundario" (click)="copiarEnlace(m)"><app-icono nombre="externo" /> Copiar enlace</button>
+            <button type="button" class="btn btn-secundario" [disabled]="ocupado() === m.id" (click)="alternarAbierto(m)">
+              {{ m.abierto ? 'Cerrar' : 'Abrir' }}
+            </button>
+            <button type="button" class="btn btn-secundario text-red-700" [disabled]="ocupado() === m.id" (click)="borrar(m)">Borrar</button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</section>
