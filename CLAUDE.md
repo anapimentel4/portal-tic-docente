@@ -180,6 +180,7 @@ portal-tic-docente/
   - Botón "Talleres" en el menú (visible para todos) que lleva a `/talleres`: tema, QR con un enlace (ampliable), agenda del día que marca la actividad de "ahora", ruleta, temporizador con sonido, grupos al azar, marcador, banco de dinámicas, pantalla completa para proyectar y "Configurar el taller".
   - No usa la base de datos: lo configurado se guarda en el navegador. Código en `apps/web/src/app/pages/talleres/`. Especificación y mockups de English Hub en `docs/english-hub/`.
   - Lo demás de English Hub (registro con QR, recursos por grado, fotos, encuesta y certificado, panel de la técnica) queda para después de la auditoría, con su propio plan.
+  - En Inicio, la tarjeta "Formación docente" lleva a Talleres (pedido el 24-nov).
   - Libro Abierto del MINERD agregado al Banco de recursos como "Herramienta web", publicado (fila nueva en `recursos.csv`, importada con `pnpm seed:recursos`).
 - [ ] Revisión final
   - Hecho (23-nov): claves revisadas, pruebas de RLS con los 3 roles (`pnpm test:rls`), páginas públicas sin errores de consola y en celular, ortografía, lista de cambios en `CAMBIOS.md`.

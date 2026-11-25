@@ -57,4 +57,5 @@ Talleres con inscripción, inventario e incidencias, registro de acompañamiento
 - Nuevo botón "Talleres" en el menú: Sala de taller de English Hub para proyectar durante un taller con docentes.
 - Tema y QR ampliable con un enlace (por defecto, el Banco de recursos), agenda del día con la actividad de "ahora", ruleta de nombres o preguntas, temporizador con sonido, grupos al azar, marcador por equipos y banco de 12 dinámicas.
 - Botón "Pantalla completa" para el proyector y "Configurar el taller" (se guarda en el navegador, sin base de datos).
+- Inicio: la tarjeta "Formación docente" ya no dice "Próximamente"; lleva a Talleres.
 - Banco de recursos: Libro Abierto del MINERD, publicado para todas las áreas y grados.

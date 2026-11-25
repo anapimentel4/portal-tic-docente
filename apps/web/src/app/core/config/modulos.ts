@@ -45,7 +45,7 @@ export const MODULOS: Modulo[] = [
     descripcion: 'Talleres prácticos para fortalecer tus competencias digitales.',
     icono: 'birrete',
     color: 'violeta',
-    destino: { tipo: 'proximamente' },
+    destino: { tipo: 'ruta', ruta: '/talleres', accion: 'Ir a Talleres' },
   },
   {
     titulo: 'Planificación y evaluación',
