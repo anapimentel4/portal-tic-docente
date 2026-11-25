@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Calendario e informes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F5F0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1C2333; background: #F6F5F0">
+
+<nav aria-label="Menú principal" style="flex: 1 1 220px; max-width: 260px; background: #1C2333; color: #FFFFFF; padding: 28px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 40px; height: 40px; border-radius: 10px; background: #D9622B; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px">EN</div><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px">English Hub</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px">
+<a href="Main.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Inicio</a>
+<a href="Docente.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Docentes</a>
+<a href="Calendario.dc.html" style="color: #FFFFFF; background: #2F3A52; padding: 11px 12px; border-radius: 8px; text-decoration: none; font-weight: 600">Calendario e informes</a>
+<a href="Observacion.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Observaciones de aula</a>
+<a href="Recursos.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Recursos y planificaciones</a>
+<a href="Taller.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Talleres</a>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; max-width: 1180px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px">Diciembre 2026</h1>
+<div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+<button aria-label="Mes anterior" style="width: 44px; height: 44px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C2333" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<button aria-label="Mes siguiente" style="width: 44px; height: 44px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C2333" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">+ Programar</button>
+</div>
+</header>
+
+<div style="display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; font-weight: 600">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #2B50C8"></span>Visita / observación</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #1B8A6B"></span>Reunión de acuerdos</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #D9622B"></span>Taller</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #8A8F9C"></span>Entrega de informe</span>
+</div>
+
+<section aria-label="Calendario mensual" style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; overflow: hidden">
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); background: #F1F0EB; font-size: 12px; font-weight: 700; color: #5B6170">
+<span style="padding: 10px">LUN</span><span style="padding: 10px">MAR</span><span style="padding: 10px">MIÉ</span><span style="padding: 10px">JUE</span><span style="padding: 10px">VIE</span><span style="padding: 10px">SÁB</span><span style="padding: 10px">DOM</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr))">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="35">
+<div style="{{d.cell}}">
+<span style="font-size: 13px; font-weight: 600">{{d.n}}</span>
+<sc-for list="{{d.ev}}" as="e" hint-placeholder-count="0">
+<span style="{{e.style}}">{{e.t}}</span>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Necesidades formativas detectadas</h2>
+<p style="margin: 0; font-size: 13px; color: #5B6170">Aspectos con nivel 1–2 en las observaciones del trimestre</p>
+<sc-for list="{{needs}}" as="n" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span style="font-weight: 600">{{n.t}}</span><span style="color: #5B6170">{{n.v}} docentes</span></div>
+<div style="height: 10px; background: #F1F0EB; border-radius: 5px"><div style="{{n.bar}}"></div></div>
+</div>
+</sc-for>
+</section>
+
+<section style="background: #1C2333; color: #FFFFFF; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Informe mensual para el distrito</h2>
+<p style="margin: 0; font-size: 14px; color: #C5CAD6; line-height: 1.5">Se arma solo con tus visitas, observaciones, compromisos y talleres del mes.</p>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.7"><li>Resumen de acompañamientos por centro</li><li>Logros y compromisos de los docentes</li><li>Necesidades formativas y plan de acción</li><li>Evidencias fotográficas</li></ul>
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto">
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #D9622B; color: #1C2333; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer">Generar informe</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #4A5570; background: transparent; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">PDF</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #4A5570; background: transparent; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">Excel</button>
+</div>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1320}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const col = { v: '#2B50C8', r: '#1B8A6B', t: '#D9622B', i: '#8A8F9C' };
+    const ink = { v: '#FFFFFF', r: '#FFFFFF', t: '#1C2333', i: '#FFFFFF' };
+    const events = {
+      1: [['t', 'Taller 2.º ciclo']], 2: [['v', '5.º B · [Centro]']], 3: [['r', 'Acuerdos 4.º A']],
+      7: [['v', '6.º A · [Centro]'], ['v', '4.º C · [Centro]']], 9: [['r', 'Acuerdos 6.º A']],
+      10: [['v', '5.º A · [Centro]']], 14: [['v', '4.º B · [Centro]']], 16: [['t', 'Seguimiento taller']],
+      18: [['i', 'Informe mensual']]
+    };
+    const days = [];
+    days.push({ n: '', ev: [], cell: 'min-height: 96px; border-right: 1px solid #EFEDE6; border-bottom: 1px solid #EFEDE6; background: #FAFAF7' });
+    for (let d = 1; d <= 31; d++) {
+      const wk = (d % 7 === 5 || d % 7 === 6);
+      days.push({
+        n: String(d),
+        ev: (events[d] || []).map(([k, t]) => ({ t, style: 'font-size: 11px; font-weight: 600; padding: 3px 6px; border-radius: 5px; background: ' + col[k] + '; color: ' + ink[k] + '; white-space: nowrap; overflow: hidden; text-overflow: ellipsis' })),
+        cell: 'min-height: 96px; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; min-width: 0; border-right: 1px solid #EFEDE6; border-bottom: 1px solid #EFEDE6; background: ' + (wk ? '#FAFAF7' : '#FFFFFF')
+      });
+    }
+    while (days.length % 7) days.push({ n: '', ev: [], cell: 'min-height: 96px; border-right: 1px solid #EFEDE6; border-bottom: 1px solid #EFEDE6; background: #FAFAF7' });
+    const needs = [['Interacción oral entre estudiantes', 9], ['Instrucciones en inglés', 7], ['Evaluación formativa', 6], ['Uso de recursos digitales', 4], ['Gestión del tiempo', 3]]
+      .map(([t, v]) => ({ t, v, bar: 'height: 100%; border-radius: 5px; background: #D9622B; width: ' + Math.round(v / 10 * 100) + '%' }));
+    return { days, needs };
+  }
+}
+</script>
+</body>
+</html>

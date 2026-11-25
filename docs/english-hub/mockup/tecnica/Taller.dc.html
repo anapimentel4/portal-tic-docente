@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Sala de taller</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1C2333}
+a{color:#F4B08C}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #1C2333; color: #FFFFFF; font-family: Inter, system-ui, sans-serif; padding: 28px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px">
+<div style="display: flex; align-items: center; gap: 14px">
+<a href="Main.dc.html" aria-label="Volver al panel" style="width: 44px; height: 44px; border-radius: 10px; background: #2F3A52; display: flex; align-items: center; justify-content: center; color: #FFFFFF">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+</a>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 12px; color: #C5CAD6; font-weight: 600; letter-spacing: 0.06em">SALA DE TALLER · DOCENTES DE 2.º CICLO</span>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 700">[TEMA DEL TALLER]</h1>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; background: #2F3A52; border-radius: 12px; padding: 8px 14px">
+<div style="width: 64px; height: 64px; background: #FFFFFF; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #1C2333; font-size: 11px; font-weight: 700">QR</div>
+<div style="display: flex; flex-direction: column; font-size: 13px"><span style="font-weight: 600">Únete y descarga los recursos</span><span style="color: #C5CAD6">[enlace-del-taller]</span></div>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="Juegos.dc.html" style="height: 44px; padding: 0 16px; border-radius: 10px; background: #D9622B; color: #1C2333; font-weight: 700; font-size: 14px; text-decoration: none; display: flex; align-items: center">Juegos proyectables</a>
+<a href="Muro.dc.html" style="height: 44px; padding: 0 16px; border-radius: 10px; background: #2F3A52; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: flex; align-items: center">Muro colaborativo</a>
+<a href="Asistencia.dc.html" style="height: 44px; padding: 0 16px; border-radius: 10px; background: #2F3A52; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: flex; align-items: center">Asistencia y evaluación</a>
+<a href="Evidencias.dc.html" style="height: 44px; padding: 0 16px; border-radius: 10px; background: #2F3A52; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: flex; align-items: center">Subir evidencias</a>
+</div>
+
+<section aria-label="Agenda del taller" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
+<div style="background: #2F3A52; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px; opacity: 0.7"><span style="font-size: 12px; color: #C5CAD6">9:00 · 15 min</span><span style="font-weight: 600; font-size: 14px">Rompehielo</span></div>
+<div style="background: #D9622B; color: #1C2333; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; font-weight: 700">AHORA · 9:15</span><span style="font-weight: 700; font-size: 14px">Estaciones</span></div>
+<div style="background: #2F3A52; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #C5CAD6">10:15 · 20 min</span><span style="font-weight: 600; font-size: 14px">Receso</span></div>
+<div style="background: #2F3A52; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #C5CAD6">10:35 · 10 min</span><span style="font-weight: 600; font-size: 14px">Energizante</span></div>
+<div style="background: #2F3A52; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #C5CAD6">10:45 · 45 min</span><span style="font-weight: 600; font-size: 14px">Micro-clases</span></div>
+<div style="background: #2F3A52; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 12px; color: #C5CAD6">11:30 · 30 min</span><span style="font-weight: 600; font-size: 14px">Gallery walk y cierre</span></div>
+</section>
+
+<section aria-label="Herramientas en vivo" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+
+<div style="background: #FFFFFF; color: #1C2333; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 12px; align-items: center">
+<h2 style="margin: 0; align-self: flex-start; font-family: 'Space Grotesk', sans-serif; font-size: 17px">Ruleta</h2>
+<div style="position: relative; width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#2B50C8 0 25%, #D9622B 25% 50%, #1B8A6B 50% 75%, #E8C547 75% 100%); display: flex; align-items: center; justify-content: center">
+<div style="width: 58px; height: 58px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">SPIN</div>
+</div>
+<span style="font-size: 13px; color: #5B6170; text-align: center">Nombres o preguntas</span>
+<button style="height: 44px; width: 100%; border-radius: 10px; border: none; background: #1C2333; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Girar</button>
+</div>
+
+<div style="background: #FFFFFF; color: #1C2333; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 17px">Temporizador</h2>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 58px; font-weight: 700; text-align: center; line-height: 1.1">08:42</span>
+<span style="font-size: 13px; color: #5B6170; text-align: center">Estación 2 de 4 · cambio de mesa al sonar</span>
+<div style="display: flex; gap: 8px">
+<button style="flex: 1; height: 44px; border-radius: 10px; border: none; background: #D9622B; color: #1C2333; font: inherit; font-weight: 700; cursor: pointer">Pausar</button>
+<button style="flex: 1; height: 44px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Reiniciar</button>
+</div>
+</div>
+
+<div style="background: #FFFFFF; color: #1C2333; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 17px">Grupos al azar</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; font-size: 13px">
+<div style="background: #E8EDFB; border-radius: 8px; padding: 8px"><b>Lions</b><br>[4 nombres]</div>
+<div style="background: #FCEBE1; border-radius: 8px; padding: 8px"><b>Eagles</b><br>[4 nombres]</div>
+<div style="background: #E6F2EE; border-radius: 8px; padding: 8px"><b>Dolphins</b><br>[4 nombres]</div>
+<div style="background: #FBF3D5; border-radius: 8px; padding: 8px"><b>Tigers</b><br>[4 nombres]</div>
+</div>
+<button style="height: 44px; margin-top: auto; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Mezclar grupos</button>
+</div>
+
+<div style="background: #FFFFFF; color: #1C2333; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 17px">Marcador</h2>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+<div style="display: flex; align-items: center; gap: 8px"><span style="flex: 1; font-weight: 600">Lions</span><div style="flex: 2; height: 10px; background: #F1F0EB; border-radius: 5px"><div style="width: 80%; height: 100%; background: #2B50C8; border-radius: 5px"></div></div><b style="width: 24px; text-align: right">8</b></div>
+<div style="display: flex; align-items: center; gap: 8px"><span style="flex: 1; font-weight: 600">Eagles</span><div style="flex: 2; height: 10px; background: #F1F0EB; border-radius: 5px"><div style="width: 60%; height: 100%; background: #D9622B; border-radius: 5px"></div></div><b style="width: 24px; text-align: right">6</b></div>
+<div style="display: flex; align-items: center; gap: 8px"><span style="flex: 1; font-weight: 600">Dolphins</span><div style="flex: 2; height: 10px; background: #F1F0EB; border-radius: 5px"><div style="width: 70%; height: 100%; background: #1B8A6B; border-radius: 5px"></div></div><b style="width: 24px; text-align: right">7</b></div>
+<div style="display: flex; align-items: center; gap: 8px"><span style="flex: 1; font-weight: 600">Tigers</span><div style="flex: 2; height: 10px; background: #F1F0EB; border-radius: 5px"><div style="width: 50%; height: 100%; background: #C9A21E; border-radius: 5px"></div></div><b style="width: 24px; text-align: right">5</b></div>
+</div>
+<button style="height: 44px; margin-top: auto; border-radius: 10px; border: none; background: #1C2333; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">+1 punto</button>
+</div>
+</section>
+
+<section aria-label="Banco de dinámicas" style="background: #F6F5F0; color: #1C2333; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Banco de dinámicas y juegos</h2>
+<span style="font-size: 13px; color: #5B6170">Los docentes las viven en el taller y las llevan a su aula</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
+<button onClick="{{f.pick}}" style="{{f.style}}">{{f.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="8">
+<article style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<span style="{{c.tagStyle}}">{{c.cat}}</span>
+<h3 style="margin: 0; font-size: 16px; font-weight: 700">{{c.name}}</h3>
+<p style="margin: 0; font-size: 13px; color: #5B6170; line-height: 1.45">{{c.desc}}</p>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; font-size: 12px; color: #5B6170"><span>{{c.time}}</span><span>{{c.skill}}</span></div>
+</article>
+</sc-for>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1240}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { cat: 'Todas' }; }
+  renderVals() {
+    const tags = {
+      'Rompehielo': ['#E8EDFB', '#1E3A96'],
+      'Energizante': ['#FBF3D5', '#6B5410'],
+      'Contenido': ['#FCEBE1', '#8F3A14'],
+      'Cierre': ['#E6F2EE', '#1B5E4C']
+    };
+    const all = [
+      { cat: 'Rompehielo', name: 'Find someone who…', desc: 'Tarjeta con frases; caminan y preguntan en inglés hasta completar cada casilla.', time: '15 min', skill: 'Speaking' },
+      { cat: 'Rompehielo', name: 'Two truths and a lie', desc: 'Cada quien dice tres frases sobre sí; el grupo adivina cuál es falsa.', time: '10 min', skill: 'Speaking' },
+      { cat: 'Rompehielo', name: 'Snowball fight', desc: 'Escriben una pregunta, la lanzan como bola de papel y responden la que reciben.', time: '10 min', skill: 'Writing' },
+      { cat: 'Energizante', name: 'TPR · Simon says', desc: 'Vocabulario con movimiento: solo se obedece si empieza con “Simon says”.', time: '5 min', skill: 'Listening' },
+      { cat: 'Energizante', name: 'Stand up if…', desc: 'Se ponen de pie si la frase aplica a su práctica. Energiza y diagnostica.', time: '5 min', skill: 'Listening' },
+      { cat: 'Contenido', name: 'Running dictation', desc: 'Texto en la pared: uno corre, lee, vuelve y dicta a su equipo.', time: '15 min', skill: 'Todas' },
+      { cat: 'Contenido', name: 'Rotación por estaciones', desc: 'Cuatro mesas: speaking, listening, vocabulario y juegos. Cambian cada 10 min.', time: '40 min', skill: 'Todas' },
+      { cat: 'Contenido', name: 'Board race', desc: 'Dos equipos compiten escribiendo palabras de una categoría en la pizarra.', time: '10 min', skill: 'Vocabulario' },
+      { cat: 'Contenido', name: 'Micro-clase', desc: 'Cada equipo modela una actividad de 5 min; los demás hacen de estudiantes.', time: '45 min', skill: 'Práctica' },
+      { cat: 'Cierre', name: 'Gallery walk', desc: 'Recorren los papelógrafos de otros grupos y dejan comentarios en post-its.', time: '20 min', skill: 'Reflexión' },
+      { cat: 'Cierre', name: '3-2-1', desc: '3 cosas aprendidas, 2 que aplicarán y 1 pregunta pendiente.', time: '5 min', skill: 'Reflexión' },
+      { cat: 'Cierre', name: 'Pelota de reflexión', desc: 'Quien recibe la pelota completa: “Tomorrow in my class I will…”.', time: '10 min', skill: 'Speaking' }
+    ];
+    const cur = this.state.cat;
+    const filters = ['Todas', 'Rompehielo', 'Energizante', 'Contenido', 'Cierre'].map((label) => ({
+      label,
+      pick: () => this.setState({ cat: label }),
+      style: 'height: 38px; padding: 0 14px; border-radius: 19px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' +
+        (label === cur ? 'border: none; background: #1C2333; color: #FFFFFF' : 'border: 1px solid #D6D3C9; background: #FFFFFF; color: #1C2333')
+    }));
+    const cards = all.filter((c) => cur === 'Todas' || c.cat === cur).map((c) => ({
+      ...c,
+      tagStyle: 'align-self: flex-start; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 12px; background: ' + tags[c.cat][0] + '; color: ' + tags[c.cat][1]
+    }));
+    return { filters, cards };
+  }
+}
+</script>
+</body>
+</html>

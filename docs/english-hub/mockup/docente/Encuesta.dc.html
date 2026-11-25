@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Encuesta y certificado</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F6F5F0; color: #1C2333; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+<header style="background: #1C2333; color: #FFFFFF; padding: 20px 20px 16px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #C5CAD6; font-weight: 600">CIERRE DEL TALLER</span>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">Encuesta y certificado</h1>
+</header>
+<main style="flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px">
+
+<sc-if value="{{form}}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{qs}}" as="q" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px"><span style="font-size: 14px; font-weight: 600">{{q.t}}</span>
+<div style="display: flex; gap: 6px"><sc-for list="{{q.opts}}" as="o" hint-placeholder-count="5"><button onClick="{{o.pick}}" aria-label="{{o.n}} de 5" style="{{o.style}}">{{o.n}}</button></sc-for></div></div>
+</sc-for>
+<label style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600">¿Qué aplicarás en tu clase esta semana?<textarea rows="3" placeholder="Escribe una actividad…" style="border: 1px solid #D6D3C9; border-radius: 10px; padding: 10px; font: 400 14px Inter, sans-serif"></textarea></label>
+<button onClick="{{send}}" style="flex: none; height: 48px; border-radius: 12px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer">Enviar y obtener certificado</button>
+</sc-if>
+<sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+<div style="background: #E6F2EE; color: #1B5E4C; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600">¡Gracias! Tu certificado está listo.</div>
+<div style="border: 5px double #2B50C8; border-radius: 6px; padding: 18px 14px; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+<span style="font-size: 9px; letter-spacing: 0.12em; color: #5B6170; font-weight: 700">[INSTITUCIÓN / DISTRITO EDUCATIVO]</span>
+<span style="font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700">Certificado de participación</span>
+<span style="font-size: 11px; color: #5B6170">Se otorga a</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; border-bottom: 1px solid #1C2333; padding: 0 16px 3px">[Nombre del docente]</span>
+<span style="font-size: 11px; color: #5B6170; line-height: 1.45">por su participación en el taller “[TEMA DEL TALLER]”, 1 de diciembre de 2026.</span>
+<span style="font-size: 10px; margin-top: 6px; border-top: 1px solid #1C2333; padding-top: 3px">Ana J. Pimentel · Técnica de Inglés</span>
+</div>
+<button style="flex: none; height: 48px; border-radius: 12px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer">Descargar PDF</button>
+<button style="flex: none; height: 46px; border-radius: 12px; border: 1px solid #D6D3C9; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Enviar por WhatsApp</button>
+</sc-if>
+</main>
+<nav aria-label="Secciones del taller" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; background: #FFFFFF; border-top: 1px solid #E4E2DA; padding: 6px 6px 14px">
+<a href="Inicio.dc.html" style="height: 48px; border-radius: 10px; color: #5B6170; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center">Inicio</a>
+<a href="Recursos.dc.html" style="height: 48px; border-radius: 10px; color: #5B6170; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center">Recursos</a>
+<a href="Planificar.dc.html" style="height: 48px; border-radius: 10px; color: #5B6170; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center">Planificar</a>
+<a href="Fotos.dc.html" style="height: 48px; border-radius: 10px; color: #5B6170; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center">Fotos</a>
+<a href="Encuesta.dc.html" aria-current="page" style="height: 48px; border-radius: 10px; background: #E8EDFB; color: #1E3A96; font-size: 12px; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center">Encuesta</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(p) { super(p); this.state = { r: {}, done: false }; }
+  renderVals() {
+    const s = this.state;
+    const qs = ['¿Qué tan útil fue para tu clase?', '¿Te gustaron las dinámicas y juegos?', '¿Cómo fue la organización del tiempo?'].map((t, i) => ({
+      t, opts: [1, 2, 3, 4, 5].map((n) => ({ n, pick: () => this.setState({ r: { ...s.r, [i]: n } }),
+        style: 'flex: 1; height: 44px; border-radius: 10px; font: inherit; font-weight: 700; cursor: pointer; ' + (s.r[i] === n ? 'border: none; background: #2B50C8; color: #FFFFFF' : 'border: 1px solid #D6D3C9; background: #FFFFFF; color: #1C2333') })) }));
+    return { qs, form: !s.done, done: s.done, send: () => this.setState({ done: true }) };
+  }
+}
+</script>
+</body>
+</html>

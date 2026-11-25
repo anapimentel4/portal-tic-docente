@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Evidencias de talleres</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F5F0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1C2333; background: #F6F5F0">
+
+<nav aria-label="Menú principal" style="flex: 1 1 220px; max-width: 260px; background: #1C2333; color: #FFFFFF; padding: 28px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 40px; height: 40px; border-radius: 10px; background: #D9622B; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px">EN</div><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px">English Hub</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px">
+<a href="Main.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Inicio</a>
+<a href="Docente.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Docentes</a>
+<a href="Calendario.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Calendario e informes</a>
+<a href="Observacion.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Observaciones de aula</a>
+<a href="Recursos.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Recursos y planificaciones</a>
+<a href="Evidencias.dc.html" style="color: #FFFFFF; background: #2F3A52; padding: 11px 12px; border-radius: 8px; text-decoration: none; font-weight: 600">Evidencias de talleres</a>
+<a href="Taller.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Sala de taller</a>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; max-width: 1180px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px">Evidencias de talleres</h1>
+<p style="margin: 0; font-size: 14px; color: #5B6170">Cada taller con los docentes queda guardado con sus fotos, asistencia y productos</p>
+</div>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">+ Nuevo álbum de taller</button>
+</header>
+
+<section aria-label="Talleres realizados" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{albums}}" as="a" hint-placeholder-count="4">
+<button onClick="{{a.pick}}" style="{{a.style}}">
+<div style="{{a.cover}}"></div>
+<span style="font-size: 14px; font-weight: 700">{{a.name}}</span>
+<span style="font-size: 12px; color: #5B6170">{{a.date}} · {{a.photos}} fotos</span>
+</button>
+</sc-for>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-start">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 22px">{{cur.name}}</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; font-weight: 600">
+<span style="background: #F1F0EB; padding: 5px 10px; border-radius: 20px">{{cur.date}}</span>
+<span style="background: #F1F0EB; padding: 5px 10px; border-radius: 20px">[Lugar]</span>
+<span style="background: #E8EDFB; color: #1E3A96; padding: 5px 10px; border-radius: 20px">{{cur.people}} docentes participantes</span>
+<span style="background: #E6F2EE; color: #1B5E4C; padding: 5px 10px; border-radius: 20px">Asistencia firmada</span>
+</div>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; font-size: 13px; cursor: pointer">Descargar álbum</button>
+<a href="Calendario.dc.html" style="height: 40px; padding: 0 14px; border-radius: 10px; background: #1C2333; color: #FFFFFF; font-weight: 600; font-size: 13px; text-decoration: none; display: flex; align-items: center">Incluir en informe</a>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{shots}}" as="s" hint-placeholder-count="7">
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 6px">
+<div style="{{s.box}}">[Foto]</div>
+<figcaption style="font-size: 12px; color: #5B6170">{{s.cap}}</figcaption>
+</figure>
+</sc-for>
+<div style="height: 140px; border: 2px dashed #C9C5B8; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 600; color: #5B6170; text-align: center; padding: 10px; box-sizing: border-box">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B6170" stroke-width="2" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"></path></svg>
+Subir fotos
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<div style="background: #F6F5F0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 700">Lista de asistencia</span><span style="font-size: 12px; color: #5B6170">asistencia-firmada.pdf</span></div>
+<div style="background: #F6F5F0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 700">Productos de los docentes</span><span style="font-size: 12px; color: #5B6170">Papelógrafos y micro-clases</span></div>
+<div style="background: #F6F5F0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; font-weight: 700">Resultados de la encuesta</span><span style="font-size: 12px; color: #5B6170">Satisfacción y sugerencias</span></div>
+</div>
+<p style="margin: 0; font-size: 12px; color: #5B6170">Los docentes también pueden subir sus fotos desde el celular con el QR del taller; tú las apruebas antes de que aparezcan aquí.</p>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1200}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { i: 0 }; }
+  renderVals() {
+    const tints = ['#E8EDFB', '#FCEBE1', '#E6F2EE', '#FBF3D5'];
+    const list = [
+      { name: '[TEMA DEL TALLER]', date: '1 dic. 2026', photos: 7, people: '[N]' },
+      { name: 'Juegos para la clase de inglés', date: '[Fecha]', photos: 7, people: '[N]' },
+      { name: 'Classroom language', date: '[Fecha]', photos: 7, people: '[N]' },
+      { name: 'Planificación por unidades', date: '[Fecha]', photos: 7, people: '[N]' }
+    ];
+    const i = this.state.i;
+    const albums = list.map((a, k) => ({
+      ...a,
+      pick: () => this.setState({ i: k }),
+      cover: 'height: 96px; border-radius: 8px; background: ' + tints[k],
+      style: 'text-align: left; font: inherit; color: #1C2333; cursor: pointer; background: #FFFFFF; border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 6px; ' + (k === i ? 'border: 2px solid #2B50C8' : 'border: 1px solid #E4E2DA')
+    }));
+    const caps = ['Rompehielo: Find someone who', 'Estación de speaking', 'Running dictation', 'Micro-clase del equipo Lions', 'Gallery walk', 'Cierre 3-2-1', 'Foto grupal'];
+    const shots = caps.map((cap, k) => ({ cap, box: 'height: 140px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #5B6170; background: ' + tints[(k + i) % 4] }));
+    return { albums, cur: list[i], shots };
+  }
+}
+</script>
+</body>
+</html>

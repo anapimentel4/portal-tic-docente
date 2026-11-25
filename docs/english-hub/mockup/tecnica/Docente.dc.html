@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ficha del docente</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F5F0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1C2333; background: #F6F5F0">
+
+<nav aria-label="Menú principal" style="flex: 1 1 220px; max-width: 260px; background: #1C2333; color: #FFFFFF; padding: 28px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 40px; height: 40px; border-radius: 10px; background: #D9622B; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px">EN</div><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px">English Hub</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px">
+<a href="Main.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Inicio</a>
+<a href="Docente.dc.html" style="color: #FFFFFF; background: #2F3A52; padding: 11px 12px; border-radius: 8px; text-decoration: none; font-weight: 600">Docentes</a>
+<a href="Calendario.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Calendario e informes</a>
+<a href="Observacion.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Observaciones de aula</a>
+<a href="Recursos.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Recursos y planificaciones</a>
+<a href="Taller.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Talleres</a>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; max-width: 1180px">
+<a href="Main.dc.html" style="font-size: 13px; font-weight: 600; text-decoration: none">← Docentes</a>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 16px; padding: 22px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center">
+<div style="width: 76px; height: 76px; border-radius: 50%; background: #E8EDFB; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px">DC</div>
+<div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 28px">[Nombre del docente]</h1>
+<span style="font-size: 14px; color: #5B6170">[Centro educativo] · Distrito [00-00] · Tanda matutina</span>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px">
+<span style="font-size: 12px; font-weight: 600; background: #E8EDFB; color: #1E3A96; padding: 4px 10px; border-radius: 20px">5.º A</span>
+<span style="font-size: 12px; font-weight: 600; background: #E8EDFB; color: #1E3A96; padding: 4px 10px; border-radius: 20px">5.º B</span>
+<span style="font-size: 12px; font-weight: 600; background: #E8EDFB; color: #1E3A96; padding: 4px 10px; border-radius: 20px">6.º A</span>
+<span style="font-size: 12px; font-weight: 600; background: #F1F0EB; color: #5B6170; padding: 4px 10px; border-radius: 20px">[Teléfono] · [Correo]</span>
+</div>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<a href="Observacion.dc.html" style="height: 44px; padding: 0 18px; border-radius: 10px; background: #2B50C8; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: flex; align-items: center">Nueva observación</a>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">Enviar mensaje</button>
+</div>
+</section>
+
+<section aria-label="Resumen del docente" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5B6170">Visitas en el año</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700">[N]</span></div>
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5B6170">Última visita</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700">[Fecha]</span></div>
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5B6170">Compromisos logrados</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: #1B5E4C">[N] de [N]</span></div>
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 13px; color: #5B6170">Talleres asistidos</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700">[N]</span></div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<section style="grid-column: span 2; background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Historial de acompañamiento</h2>
+<div style="display: flex; flex-direction: column; gap: 0">
+<div style="display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #EFEDE6"><div style="width: 10px; height: 10px; border-radius: 50%; background: #2B50C8; margin-top: 5px; flex: none"></div><div style="flex: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 14px; font-weight: 600">Observación de clase · 5.º B · Unidad “My community”</span><span style="font-size: 13px; color: #5B6170">Buen uso de flashcards y canciones. Poca interacción oral entre estudiantes.</span></div><span style="font-size: 12px; color: #5B6170; white-space: nowrap">[Fecha]</span></div>
+<div style="display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #EFEDE6"><div style="width: 10px; height: 10px; border-radius: 50%; background: #1B8A6B; margin-top: 5px; flex: none"></div><div style="flex: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 14px; font-weight: 600">Retroalimentación y acuerdos</span><span style="font-size: 13px; color: #5B6170">Se acordó incluir una actividad de speaking en parejas por clase.</span></div><span style="font-size: 12px; color: #5B6170; white-space: nowrap">[Fecha]</span></div>
+<div style="display: flex; gap: 14px; padding: 12px 0"><div style="width: 10px; height: 10px; border-radius: 50%; background: #D9622B; margin-top: 5px; flex: none"></div><div style="flex: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-size: 14px; font-weight: 600">Taller: Juegos para la clase de inglés</span><span style="font-size: 13px; color: #5B6170">Asistió y presentó una micro-clase con Board race.</span></div><span style="font-size: 12px; color: #5B6170; white-space: nowrap">[Fecha]</span></div>
+</div>
+</section>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 17px">Fortalezas</h2>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.6"><li>Clima de aula positivo</li><li>Uso de recursos visuales</li><li>Planificación al día</li></ul>
+</section>
+<section style="background: #FCEBE1; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 17px">Aspectos a fortalecer</h2>
+<ul style="margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.6"><li>Más tiempo de habla del estudiante</li><li>Instrucciones en inglés</li><li>Evaluación formativa</li></ul>
+</section>
+</div>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Evidencias</h2><button style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; font-size: 13px; cursor: pointer">+ Subir foto o archivo</button></div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="height: 110px; border-radius: 10px; background: #E8EDFB; display: flex; align-items: flex-end; padding: 10px; box-sizing: border-box; font-size: 12px; font-weight: 600">[Foto de clase]</div>
+<div style="height: 110px; border-radius: 10px; background: #FCEBE1; display: flex; align-items: flex-end; padding: 10px; box-sizing: border-box; font-size: 12px; font-weight: 600">[Planificación.pdf]</div>
+<div style="height: 110px; border-radius: 10px; background: #E6F2EE; display: flex; align-items: flex-end; padding: 10px; box-sizing: border-box; font-size: 12px; font-weight: 600">[Trabajo de estudiantes]</div>
+<div style="height: 110px; border-radius: 10px; background: #FBF3D5; display: flex; align-items: flex-end; padding: 10px; box-sizing: border-box; font-size: 12px; font-weight: 600">[Ficha de observación]</div>
+</div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1160}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

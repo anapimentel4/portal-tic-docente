@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Recursos y planificaciones</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F5F0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1C2333; background: #F6F5F0">
+
+<nav aria-label="Menú principal" style="flex: 1 1 220px; max-width: 260px; background: #1C2333; color: #FFFFFF; padding: 28px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 40px; height: 40px; border-radius: 10px; background: #D9622B; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px">EN</div><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px">English Hub</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px">
+<a href="Main.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Inicio</a>
+<a href="Docente.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Docentes</a>
+<a href="Calendario.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Calendario e informes</a>
+<a href="Observacion.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Observaciones de aula</a>
+<a href="Recursos.dc.html" style="color: #FFFFFF; background: #2F3A52; padding: 11px 12px; border-radius: 8px; text-decoration: none; font-weight: 600">Recursos y planificaciones</a>
+<a href="Evidencias.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Evidencias de talleres</a>
+<a href="Taller.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Sala de taller</a>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; max-width: 1180px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px">Recursos y planificaciones</h1>
+<p style="margin: 0; font-size: 14px; color: #5B6170">Un banco compartido con los docentes, organizado por grado y unidad</p>
+</div>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">+ Subir recurso</button>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<sc-for list="{{grades}}" as="g" hint-placeholder-count="4">
+<button onClick="{{g.pick}}" style="{{g.style}}">{{g.label}}</button>
+</sc-for>
+<span style="flex: 1"></span>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600">Tipo
+<select style="height: 40px; border-radius: 10px; border: 1px solid #D6D3C9; padding: 0 10px; font: inherit; font-weight: 400; background: #FFFFFF"><option>Todos</option><option>Planificación</option><option>Flashcards</option><option>Canción</option><option>Ficha de trabajo</option><option>Juego</option></select></label>
+</div>
+
+<section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+<sc-for list="{{units}}" as="u" hint-placeholder-count="3">
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 12px; font-weight: 700; color: #1E3A96; background: #E8EDFB; padding: 4px 10px; border-radius: 12px">{{u.tag}}</span><span style="font-size: 12px; color: #5B6170">{{u.count}} recursos</span></div>
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 18px">{{u.name}}</h2>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{u.items}}" as="it" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: #F6F5F0; border-radius: 8px">
+<span style="{{it.badge}}">{{it.kind}}</span>
+<span style="flex: 1; font-size: 13px; font-weight: 500; min-width: 0">{{it.t}}</span>
+<button aria-label="Descargar" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid #E4E2DA; background: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1C2333" stroke-width="2" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></button>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</section>
+
+<section aria-label="Libros de texto" style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 2px"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px">Libros de texto</h2><span style="font-size: 13px; color: #5B6170">Libro del estudiante, guía del docente y audios, divididos por unidad</span></div>
+<button style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; font-size: 13px; cursor: pointer">+ Agregar libro (PDF)</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+<sc-for list="{{books}}" as="b" hint-placeholder-count="3">
+<div style="display: flex; gap: 14px; background: #F6F5F0; border-radius: 12px; padding: 14px">
+<div style="{{b.cover}}"><span style="font-size: 11px; font-weight: 700; opacity: 0.85">ENGLISH</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 700; line-height: 1">{{b.g}}</span><span style="font-size: 10px; font-weight: 600">[Editorial]</span></div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 15px; font-weight: 700">{{b.g}} grado · [Título del libro]</span>
+<span style="font-size: 12px; color: #5B6170">{{b.units}}</span>
+<div style="display: flex; flex-direction: column; gap: 6px; margin-top: auto">
+<button style="height: 36px; border-radius: 8px; border: none; background: #1C2333; color: #FFFFFF; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Abrir libro</button>
+<div style="display: flex; gap: 6px"><button style="flex: 1; height: 36px; border-radius: 8px; border: 1px solid #D6D3C9; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Guía docente</button><button style="flex: 1; height: 36px; border-radius: 8px; border: 1px solid #D6D3C9; background: #FFFFFF; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Audios</button></div>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section aria-label="Plantillas de planificación" style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 2px"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px">Plantillas de planificación</h2><span style="font-size: 13px; color: #5B6170">Se llenan en línea o se descargan en Word; al guardarlas quedan en el banco de planificaciones</span></div>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{templates}}" as="t" hint-placeholder-count="5">
+<div style="border: 1px solid #E4E2DA; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="{{t.thumb}}"><div style="height: 6px; width: 60%; background: rgba(28,35,51,0.35); border-radius: 3px"></div><div style="height: 4px; width: 90%; background: rgba(28,35,51,0.18); border-radius: 2px"></div><div style="height: 4px; width: 80%; background: rgba(28,35,51,0.18); border-radius: 2px"></div><div style="height: 4px; width: 85%; background: rgba(28,35,51,0.18); border-radius: 2px"></div></div>
+<span style="font-size: 14px; font-weight: 700">{{t.name}}</span>
+<span style="font-size: 12px; color: #5B6170; line-height: 1.4">{{t.desc}}</span>
+<button style="margin-top: auto; height: 36px; border-radius: 8px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Usar plantilla</button>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 2px dashed #C9C5B8; border-radius: 14px; padding: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px">
+<div style="width: 52px; height: 52px; border-radius: 12px; background: #E8EDFB; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B50C8" stroke-width="2" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"></path></svg></div>
+<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 4px"><span style="font-weight: 700; font-size: 15px">Arrastra aquí planificaciones, fichas o audios</span><span style="font-size: 13px; color: #5B6170">Los docentes también pueden compartir sus planificaciones; tú las revisas antes de publicarlas.</span></div>
+<span style="font-size: 12px; font-weight: 600; background: #FCEBE1; color: #8F3A14; padding: 6px 12px; border-radius: 20px">[N] planificaciones por revisar</span>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1780}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { g: '5.º' }; }
+  renderVals() {
+    const kinds = { PLAN: ['#E8EDFB', '#1E3A96'], CARD: ['#FCEBE1', '#8F3A14'], SONG: ['#E6F2EE', '#1B5E4C'], FICHA: ['#FBF3D5', '#6B5410'], GAME: ['#EDE7F6', '#4A2C82'] };
+    const mk = (kind, t) => ({ kind, t, badge: 'font-size: 10px; font-weight: 700; padding: 3px 6px; border-radius: 5px; background: ' + kinds[kind][0] + '; color: ' + kinds[kind][1] });
+    const data = {
+      '4.º': [['Unidad 1', 'My school'], ['Unidad 2', 'My family'], ['Unidad 3', 'Daily routines']],
+      '5.º': [['Unidad 1', 'My community'], ['Unidad 2', 'Food and health'], ['Unidad 3', 'Weather and seasons']],
+      '6.º': [['Unidad 1', 'Jobs and occupations'], ['Unidad 2', 'Free time'], ['Unidad 3', 'Places in my country']]
+    };
+    const cur = this.state.g;
+    const grades = ['Todos', '4.º', '5.º', '6.º'].map((label) => ({
+      label: label === 'Todos' ? 'Todos los grados' : label + ' grado',
+      pick: () => this.setState({ g: label }),
+      style: 'height: 40px; padding: 0 16px; border-radius: 20px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' + (label === cur ? 'border: none; background: #1C2333; color: #FFFFFF' : 'border: 1px solid #D6D3C9; background: #FFFFFF; color: #1C2333')
+    }));
+    const list = cur === 'Todos' ? data['4.º'].slice(0, 1).concat(data['5.º'].slice(0, 1), data['6.º'].slice(0, 1)) : data[cur];
+    const units = list.map(([tag, name]) => ({
+      tag: (cur === 'Todos' ? '' : cur + ' · ') + tag, name, count: 12,
+      items: [mk('PLAN', 'Planificación de la unidad'), mk('CARD', 'Flashcards de vocabulario'), mk('SONG', 'Canción y letra'), mk('GAME', 'Juego: Bingo de la unidad')]
+    }));
+    const covers = { '4.º': ['#2B50C8', '#FFFFFF'], '5.º': ['#D9622B', '#1C2333'], '6.º': ['#1B8A6B', '#FFFFFF'] };
+    const books = ['4.º', '5.º', '6.º'].map((g) => ({
+      g, units: data[g].map((u) => u[1]).join(' · ') + ' · …',
+      cover: 'width: 92px; height: 128px; flex: none; border-radius: 6px; padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; background: ' + covers[g][0] + '; color: ' + covers[g][1]
+    }));
+    const tints = ['#E8EDFB', '#FCEBE1', '#E6F2EE', '#FBF3D5', '#EDE7F6'];
+    const templates = [
+      ['Plan de unidad', 'Competencias, indicadores de logro, contenidos y evaluación de la unidad'],
+      ['Plan de clase diario', 'Intención pedagógica, actividades y recursos de cada clase'],
+      ['Secuencia didáctica', 'Inicio, desarrollo y cierre con tiempos y estrategias'],
+      ['Lista de cotejo y rúbrica', 'Instrumentos para evaluar speaking, listening y writing'],
+      ['Planificación de taller', 'Agenda, dinámicas, materiales y evaluación del taller']
+    ].map(([name, desc], i) => ({ name, desc, thumb: 'height: 70px; border-radius: 8px; padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; background: ' + tints[i] }));
+    return { grades, units, books, templates };
+  }
+}
+</script>
+</body>
+</html>

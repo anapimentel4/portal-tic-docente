@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Asistencia y evaluación</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F5F0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F6F5F0; color: #1C2333; font-family: Inter, system-ui, sans-serif; padding: 28px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; max-width: 1280px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div style="display: flex; align-items: center; gap: 14px">
+<a href="Taller.dc.html" aria-label="Volver a la sala de taller" style="width: 44px; height: 44px; border-radius: 10px; background: #FFFFFF; border: 1px solid #E4E2DA; display: flex; align-items: center; justify-content: center; color: #1C2333"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #5B6170; font-weight: 600">[TEMA DEL TALLER] · 1 dic. 2026</span><h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 28px">Asistencia y evaluación</h1></div>
+</div>
+<a href="Evidencias.dc.html" style="height: 44px; padding: 0 18px; border-radius: 10px; background: #1C2333; color: #FFFFFF; font-weight: 600; font-size: 14px; text-decoration: none; display: flex; align-items: center">Guardar como evidencia</a>
+</header>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<section style="background: #1C2333; color: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Registro con QR</h2>
+<div style="width: 170px; height: 170px; background: #FFFFFF; border-radius: 12px; color: #1C2333; display: flex; align-items: center; justify-content: center; font-weight: 700">QR</div>
+<span style="font-size: 13px; color: #C5CAD6">Los docentes escanean al llegar y escriben su nombre y centro</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700">[N] <span style="font-size: 15px; color: #C5CAD6; font-weight: 500">registrados</span></span>
+</section>
+
+<section style="grid-column: span 2; background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Lista de asistencia</h2><button style="height: 40px; padding: 0 14px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; font-size: 13px; cursor: pointer">Descargar lista para firmar</button></div>
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px">
+<thead><tr style="text-align: left; font-size: 12px; color: #5B6170; text-transform: uppercase; letter-spacing: 0.04em"><th style="padding: 8px; border-bottom: 1px solid #E4E2DA">Docente</th><th style="padding: 8px; border-bottom: 1px solid #E4E2DA">Centro</th><th style="padding: 8px; border-bottom: 1px solid #E4E2DA">Grado</th><th style="padding: 8px; border-bottom: 1px solid #E4E2DA">Llegada</th><th style="padding: 8px; border-bottom: 1px solid #E4E2DA">Encuesta</th></tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+<tr><td style="padding: 10px 8px; border-bottom: 1px solid #EFEDE6; font-weight: 600">[Docente]</td><td style="padding: 10px 8px; border-bottom: 1px solid #EFEDE6">[Centro]</td><td style="padding: 10px 8px; border-bottom: 1px solid #EFEDE6">{{r.g}}</td><td style="padding: 10px 8px; border-bottom: 1px solid #EFEDE6">{{r.t}}</td><td style="padding: 10px 8px; border-bottom: 1px solid #EFEDE6"><span style="{{r.badge}}">{{r.s}}</span></td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Encuesta de salida</h2>
+<sc-for list="{{survey}}" as="q" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span style="font-weight: 600">{{q.t}}</span><span style="color: #5B6170">{{q.v}} / 5</span></div>
+<div style="height: 10px; background: #F1F0EB; border-radius: 5px"><div style="{{q.bar}}"></div></div>
+</div>
+</sc-for>
+<div style="background: #F6F5F0; border-radius: 10px; padding: 12px; font-size: 13px; line-height: 1.5"><b>Lo que más les sirvió:</b> estaciones y running dictation. <b>Piden:</b> más juegos con canciones para 4.º.</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Certificado de participación</h2><button style="height: 40px; padding: 0 14px; border-radius: 10px; border: none; background: #D9622B; color: #1C2333; font: inherit; font-weight: 700; font-size: 13px; cursor: pointer">Generar para todos</button></div>
+<div style="border: 6px double #2B50C8; border-radius: 6px; padding: 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; background: #FFFFFF">
+<span style="font-size: 11px; letter-spacing: 0.12em; color: #5B6170; font-weight: 700">[INSTITUCIÓN / DISTRITO EDUCATIVO]</span>
+<span style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700">Certificado de participación</span>
+<span style="font-size: 13px; color: #5B6170">Se otorga a</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; border-bottom: 1px solid #1C2333; padding: 0 30px 4px">[Nombre del docente]</span>
+<span style="font-size: 13px; color: #5B6170; line-height: 1.5">por su participación en el taller “[TEMA DEL TALLER]”, 1 de diciembre de 2026, con una duración de [N] horas.</span>
+<div style="display: flex; gap: 40px; margin-top: 10px; font-size: 12px"><span style="border-top: 1px solid #1C2333; padding-top: 4px; width: 150px">Ana J. Pimentel<br>Técnica de Inglés</span><span style="border-top: 1px solid #1C2333; padding-top: 4px; width: 150px">[Nombre]<br>[Cargo]</span></div>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1140}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const done = 'font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: #E6F2EE; color: #1B5E4C';
+    const wait = 'font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: #F1F0EB; color: #5B6170';
+    const rows = [['4.º', '8:52'], ['5.º', '8:55'], ['6.º', '9:01'], ['5.º', '9:03'], ['4.º', '9:10']].map(([g, t], i) => ({ g, t, s: i < 3 ? 'Respondida' : 'Pendiente', badge: i < 3 ? done : wait }));
+    const survey = [['Utilidad para mi clase', 4.7], ['Dinámicas y juegos', 4.8], ['Organización del tiempo', 4.2], ['Materiales entregados', 4.5]]
+      .map(([t, v]) => ({ t, v, bar: 'height: 100%; border-radius: 5px; background: #2B50C8; width: ' + Math.round(v / 5 * 100) + '%' }));
+    return { rows, survey };
+  }
+}
+</script>
+</body>
+</html>

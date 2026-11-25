@@ -1,6 +1,6 @@
 # Cambios — Portal TIC Docente
 
-Primera versión para la auditoría del 25 de noviembre de 2026. Plan completo y estado en `CLAUDE.md`.
+Primera versión para la auditoría (semana del 30 de noviembre de 2026). Plan completo y estado en `CLAUDE.md`.
 
 ## Fase 1 — Base del proyecto
 - Monorepo con pnpm: `apps/web` (Angular + Tailwind), `packages/shared` (catálogos y tipos) y `supabase/` (base de datos).
@@ -12,7 +12,7 @@ Primera versión para la auditoría del 25 de noviembre de 2026. Plan completo y
 - 10 tablas con sus catálogos validados (áreas, grados, tipos y estados).
 - Reglas RLS en todas las tablas: cada rol solo ve y hace lo que le corresponde, y lo exige la base de datos, no solo la página.
 - Storage: bucket `recursos` (archivos de docentes) y bucket `robotica` (fotos de proyectos).
-- Datos reales: los 29 recursos de `recursos.csv` importados (`pnpm seed:recursos`).
+- Datos reales: los recursos de `recursos.csv` importados (`pnpm seed:recursos`): 29 al inicio y Libro Abierto del MINERD el 24-nov.
 - Un recurso solo se puede publicar con las 4 comprobaciones marcadas (migración 4).
 - Pruebas automáticas de permisos: `pnpm test:rls`.
 
@@ -52,3 +52,9 @@ Primera versión para la auditoría del 25 de noviembre de 2026. Plan completo y
 
 ## Después de la auditoría
 Talleres con inscripción, inventario e incidencias, registro de acompañamientos, plan de trabajo TIC, informe PDF para el distrito y conexión con Fortech-IA.
+
+## Talleres (pedido por la auditoría, 24-nov)
+- Nuevo botón "Talleres" en el menú: Sala de taller de English Hub para proyectar durante un taller con docentes.
+- Tema y QR ampliable con un enlace (por defecto, el Banco de recursos), agenda del día con la actividad de "ahora", ruleta de nombres o preguntas, temporizador con sonido, grupos al azar, marcador por equipos y banco de 12 dinámicas.
+- Botón "Pantalla completa" para el proyector y "Configurar el taller" (se guarda en el navegador, sin base de datos).
+- Banco de recursos: Libro Abierto del MINERD, publicado para todas las áreas y grados.

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Muro colaborativo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1C2333}
+a{color:#F4B08C}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #1C2333; color: #FFFFFF; font-family: Inter, system-ui, sans-serif; padding: 28px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px">
+<div style="display: flex; align-items: center; gap: 14px">
+<a href="Taller.dc.html" aria-label="Volver a la sala de taller" style="width: 44px; height: 44px; border-radius: 10px; background: #2F3A52; display: flex; align-items: center; justify-content: center; color: #FFFFFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #C5CAD6; font-weight: 600; letter-spacing: 0.06em">MURO COLABORATIVO</span><h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 28px">¿Qué actividad te funciona mejor en clase?</h1></div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; background: #2F3A52; border-radius: 12px; padding: 8px 14px">
+<div style="width: 56px; height: 56px; background: #FFFFFF; border-radius: 6px; color: #1C2333; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">QR</div>
+<span style="font-size: 13px; font-weight: 600">Escanea y publica<br><span style="color: #C5CAD6; font-weight: 400">desde tu celular</span></span>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
+<button onClick="{{c.pick}}" style="{{c.style}}">{{c.label}}</button>
+</sc-for>
+</div>
+
+<section style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: start">
+<sc-for list="{{posts}}" as="p" hint-placeholder-count="8">
+<article style="{{p.card}}">
+<sc-if value="{{p.photo}}" hint-placeholder-val="{{ false }}"><div style="height: 120px; border-radius: 8px; background: rgba(28,35,51,0.12); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600">[Foto]</div></sc-if>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; font-weight: 500">{{p.t}}</p>
+<div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600"><span>{{p.who}}</span><button onClick="{{p.like}}" aria-label="Me gusta" style="height: 32px; padding: 0 10px; border-radius: 16px; border: none; background: rgba(28,35,51,0.1); color: #1C2333; font: inherit; font-weight: 700; cursor: pointer">♥ {{p.n}}</button></div>
+</article>
+</sc-for>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { f: 'Todas', likes: {} }; }
+  renderVals() {
+    const tint = { Speaking: '#FCEBE1', Vocabulario: '#E8EDFB', Canciones: '#E6F2EE', Juegos: '#FBF3D5' };
+    const all = [
+      ['Juegos', 'Hot seat con el vocabulario de la unidad: un estudiante de espaldas a la pizarra adivina.', '[Docente] · 5.º', true, 6],
+      ['Canciones', 'Canto la rutina del día con la melodía de una canción conocida. ¡Los de 4.º la piden siempre!', '[Docente] · 4.º', false, 9],
+      ['Speaking', 'Entrevistas en parejas con tarjetas de preguntas: “What do you do on weekends?”', '[Docente] · 6.º', false, 4],
+      ['Vocabulario', 'Pared de palabras con dibujos de los mismos estudiantes.', '[Docente] · 4.º', true, 7],
+      ['Juegos', 'Pasa la pelota: quien la recibe dice una palabra de la categoría.', '[Docente] · 5.º', false, 3],
+      ['Speaking', 'Role play de la tienda con billetes de juguete y productos reales.', '[Docente] · 5.º', true, 8],
+      ['Canciones', 'Uso videos de canciones con subtítulos y paro para que completen la palabra.', '[Docente] · 6.º', false, 2],
+      ['Vocabulario', 'Memoria con flashcards: imagen y palabra boca abajo.', '[Docente] · 4.º', false, 5]
+    ];
+    const s = this.state;
+    const cols = ['Todas', 'Speaking', 'Vocabulario', 'Canciones', 'Juegos'].map((label) => ({
+      label, pick: () => this.setState({ f: label }),
+      style: 'height: 38px; padding: 0 14px; border-radius: 19px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' + (s.f === label ? 'border: none; background: #FFFFFF; color: #1C2333' : 'border: 1px solid #4A5570; background: transparent; color: #FFFFFF')
+    }));
+    const posts = all.map((a, i) => ({ a, i })).filter(({ a }) => s.f === 'Todas' || a[0] === s.f).map(({ a, i }) => ({
+      t: a[1], who: a[2], photo: a[3], n: a[4] + (s.likes[i] ? 1 : 0),
+      like: () => this.setState({ likes: { ...s.likes, [i]: !s.likes[i] } }),
+      card: 'background: ' + tint[a[0]] + '; color: #1C2333; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px'
+    }));
+    return { cols, posts };
+  }
+}
+</script>
+</body>
+</html>

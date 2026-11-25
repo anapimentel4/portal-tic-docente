@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Juegos proyectables</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1C2333}
+a{color:#F4B08C}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #1C2333; color: #FFFFFF; font-family: Inter, system-ui, sans-serif; padding: 28px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px">
+<div style="display: flex; align-items: center; gap: 14px">
+<a href="Taller.dc.html" aria-label="Volver a la sala de taller" style="width: 44px; height: 44px; border-radius: 10px; background: #2F3A52; display: flex; align-items: center; justify-content: center; color: #FFFFFF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 28px">Juegos para proyectar</h1>
+</div>
+<div role="tablist" aria-label="Tipo de juego" style="display: flex; flex-wrap: wrap; gap: 6px; background: #2F3A52; padding: 5px; border-radius: 12px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+<button role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+</header>
+
+<sc-if value="{{isQuiz}}" hint-placeholder-val="{{ true }}">
+<section style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; font-size: 14px; color: #C5CAD6; font-weight: 600"><span>Pregunta 3 de 10 · Unidad “My community”</span><span>00:20</span></div>
+<div style="background: #FFFFFF; color: #1C2333; border-radius: 18px; padding: 40px; text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700">Where do you go to buy medicine?</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+<sc-for list="{{answers}}" as="a" hint-placeholder-count="4">
+<button onClick="{{a.pick}}" style="{{a.style}}"><span style="{{a.keyStyle}}">{{a.k}}</span>{{a.t}}</button>
+</sc-for>
+</div>
+<sc-if value="{{answered}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; background: #2F3A52; border-radius: 14px; padding: 16px 20px"><span style="font-size: 18px; font-weight: 700">{{feedback}}</span><button onClick="{{reset}}" style="height: 44px; padding: 0 20px; border-radius: 10px; border: none; background: #D9622B; color: #1C2333; font: inherit; font-weight: 700; cursor: pointer">Siguiente pregunta</button></div>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{isJeo}}" hint-placeholder-val="{{ false }}">
+<section style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{jcats}}" as="c" hint-placeholder-count="4">
+<div style="background: #2B50C8; border-radius: 12px; padding: 16px; text-align: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px">{{c}}</div>
+</sc-for>
+<sc-for list="{{jcells}}" as="j" hint-placeholder-count="16">
+<button onClick="{{j.pick}}" style="{{j.style}}">{{j.v}}</button>
+</sc-for>
+</section>
+</sc-if>
+
+<sc-if value="{{isBingo}}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<div style="background: #FFFFFF; color: #1C2333; border-radius: 18px; padding: 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex: 1 1 520px">
+<sc-for list="{{bingo}}" as="b" hint-placeholder-count="16">
+<button onClick="{{b.pick}}" style="{{b.style}}">{{b.w}}</button>
+</sc-for>
+</div>
+<div style="flex: 1 1 280px; background: #2F3A52; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center">
+<span style="font-size: 13px; color: #C5CAD6; font-weight: 600">PALABRA CANTADA</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700">bakery</span>
+<button style="height: 44px; padding: 0 20px; border-radius: 10px; border: none; background: #D9622B; color: #1C2333; font: inherit; font-weight: 700; cursor: pointer">Siguiente palabra</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isCards}}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; align-items: center; gap: 18px">
+<button onClick="{{flip}}" style="{{cardStyle}}">{{cardText}}</button>
+<span style="font-size: 14px; color: #C5CAD6">Toca la tarjeta para voltearla · 4 de 12</span>
+<div style="display: flex; gap: 10px"><button style="height: 44px; padding: 0 20px; border-radius: 10px; border: 1px solid #4A5570; background: transparent; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Anterior</button><button style="height: 44px; padding: 0 20px; border-radius: 10px; border: none; background: #D9622B; color: #1C2333; font: inherit; font-weight: 700; cursor: pointer">Siguiente</button></div>
+</section>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { tab: 'quiz', ans: null, open: [], marked: [5, 10], flipped: false }; }
+  renderVals() {
+    const s = this.state;
+    const tabs = [['quiz', 'Quiz por equipos'], ['jeo', 'Jeopardy'], ['bingo', 'Bingo'], ['cards', 'Flashcards']].map(([id, label]) => ({
+      label, on: s.tab === id ? 'true' : 'false', pick: () => this.setState({ tab: id }),
+      style: 'height: 40px; padding: 0 16px; border-radius: 9px; border: none; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; ' + (s.tab === id ? 'background: #FFFFFF; color: #1C2333' : 'background: transparent; color: #FFFFFF')
+    }));
+    const opts = [['A', 'Bakery', '#2B50C8'], ['B', 'Pharmacy', '#D9622B'], ['C', 'Fire station', '#1B8A6B'], ['D', 'Library', '#C9A21E']];
+    const answers = opts.map(([k, t, c], i) => {
+      const dim = s.ans !== null && i !== 1 && i !== s.ans;
+      const ok = s.ans !== null && i === 1;
+      return {
+        k, t, pick: () => this.setState({ ans: i }),
+        keyStyle: 'width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.25); display: inline-flex; align-items: center; justify-content: center; margin-right: 14px; font-size: 18px',
+        style: 'height: 88px; border-radius: 14px; border: ' + (ok ? '4px solid #FFFFFF' : 'none') + '; background: ' + c + '; color: ' + (c === '#2B50C8' || c === '#1B8A6B' ? '#FFFFFF' : '#1C2333') + '; font: inherit; font-size: 24px; font-weight: 700; text-align: left; padding: 0 22px; display: flex; align-items: center; cursor: pointer; opacity: ' + (dim ? '0.35' : '1')
+      };
+    });
+    const jcats = ['Places', 'Food', 'Jobs', 'Weather'];
+    const jcells = [];
+    [100, 200, 300, 400].forEach((v, r) => jcats.forEach((c, k) => {
+      const id = r * 4 + k; const used = s.open.includes(id);
+      jcells.push({ v: used ? '' : String(v), pick: () => this.setState({ open: s.open.concat([id]) }),
+        style: 'height: 92px; border-radius: 12px; border: none; font: inherit; font-family: \'Space Grotesk\', sans-serif; font-size: 30px; font-weight: 700; cursor: pointer; background: ' + (used ? '#2F3A52' : '#FFFFFF') + '; color: #D9622B' });
+    }));
+    const words = ['park', 'school', 'hospital', 'bank', 'bakery', 'church', 'market', 'police', 'library', 'pharmacy', 'museum', 'street', 'bus stop', 'zoo', 'cinema', 'farm'];
+    const bingo = words.map((w, i) => {
+      const on = s.marked.includes(i);
+      return { w, pick: () => this.setState({ marked: on ? s.marked.filter((x) => x !== i) : s.marked.concat([i]) }),
+        style: 'height: 72px; border-radius: 10px; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; ' + (on ? 'border: none; background: #D9622B; color: #1C2333' : 'border: 1px solid #D6D3C9; background: #F6F5F0; color: #1C2333') };
+    });
+    return {
+      tabs, answers, jcats, jcells, bingo,
+      isQuiz: s.tab === 'quiz', isJeo: s.tab === 'jeo', isBingo: s.tab === 'bingo', isCards: s.tab === 'cards',
+      answered: s.ans !== null,
+      feedback: s.ans === 1 ? '¡Correcto! +10 puntos para el equipo' : 'La respuesta correcta es B · Pharmacy',
+      reset: () => this.setState({ ans: null }),
+      flip: () => this.setState({ flipped: !s.flipped }),
+      cardText: s.flipped ? 'farmacia' : 'pharmacy',
+      cardStyle: 'width: 560px; max-width: 100%; height: 320px; border-radius: 22px; border: none; cursor: pointer; font: inherit; font-family: \'Space Grotesk\', sans-serif; font-size: 56px; font-weight: 700; ' + (s.flipped ? 'background: #D9622B; color: #1C2333' : 'background: #FFFFFF; color: #1C2333')
+    };
+  }
+}
+</script>
+</body>
+</html>

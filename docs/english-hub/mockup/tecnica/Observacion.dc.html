@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Observación de aula</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F5F0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1C2333; background: #F6F5F0">
+
+<nav aria-label="Menú principal" style="flex: 1 1 220px; max-width: 260px; background: #1C2333; color: #FFFFFF; padding: 28px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 40px; height: 40px; border-radius: 10px; background: #D9622B; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px">EN</div><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px">English Hub</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px">
+<a href="Main.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Inicio</a>
+<a href="Docente.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Docentes</a>
+<a href="Calendario.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Calendario e informes</a>
+<a href="Observacion.dc.html" style="color: #FFFFFF; background: #2F3A52; padding: 11px 12px; border-radius: 8px; text-decoration: none; font-weight: 600">Observaciones de aula</a>
+<a href="Recursos.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Recursos y planificaciones</a>
+<a href="Taller.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Talleres</a>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; max-width: 1180px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 13px; color: #5B6170; font-weight: 500">Nueva observación</span>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px">Observación de aula</h1>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 12px; padding: 10px 16px">
+<span style="font-size: 13px; color: #5B6170">Puntuación</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; color: #2B50C8">{{total}}</span>
+<span style="font-size: 13px; color: #5B6170">/ {{max}}</span>
+</div>
+</header>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Docente<select style="height: 44px; border-radius: 10px; border: 1px solid #D6D3C9; padding: 0 10px; font: inherit; font-weight: 400; background: #FFFFFF"><option>[Nombre del docente]</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Grado y sección<select style="height: 44px; border-radius: 10px; border: 1px solid #D6D3C9; padding: 0 10px; font: inherit; font-weight: 400; background: #FFFFFF"><option>5.º B</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Unidad / tema<input value="My community" style="height: 44px; box-sizing: border-box; border-radius: 10px; border: 1px solid #D6D3C9; padding: 0 10px; font: inherit; font-weight: 400"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Fecha<input type="date" style="height: 44px; box-sizing: border-box; border-radius: 10px; border: 1px solid #D6D3C9; padding: 0 10px; font: inherit; font-weight: 400"></label>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Rúbrica · enfoque comunicativo</h2>
+<span style="font-size: 12px; color: #5B6170">1 Inicial · 2 En proceso · 3 Logrado · 4 Destacado</span>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #EFEDE6">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; font-weight: 600">{{r.name}}</span><span style="font-size: 13px; color: #5B6170">{{r.hint}}</span></div>
+<div role="group" aria-label="{{r.name}}" style="display: flex; gap: 6px">
+<sc-for list="{{r.levels}}" as="l" hint-placeholder-count="4">
+<button onClick="{{l.pick}}" aria-pressed="{{l.on}}" style="{{l.style}}">{{l.n}}</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<label style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; font-weight: 700; font-family: 'Space Grotesk', sans-serif">Fortalezas observadas<textarea rows="4" placeholder="¿Qué funcionó bien en la clase?" style="border: 1px solid #D6D3C9; border-radius: 10px; padding: 10px; font: 400 14px Inter, sans-serif; resize: vertical"></textarea></label>
+<label style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 15px; font-weight: 700; font-family: 'Space Grotesk', sans-serif">Acuerdos y compromisos<textarea rows="4" placeholder="Compromiso, responsable y fecha de seguimiento" style="border: 1px solid #D6D3C9; border-radius: 10px; padding: 10px; font: 400 14px Inter, sans-serif; resize: vertical"></textarea></label>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px">
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">Guardar borrador</button>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">Descargar PDF</button>
+<button style="height: 44px; padding: 0 20px; border-radius: 10px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">Guardar y compartir con el docente</button>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1200}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { s: [3, 2, 3, 2, 3, 2] }; }
+  renderVals() {
+    const crit = [
+      ['Uso del inglés en el aula', 'Instrucciones y saludos en inglés (classroom language)'],
+      ['Participación oral del estudiante', 'Tiempo de habla en parejas o grupos'],
+      ['Secuencia didáctica', 'Momentos de inicio, desarrollo y cierre'],
+      ['Recursos y materiales', 'Flashcards, canciones, realia, recursos digitales'],
+      ['Clima y gestión del aula', 'Normas, tiempo y motivación'],
+      ['Evaluación formativa', 'Verifica la comprensión y retroalimenta']
+    ];
+    const s = this.state.s;
+    const rows = crit.map(([name, hint], i) => ({
+      name, hint,
+      levels: [1, 2, 3, 4].map((n) => ({
+        n, on: s[i] === n ? 'true' : 'false',
+        pick: () => { const c = s.slice(); c[i] = n; this.setState({ s: c }); },
+        style: 'width: 44px; height: 44px; border-radius: 10px; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; ' +
+          (s[i] === n ? 'border: none; background: #2B50C8; color: #FFFFFF' : 'border: 1px solid #D6D3C9; background: #FFFFFF; color: #1C2333')
+      }))
+    }));
+    return { rows, total: s.reduce((a, b) => a + b, 0), max: crit.length * 4 };
+  }
+}
+</script>
+</body>
+</html>

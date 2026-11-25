@@ -1,0 +1,167 @@
+<!-- Todo lo de dentro de #sala es lo que se ve en "Pantalla completa" (para el proyector). -->
+<div #sala class="fondo-tecnologico overflow-y-auto">
+  <span class="brillo -top-24 -right-24 size-80 bg-acento/30" aria-hidden="true"></span>
+  <span class="brillo top-80 -left-32 size-96 bg-primario/30" aria-hidden="true"></span>
+
+  <div class="contenedor flex flex-col gap-6 py-8 sm:py-10">
+    <!-- Encabezado: tema y QR -->
+    <header class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <p class="antetitulo text-amber-300">Sala de taller · {{ config().dirigido }}</p>
+        <h1 class="mt-2 text-3xl font-bold sm:text-4xl">{{ config().tema || 'Escribe el tema del taller' }}</h1>
+        <p class="mt-2 text-sm text-slate-300">English Hub · herramientas para proyectar durante el taller</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          class="flex items-center gap-3 rounded-xl bg-white/10 p-2 pr-4 text-left ring-1 ring-white/15 hover:bg-white/15"
+          [disabled]="!qr()"
+          (click)="abrirQr()"
+        >
+          @if (qr()) {
+            <img [src]="qr()" alt="" class="size-16 rounded-md bg-white" width="64" height="64" />
+          } @else {
+            <span class="flex size-16 items-center justify-center rounded-md bg-white/10"><app-icono nombre="qr" clase="size-8" /></span>
+          }
+          <span class="text-sm">
+            <span class="block font-semibold">Únete y descarga los recursos</span>
+            <span class="block max-w-56 truncate text-slate-300">{{ enlaceValido() ? enlaceCorto() : 'Revisa el enlace del QR' }}</span>
+            <span class="mt-0.5 block text-xs text-amber-300">Toca para ampliar el QR</span>
+          </span>
+        </button>
+        <button type="button" class="btn bg-white text-oscuro hover:bg-slate-100" (click)="alternarPantallaCompleta()">
+          <app-icono nombre="expandir" /> {{ pantallaCompleta() ? 'Salir de pantalla completa' : 'Pantalla completa' }}
+        </button>
+      </div>
+    </header>
+
+    <!-- Otras pantallas de English Hub (todavía no existen) -->
+    <ul class="flex flex-wrap gap-2" aria-label="Otras pantallas del taller">
+      @for (p of proximamente; track p) {
+        <li class="flex min-h-11 items-center gap-2 rounded-xl bg-white/5 px-4 text-sm text-slate-300 ring-1 ring-white/10">
+          {{ p }} <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-amber-200">Próximamente</span>
+        </li>
+      }
+    </ul>
+
+    <!-- Agenda del día -->
+    <section aria-labelledby="titulo-agenda">
+      <h2 id="titulo-agenda" class="sr-only">Agenda del taller</h2>
+      @if (agenda().length) {
+        <ol class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          @for (a of agenda(); track $index) {
+            <li
+              class="flex flex-col gap-1 rounded-xl p-3"
+              [class]="a.estado === 'ahora' ? 'bg-acento text-white shadow-lg' : a.estado === 'hecho' ? 'bg-white/5 text-slate-400' : 'bg-white/10'"
+              [attr.aria-current]="a.estado === 'ahora' ? 'step' : null"
+            >
+              <span class="text-xs font-semibold" [class.text-slate-300]="a.estado === 'pendiente'">
+                @if (a.estado === 'ahora') {
+                  AHORA · {{ a.horaTexto }}
+                } @else {
+                  {{ a.horaTexto }} · {{ a.minutos }} min
+                }
+              </span>
+              <span class="text-sm font-semibold" [class.line-through]="a.estado === 'hecho'">{{ a.titulo || 'Sin título' }}</span>
+              @if (a.estado === 'hecho') {
+                <span class="sr-only">(terminada)</span>
+              }
+            </li>
+          }
+        </ol>
+      } @else {
+        <p class="rounded-xl bg-white/10 p-4 text-sm">Agrega las actividades del día en “Configurar el taller”.</p>
+      }
+    </section>
+
+    <!-- Herramientas en vivo -->
+    <section aria-label="Herramientas en vivo" class="grid gap-4 text-oscuro sm:grid-cols-2 xl:grid-cols-4">
+      <app-ruleta class="tarjeta" />
+      <app-temporizador class="tarjeta" />
+      <app-grupos class="tarjeta" />
+      <app-marcador class="tarjeta" />
+    </section>
+
+    <!-- Configuración (se guarda en este navegador) -->
+    <details class="group rounded-2xl bg-white text-oscuro">
+      <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 rounded-2xl px-5 font-titulo text-lg font-bold">
+        <span class="flex items-center gap-2"><app-icono nombre="ajustes" /> Configurar el taller</span>
+        <span class="text-sm font-sans font-normal text-secundario group-open:hidden">Tema, agenda, nombres y QR</span>
+      </summary>
+
+      <div class="grid gap-6 border-t border-borde p-5 lg:grid-cols-2">
+        <div class="flex flex-col gap-4">
+          <div>
+            <label for="taller-tema" class="etiqueta">Tema del taller</label>
+            <input id="taller-tema" class="campo" [value]="config().tema" (input)="cambiar('tema', $event)" />
+          </div>
+          <div>
+            <label for="taller-dirigido" class="etiqueta">Dirigido a</label>
+            <input id="taller-dirigido" class="campo" [value]="config().dirigido" placeholder="Por ejemplo: Docentes de 2.º ciclo" (input)="cambiar('dirigido', $event)" />
+          </div>
+          <div>
+            <label for="taller-enlace" class="etiqueta">Enlace del QR</label>
+            <input id="taller-enlace" type="url" class="campo" [value]="config().enlace" placeholder="Vacío = el Banco de recursos de este portal" (input)="cambiar('enlace', $event)" aria-describedby="taller-enlace-ayuda" />
+            <p id="taller-enlace-ayuda" class="mt-1 text-sm" [class]="enlaceValido() ? 'text-secundario' : 'text-red-700'">
+              {{ enlaceValido() ? 'Por ejemplo, la carpeta de materiales del taller o un formulario. Debe empezar con https://' : 'El enlace debe empezar con https://' }}
+            </p>
+          </div>
+          <div>
+            <label for="taller-participantes" class="etiqueta">Participantes (un nombre por línea)</label>
+            <textarea id="taller-participantes" rows="6" class="campo" [value]="config().participantes" placeholder="María Pérez&#10;José Rodríguez&#10;…" (input)="cambiar('participantes', $event)"></textarea>
+            <p class="mt-1 text-sm text-secundario">{{ estado.participantes().length }} nombres. Se usan en los grupos y en la ruleta.</p>
+          </div>
+          <div>
+            <label for="taller-preguntas" class="etiqueta">Preguntas para la ruleta (una por línea)</label>
+            <textarea id="taller-preguntas" rows="5" class="campo" [value]="config().preguntas" (input)="cambiar('preguntas', $event)"></textarea>
+          </div>
+        </div>
+
+        <fieldset class="flex flex-col gap-3">
+          <legend class="etiqueta">Agenda del día</legend>
+          @for (a of config().agenda; track $index; let i = $index) {
+            <div class="grid grid-cols-[1fr_5rem_auto] items-end gap-2 border-b border-borde pb-3 sm:grid-cols-[7rem_5rem_1fr_auto] sm:border-0 sm:pb-0">
+              <div>
+                <label class="text-xs text-secundario" [for]="'agenda-hora-' + i">Hora</label>
+                <input type="time" class="campo px-2" [id]="'agenda-hora-' + i" [value]="a.hora" (change)="cambiarActividad(i, 'hora', $event)" />
+              </div>
+              <div>
+                <label class="text-xs text-secundario" [for]="'agenda-min-' + i">Minutos</label>
+                <input type="number" min="0" max="600" class="campo px-2" [id]="'agenda-min-' + i" [value]="a.minutos" (input)="cambiarActividad(i, 'minutos', $event)" />
+              </div>
+              <div class="col-span-3 min-w-0 sm:col-span-1">
+                <label class="text-xs text-secundario" [for]="'agenda-titulo-' + i">Actividad</label>
+                <input class="campo" [id]="'agenda-titulo-' + i" [value]="a.titulo" (input)="cambiarActividad(i, 'titulo', $event)" />
+              </div>
+              <button type="button" class="col-start-3 row-start-1 flex size-11 items-center justify-center rounded-xl border border-borde hover:bg-fondo sm:col-start-4" [attr.aria-label]="'Quitar la actividad ' + (a.titulo || i + 1)" (click)="quitarActividad(i)">
+                <app-icono nombre="cerrar" clase="size-4" />
+              </button>
+            </div>
+          }
+          <button type="button" class="btn btn-secundario self-start" (click)="agregarActividad()"><app-icono nombre="mas" /> Agregar actividad</button>
+
+          <p class="mt-auto rounded-xl bg-fondo p-3 text-sm text-secundario">
+            Todo se guarda solo en este navegador. Si cambias de computadora, vuelve a escribirlo.
+          </p>
+          <button type="button" class="btn btn-secundario self-start" (click)="volverAlEjemplo()"><app-icono nombre="reiniciar" /> Volver al ejemplo</button>
+        </fieldset>
+      </div>
+    </details>
+
+    <!-- Banco de dinámicas -->
+    <section class="rounded-2xl bg-fondo p-5 text-oscuro sm:p-6">
+      <app-banco-dinamicas />
+    </section>
+  </div>
+</div>
+
+<!-- QR grande para que lo escaneen desde lejos -->
+<dialog #dialogoQr class="m-auto w-[min(92vw,36rem)] rounded-2xl bg-white p-6 text-center text-oscuro backdrop:bg-oscuro/80" aria-labelledby="titulo-qr" (click)="$event.target === $event.currentTarget && cerrarQr()">
+  <h2 id="titulo-qr" class="text-2xl font-bold">Escanea con la cámara del celular</h2>
+  <p class="mt-1 text-secundario">{{ enlaceCorto() }}</p>
+  @if (qr()) {
+    <img [src]="qr()" [alt]="'Código QR que abre ' + enlaceCorto()" class="mx-auto mt-4 aspect-square w-full max-w-[min(70vh,28rem)]" />
+  }
+  <button type="button" class="btn btn-primario mt-4" (click)="cerrarQr()">Cerrar</button>
+</dialog>

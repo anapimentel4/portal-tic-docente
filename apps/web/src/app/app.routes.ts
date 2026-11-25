@@ -52,6 +52,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/robotica/proyecto-form').then((m) => m.ProyectoFormPage),
   },
   {
+    // English Hub: Sala de taller para proyectar. Pública y sin base de datos.
+    path: 'talleres',
+    title: 'Sala de taller · Portal TIC Docente',
+    loadComponent: () => import('./pages/talleres/sala-taller').then((m) => m.SalaTallerPage),
+  },
+  {
     path: 'solicitudes',
     title: 'Mis solicitudes · Portal TIC Docente',
     canActivate: [authGuard],

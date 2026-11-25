@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Panel de organización</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F5F0}
+a{color:#2B50C8}a:hover{color:#1E3A96}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; font-family: Inter, system-ui, sans-serif; color: #1C2333; background: #F6F5F0">
+
+<nav aria-label="Menú principal" style="flex: 1 1 220px; max-width: 260px; background: #1C2333; color: #FFFFFF; padding: 28px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px">
+<div style="width: 40px; height: 40px; border-radius: 10px; background: #D9622B; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px">EN</div>
+<div style="display: flex; flex-direction: column">
+<span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px">English Hub</span>
+<span style="font-size: 12px; color: #C5CAD6">Técnica de Inglés · 2.º ciclo</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px">
+<a href="#" style="color: #FFFFFF; background: #2F3A52; padding: 11px 12px; border-radius: 8px; text-decoration: none; font-weight: 600">Inicio</a>
+<a href="Docente.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Docentes</a>
+<a href="Calendario.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Calendario</a>
+<a href="Observacion.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Observaciones de aula</a>
+<a href="#" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Compromisos</a>
+<a href="Recursos.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Planificaciones</a>
+<a href="Recursos.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Banco de recursos</a>
+<a href="Evidencias.dc.html" style="color: #DDE1EA; padding: 11px 12px; border-radius: 8px; text-decoration: none">Evidencias de talleres</a>
+</div>
+<a href="Taller.dc.html" style="margin-top: auto; background: #D9622B; color: #1C2333; padding: 13px 14px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; text-align: center">Abrir sala de taller</a>
+<div style="display: flex; align-items: center; gap: 10px; border-top: 1px solid #2F3A52; padding-top: 16px">
+<div style="width: 36px; height: 36px; border-radius: 50%; background: #E8EDFB; color: #1C2333; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">AP</div>
+<div style="display: flex; flex-direction: column; font-size: 13px">
+<span style="font-weight: 600">Ana J. Pimentel</span>
+<span style="color: #C5CAD6; font-size: 12px">Técnica colaboradora</span>
+</div>
+</div>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 32px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 1180px">
+
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #5B6170; font-weight: 500">Martes, 24 de noviembre</span>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 32px; font-weight: 700">Buenas tardes, Ana</h1>
+<p style="margin: 0; color: #5B6170; font-size: 15px">Así va tu acompañamiento a los docentes de Inglés de 4.º, 5.º y 6.º.</p>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<label style="display: flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 10px; padding: 0 12px; height: 44px; font-size: 14px; color: #5B6170">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B6170" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input type="search" placeholder="Buscar docente o centro" aria-label="Buscar docente o centro" style="border: none; outline: none; font: inherit; width: 190px; background: transparent">
+</label>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: none; background: #2B50C8; color: #FFFFFF; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">+ Registrar visita</button>
+</div>
+</header>
+
+<section aria-label="Resumen" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #5B6170">Docentes acompañados</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700">[N]</span>
+<span style="font-size: 12px; color: #5B6170">en [N] centros educativos</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #5B6170">Visitas este mes</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700">[N]</span>
+<div style="height: 8px; background: #E8EDFB; border-radius: 4px; overflow: hidden"><div style="width: 60%; height: 100%; background: #2B50C8"></div></div>
+<span style="font-size: 12px; color: #5B6170">meta mensual: [N]</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #5B6170">Compromisos pendientes</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; color: #B5481A">[N]</span>
+<span style="font-size: 12px; color: #5B6170">[N] vencen esta semana</span>
+</div>
+<div style="background: #1C2333; color: #FFFFFF; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #C5CAD6">Próximo taller</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700">[TEMA DEL TALLER]</span>
+<span style="font-size: 12px; color: #C5CAD6">[FECHA] · [LUGAR]</span>
+<a href="Taller.dc.html" style="color: #F4B08C; font-size: 13px; font-weight: 600; margin-top: 4px">Preparar sala →</a>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+
+<section style="grid-column: span 2; background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Agenda de la semana</h2>
+<a href="Calendario.dc.html" style="font-size: 13px; font-weight: 600">Ver calendario</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 14px; align-items: center; padding: 12px; border-radius: 10px; background: #F6F5F0">
+<div style="width: 54px; text-align: center; display: flex; flex-direction: column"><span style="font-size: 11px; color: #5B6170; font-weight: 600">MIÉ</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">25</span></div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 14px">Observación de clase · 5.º B</span><span style="font-size: 13px; color: #5B6170">[Docente] · [Centro educativo] · 8:30 a.m.</span></div>
+<span style="font-size: 12px; font-weight: 600; background: #E8EDFB; color: #1E3A96; padding: 5px 10px; border-radius: 20px">Visita</span>
+</div>
+<div style="display: flex; gap: 14px; align-items: center; padding: 12px; border-radius: 10px; background: #F6F5F0">
+<div style="width: 54px; text-align: center; display: flex; flex-direction: column"><span style="font-size: 11px; color: #5B6170; font-weight: 600">JUE</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">26</span></div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 14px">Retroalimentación y acuerdos · 4.º A</span><span style="font-size: 13px; color: #5B6170">[Docente] · [Centro educativo] · 10:00 a.m.</span></div>
+<span style="font-size: 12px; font-weight: 600; background: #E6F2EE; color: #1B5E4C; padding: 5px 10px; border-radius: 20px">Reunión</span>
+</div>
+<div style="display: flex; gap: 14px; align-items: center; padding: 12px; border-radius: 10px; background: #FCEBE1">
+<div style="width: 54px; text-align: center; display: flex; flex-direction: column"><span style="font-size: 11px; color: #5B6170; font-weight: 600">MAR</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700">1</span></div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 14px">Taller: [TEMA DEL TALLER]</span><span style="font-size: 13px; color: #5B6170">Docentes de 2.º ciclo · [LUGAR] · 9:00 a.m.</span></div>
+<span style="font-size: 12px; font-weight: 600; background: #D9622B; color: #1C2333; padding: 5px 10px; border-radius: 20px">Taller</span>
+</div>
+</div>
+</section>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Sin visita reciente</h2>
+<p style="margin: 0; font-size: 13px; color: #5B6170">Docentes sin acompañamiento en más de 30 días</p>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 34px; height: 34px; border-radius: 50%; background: #E8EDFB; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">D1</div><div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600">[Docente]</span><span style="font-size: 12px; color: #5B6170">6.º A · [Centro]</span></div><span style="font-size: 12px; color: #B5481A; font-weight: 600">45 días</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 34px; height: 34px; border-radius: 50%; background: #E8EDFB; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">D2</div><div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600">[Docente]</span><span style="font-size: 12px; color: #5B6170">4.º C · [Centro]</span></div><span style="font-size: 12px; color: #B5481A; font-weight: 600">38 días</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 34px; height: 34px; border-radius: 50%; background: #E8EDFB; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700">D3</div><div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600">[Docente]</span><span style="font-size: 12px; color: #5B6170">5.º A · [Centro]</span></div><span style="font-size: 12px; color: #B5481A; font-weight: 600">32 días</span></div>
+</div>
+<button style="height: 44px; border-radius: 10px; border: 1px solid #2B50C8; background: #FFFFFF; color: #2B50C8; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">Programar visitas</button>
+</section>
+</div>
+
+<section style="background: #FFFFFF; border: 1px solid #E4E2DA; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 19px">Compromisos en seguimiento</h2>
+<div style="display: flex; gap: 6px; font-size: 13px">
+<button style="height: 36px; padding: 0 14px; border-radius: 18px; border: none; background: #1C2333; color: #FFFFFF; font: inherit; font-weight: 600">Todos</button>
+<button style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit">Pendientes</button>
+<button style="height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid #E4E2DA; background: #FFFFFF; font: inherit">Logrados</button>
+</div>
+</div>
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px">
+<thead><tr style="text-align: left; color: #5B6170; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em">
+<th style="padding: 10px 8px; border-bottom: 1px solid #E4E2DA">Docente</th><th style="padding: 10px 8px; border-bottom: 1px solid #E4E2DA">Grado</th><th style="padding: 10px 8px; border-bottom: 1px solid #E4E2DA">Compromiso</th><th style="padding: 10px 8px; border-bottom: 1px solid #E4E2DA">Fecha</th><th style="padding: 10px 8px; border-bottom: 1px solid #E4E2DA">Estado</th></tr></thead>
+<tbody>
+<tr><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6; font-weight: 600">[Docente]</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6">5.º B</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6">Usar instrucciones de clase en inglés (classroom language)</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6">4 dic.</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6"><span style="font-size: 12px; font-weight: 600; background: #FCEBE1; color: #8F3A14; padding: 4px 10px; border-radius: 20px">En proceso</span></td></tr>
+<tr><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6; font-weight: 600">[Docente]</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6">4.º A</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6">Incluir una actividad de speaking en parejas por clase</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6">27 nov.</td><td style="padding: 12px 8px; border-bottom: 1px solid #EFEDE6"><span style="font-size: 12px; font-weight: 600; background: #E6F2EE; color: #1B5E4C; padding: 4px 10px; border-radius: 20px">Logrado</span></td></tr>
+<tr><td style="padding: 12px 8px; font-weight: 600">[Docente]</td><td style="padding: 12px 8px">6.º A</td><td style="padding: 12px 8px">Planificar con la secuencia antes, durante y después</td><td style="padding: 12px 8px">2 dic.</td><td style="padding: 12px 8px"><span style="font-size: 12px; font-weight: 600; background: #F1F0EB; color: #5B6170; padding: 4px 10px; border-radius: 20px">Sin iniciar</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1180}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

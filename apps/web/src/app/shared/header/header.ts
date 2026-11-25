@@ -25,6 +25,7 @@ export class Header {
     { texto: 'Inicio', ruta: '/' },
     { texto: 'Recursos', ruta: '/recursos' },
     { texto: 'Robótica', ruta: '/robotica' },
+    { texto: 'Talleres', ruta: '/talleres' },
     { texto: 'Solicitudes', ruta: '/solicitudes' },
   ];
 

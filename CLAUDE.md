@@ -5,7 +5,7 @@
 ## Contexto
 
 - Plataforma web para los docentes de un centro educativo dominicano (Nivel Secundario), gestionada por la dinamizadora TIC (yo).
-- **Auditoría el miércoles 25 de noviembre de 2026.** Prioridad: una primera versión funcional, publicada en internet y con datos reales.
+- **Auditoría: la semana del 30 de noviembre de 2026** (se movió el 24-nov; antes era el 25-nov; fecha exacta por confirmar). Prioridad: una primera versión funcional, publicada en internet y con datos reales.
 - Sé **Angular**. **No sé React**: no uses React ni Next.js.
 - Yo voy a mantener el proyecto: al terminar cada fase, explícame brevemente los archivos importantes que creaste y para qué sirven.
 - Toda la interfaz en **español**.
@@ -79,7 +79,7 @@ portal-tic-docente/
 
 ## Datos reales
 
-- `recursos.csv`, en la raíz del repo, tiene 29 recursos reales con estas columnas: Título, Área, Grado, Tipo, Estado, Archivo o enlace, Descripción corta, Competencias, Tema / unidad, Herramienta usada, Duración sugerida, Nivel TIC del docente, Autor, Fuente, Licencia, Etiquetas, Fecha de registro, Bien clasificado, Enlace funciona, Derechos de uso, Útil para el aula.
+- `recursos.csv`, en la raíz del repo, tiene 30 recursos reales (29 originales y Libro Abierto del MINERD, agregado el 24-nov) con estas columnas: Título, Área, Grado, Tipo, Estado, Archivo o enlace, Descripción corta, Competencias, Tema / unidad, Herramienta usada, Duración sugerida, Nivel TIC del docente, Autor, Fuente, Licencia, Etiquetas, Fecha de registro, Bien clasificado, Enlace funciona, Derechos de uso, Útil para el aula.
 - El script de seed convierte los valores así: "En revisión" → `en_revision`, "Publicado" → `publicado`, "Rechazado" → `rechazado`, "Básico" → `basico`, "Intermedio" → `intermedio`, "Avanzado" → `avanzado`, y TRUE/FALSE → booleanos.
 - Los videos y las herramientas externas se guardan solo como enlace.
 
@@ -176,6 +176,11 @@ portal-tic-docente/
   - Cambio de diseño pedido el 23-nov: tarjetas del banco más pequeñas (4 por fila) con una portada de color según el área (o el tipo, si es para todas las áreas), con icono y el sitio web (`PORTADA_AREA` y `PORTADA_TIPO` en `shared/colores.ts`).
 - [x] Fase 5 — Panel de la dinamizadora
   - Agregado (aprobado): en Recursos en revisión, las pestañas Publicados/Rechazados y el botón "Volver a revisión".
+- [x] Agregado (pedido por la auditoría el 24-nov) — Talleres: Sala de taller de English Hub
+  - Botón "Talleres" en el menú (visible para todos) que lleva a `/talleres`: tema, QR con un enlace (ampliable), agenda del día que marca la actividad de "ahora", ruleta, temporizador con sonido, grupos al azar, marcador, banco de dinámicas, pantalla completa para proyectar y "Configurar el taller".
+  - No usa la base de datos: lo configurado se guarda en el navegador. Código en `apps/web/src/app/pages/talleres/`. Especificación y mockups de English Hub en `docs/english-hub/`.
+  - Lo demás de English Hub (registro con QR, recursos por grado, fotos, encuesta y certificado, panel de la técnica) queda para después de la auditoría, con su propio plan.
+  - Libro Abierto del MINERD agregado al Banco de recursos como "Herramienta web", publicado (fila nueva en `recursos.csv`, importada con `pnpm seed:recursos`).
 - [ ] Revisión final
   - Hecho (23-nov): claves revisadas, pruebas de RLS con los 3 roles (`pnpm test:rls`), páginas públicas sin errores de consola y en celular, ortografía, lista de cambios en `CAMBIOS.md`.
   - Hecho (23-nov): migración 5 ejecutada en Supabase; Vercel conectado y publicado en https://portal-tic-docente-web.vercel.app (se publica solo con cada push a `main`).
